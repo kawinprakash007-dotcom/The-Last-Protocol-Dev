@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://bcfvwx0ggyhyh"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_player"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_5wpc8"]
+size = Vector3(30, 0.2, 30)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mcmsv"]
+size = Vector3(30, 0.2, 30)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5wpc8"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_5wpc8"]
+radius = 0.4
+height = 1.8
+
+[node name="Main" type="Node3D" unique_id=742816800]
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1471215628]
+mesh = SubResource("BoxMesh_5wpc8")
+
+[node name="Ground2" type="MeshInstance3D" parent="." unique_id=367374376]
+mesh = SubResource("BoxMesh_5wpc8")
+
+[node name="GroundBody" type="StaticBody3D" parent="." unique_id=1629209964]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GroundBody" unique_id=1689327008]
+shape = SubResource("BoxShape3D_mcmsv")
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1730796894]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=424771837]
+shape = SubResource("CapsuleShape3D_5wpc8")
+
+[node name="Body" type="MeshInstance3D" parent="Player" unique_id=1602689249]
+mesh = SubResource("CapsuleMesh_5wpc8")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Player" unique_id=1987654321]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+spring_length = 5.0
+
+[node name="Camera" type="Camera3D" parent="Player/SpringArm3D" unique_id=1856463438]
+

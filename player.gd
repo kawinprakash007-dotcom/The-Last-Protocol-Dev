@@ -1,0 +1,61 @@
+extends CharacterBody3D
+
+@export var SPEED: float = 5.0
+@export var JUMP_VELOCITY: float = 4.5
+@export var MOUSE_SENSITIVITY: float = 0.002
+
+@onready var spring_arm: SpringArm3D = $SpringArm3D
+@onready var camera: Camera3D = $SpringArm3D/Camera
+
+func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	_ensure_input_map()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		rotate_y(-event.relative.x * MOUSE_SENSITIVITY)
+		if spring_arm:
+			spring_arm.rotate_x(-event.relative.y * MOUSE_SENSITIVITY)
+			spring_arm.rotation.x = clamp(spring_arm.rotation.x, deg_to_rad(-80.0), deg_to_rad(60.0))
+	elif event.is_action_pressed("ui_cancel"):
+		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+func _physics_process(delta: float) -> void:
+	# Add gravity if not on floor
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+
+	# Handle jump
+	if Input.is_action_just_pressed("jump") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Get WASD input direction relative to player rotation
+	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+
+	if direction != Vector3.ZERO:
+		velocity.x = direction.x * SPEED
+		velocity.z = direction.z * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0.0, SPEED)
+		velocity.z = move_toward(velocity.z, 0.0, SPEED)
+
+	move_and_slide()
+
+func _ensure_input_map() -> void:
+	var required_actions: Dictionary = {
+		"move_forward": KEY_W,
+		"move_backward": KEY_S,
+		"move_left": KEY_A,
+		"move_right": KEY_D,
+		"jump": KEY_SPACE
+	}
+	for action: String in required_actions:
+		if not InputMap.has_action(action):
+			InputMap.add_action(action)
+			var key_event := InputEventKey.new()
+			key_event.physical_keycode = required_actions[action]
+			InputMap.action_add_event(action, key_event)
