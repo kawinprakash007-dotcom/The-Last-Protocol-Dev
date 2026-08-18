@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://c8relay000000"]
+
+[ext_resource type="Script" uid="uid://d9powerrelay001" path="res://power_relay.gd" id="1_relay"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_relay"]
+size = Vector3(0.5, 1.0, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_relay"]
+size = Vector3(0.5, 1.0, 0.5)
+
+[node name="PowerRelay" type="StaticBody3D"]
+collision_layer = 5
+script = ExtResource("1_relay")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_relay")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_relay")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+light_color = Color(1, 0.6, 0.1, 1)
+light_energy = 2.0
+omni_range = 2.0

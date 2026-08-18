@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://commterminal001"]
+
+[ext_resource type="Script" uid="uid://commtermgd001" path="res://comm_terminal.gd" id="1_comm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pedestal"]
+albedo_color = Color(0.15, 0.15, 0.18, 1)
+roughness = 0.6
+metallic = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_pedestal"]
+material = SubResource("StandardMaterial3D_pedestal")
+size = Vector3(1.0, 1.0, 0.8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_screen"]
+size = Vector3(0.8, 0.6, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_comm"]
+size = Vector3(1.0, 1.5, 0.8)
+
+[node name="CommTerminal" type="StaticBody3D"]
+collision_layer = 5
+script = ExtResource("1_comm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_pedestal")
+
+[node name="ScreenMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1.15, 0.1)
+mesh = SubResource("BoxMesh_screen")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+shape = SubResource("BoxShape3D_comm")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0.3)
+light_color = Color(0.1, 0.9, 0.3, 1)
+light_energy = 2.0
+omni_range = 3.0
