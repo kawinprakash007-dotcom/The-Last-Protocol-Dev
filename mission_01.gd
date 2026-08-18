@@ -148,6 +148,8 @@ func _connect_signals() -> void:
 	GameState.power_puzzle_reset.connect(_on_puzzle_reset)
 	GameState.power_system_online.connect(_on_power_online)
 	GameState.comms_online.connect(_on_comms_online)
+	GameState.shelter_lock_released.connect(_on_shelter_unlocked)
+	GameState.survivors_rescued.connect(_on_survivors_rescued)
 
 # ── Narrative Beats ───────────────────────────────────────────────
 
@@ -204,6 +206,27 @@ func _on_comms_online() -> void:
 	_log("HUMAN SIGNAL EMISSIONS BEING TRACKED")
 	await get_tree().create_timer(1.0).timeout
 	_set_objective("REACH SECTOR 04")
+
+func _on_shelter_unlocked() -> void:
+	_log("SHELTER 04 — SECURITY NODE DISABLED")
+	await get_tree().create_timer(0.8).timeout
+	_log("SHELTER 04 — ACCESS GRANTED")
+	await get_tree().create_timer(0.5).timeout
+	_set_objective("RESCUE THE SURVIVORS")
+
+func _on_survivors_rescued() -> void:
+	_log("SURVIVORS SECURED")
+	await get_tree().create_timer(1.2).timeout
+	_log("SURVIVOR: \"THE MACHINES AREN'T BROKEN.\"")
+	await get_tree().create_timer(1.0).timeout
+	_log("SURVIVOR: \"SOMETHING ELSE IS GIVING THEM ORDERS.\"")
+	await get_tree().create_timer(1.5).timeout
+	_log("SURVIVOR: \"YOU HAVE TO FIND THE CONTROL NETWORK.\"")
+	await get_tree().create_timer(1.0).timeout
+	_set_objective("FIND THE AUTONOMOUS CONTROL NETWORK")
+
+func shelter_console_log(msg: String) -> void:
+	_log(msg)
 
 # ── HUD Utilities ─────────────────────────────────────────────────
 

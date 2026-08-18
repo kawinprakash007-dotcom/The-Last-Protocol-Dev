@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://sector04blockout"]
 
 [ext_resource type="PackedScene" uid="uid://secrobotblockout" path="res://security_robot.tscn" id="2_robot"]
+[ext_resource type="PackedScene" path="res://shelter_console.tscn" id="3_sheltercon"]
+[ext_resource type="Script" path="res://survivor_trigger.gd" id="4_survtrigger"]
 
 [sub_resource type="StandardMaterial3D" id="Material_Street"]
 albedo_color = Color(0.08, 0.09, 0.11, 1)
@@ -144,22 +146,33 @@ albedo_color = Color(0.15, 0.18, 0.16, 1)
 roughness = 0.9
 metallic = 0.2
 
-[sub_resource type="BoxMesh" id="Mesh_Shelter"]
+[sub_resource type="BoxMesh" id="Mesh_ShelterFloor"]
 material = SubResource("Material_Shelter")
-size = Vector3(6.0, 4.0, 6.0)
+size = Vector3(6.0, 0.2, 6.0)
 
-[sub_resource type="BoxShape3D" id="Shape_Shelter"]
-size = Vector3(6.0, 4.0, 6.0)
+[sub_resource type="BoxShape3D" id="Shape_ShelterFloor"]
+size = Vector3(6.0, 0.2, 6.0)
 
-[sub_resource type="StandardMaterial3D" id="Material_ShelterDoor"]
-albedo_color = Color(0.1, 0.9, 0.2, 1)
-emission_enabled = true
-emission = Color(0.1, 0.9, 0.2, 1)
-emission_energy_multiplier = 3.0
+[sub_resource type="BoxMesh" id="Mesh_ShelterCeiling"]
+material = SubResource("Material_Shelter")
+size = Vector3(6.0, 0.2, 6.0)
 
-[sub_resource type="BoxMesh" id="Mesh_ShelterDoor"]
-material = SubResource("Material_ShelterDoor")
-size = Vector3(2.0, 3.0, 0.2)
+[sub_resource type="BoxShape3D" id="Shape_ShelterCeiling"]
+size = Vector3(6.0, 0.2, 6.0)
+
+[sub_resource type="BoxMesh" id="Mesh_ShelterWallX"]
+material = SubResource("Material_Shelter")
+size = Vector3(0.2, 4.0, 6.0)
+
+[sub_resource type="BoxShape3D" id="Shape_ShelterWallX"]
+size = Vector3(0.2, 4.0, 6.0)
+
+[sub_resource type="BoxMesh" id="Mesh_ShelterBack"]
+material = SubResource("Material_Shelter")
+size = Vector3(6.0, 4.0, 0.2)
+
+[sub_resource type="BoxShape3D" id="Shape_ShelterBack"]
+size = Vector3(6.0, 4.0, 0.2)
 
 [sub_resource type="StandardMaterial3D" id="Material_Warning"]
 albedo_color = Color(1.0, 0.4, 0.0, 1)
@@ -234,6 +247,37 @@ size = Vector3(0.2, 3.4, 0.4)
 [sub_resource type="BoxMesh" id="Mesh_HazardFrameHorizontal"]
 material = SubResource("Material_HazardFrame")
 size = Vector3(2.4, 0.2, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="Material_DoorBlocker"]
+albedo_color = Color(0.1, 0.9, 0.2, 1)
+roughness = 0.45
+metallic = 0.7
+emission_enabled = true
+emission = Color(0.1, 0.9, 0.2, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="BoxMesh" id="Mesh_DoorBlocker"]
+material = SubResource("Material_DoorBlocker")
+size = Vector3(2.0, 3.2, 0.25)
+
+[sub_resource type="BoxShape3D" id="Shape_DoorBlocker"]
+size = Vector3(2.0, 3.2, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="Material_Survivor"]
+albedo_color = Color(0.55, 0.45, 0.35, 1)
+roughness = 0.8
+
+[sub_resource type="CapsuleMesh" id="Mesh_Survivor"]
+material = SubResource("Material_Survivor")
+radius = 0.35
+height = 1.7
+
+[sub_resource type="CapsuleShape3D" id="Shape_Survivor"]
+radius = 0.35
+height = 1.7
+
+[sub_resource type="BoxShape3D" id="Shape_SurvivorTrigger"]
+size = Vector3(5.5, 4.0, 6.0)
 
 [node name="Sector04" type="Node3D"]
 
@@ -381,18 +425,59 @@ omni_range = 8.0
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WreckLight"]
 mesh = SubResource("Mesh_WreckLight")
 
-[node name="Shelter" type="StaticBody3D" parent="."]
+[node name="Shelter" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 2.0, 75.0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Shelter"]
-mesh = SubResource("Mesh_Shelter")
+[node name="Floor" type="StaticBody3D" parent="Shelter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.9, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter"]
-shape = SubResource("Shape_Shelter")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Shelter/Floor"]
+mesh = SubResource("Mesh_ShelterFloor")
 
-[node name="ShelterDoor" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.5, 71.9)
-mesh = SubResource("Mesh_ShelterDoor")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/Floor"]
+shape = SubResource("Shape_ShelterFloor")
+
+[node name="Ceiling" type="StaticBody3D" parent="Shelter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Shelter/Ceiling"]
+mesh = SubResource("Mesh_ShelterCeiling")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/Ceiling"]
+shape = SubResource("Shape_ShelterCeiling")
+
+[node name="LeftWall" type="StaticBody3D" parent="Shelter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.9, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Shelter/LeftWall"]
+mesh = SubResource("Mesh_ShelterWallX")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/LeftWall"]
+shape = SubResource("Shape_ShelterWallX")
+
+[node name="RightWall" type="StaticBody3D" parent="Shelter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Shelter/RightWall"]
+mesh = SubResource("Mesh_ShelterWallX")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/RightWall"]
+shape = SubResource("Shape_ShelterWallX")
+
+[node name="BackWall" type="StaticBody3D" parent="Shelter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.9)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Shelter/BackWall"]
+mesh = SubResource("Mesh_ShelterBack")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/BackWall"]
+shape = SubResource("Shape_ShelterBack")
+
+[node name="ShelterInteriorLight" type="OmniLight3D" parent="Shelter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+light_color = Color(0.1, 0.8, 0.35, 1)
+light_energy = 3.0
+omni_range = 8.0
 
 [node name="ShelterLight" type="SpotLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 4.0, 71.9)
@@ -522,3 +607,55 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.0, 0, 62.0)
 [node name="SecurityRobot" parent="." instance=ExtResource("2_robot")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.0, 0, 48.0)
 patrol_points = Array[NodePath]([NodePath("../PatrolPoint1"), NodePath("../PatrolPoint2"), NodePath("../PatrolPoint3"), NodePath("../PatrolPoint4")])
+
+[node name="ShelterDoorBlocker" type="StaticBody3D" parent="."]
+collision_layer = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.6, 71.9)
+groups = ["shelter_door"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ShelterDoorBlocker"]
+mesh = SubResource("Mesh_DoorBlocker")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ShelterDoorBlocker"]
+shape = SubResource("Shape_DoorBlocker")
+
+[node name="ShelterConsole" parent="." instance=ExtResource("3_sheltercon")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.2, 0, 71.5)
+
+[node name="SurvivorTrigger" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 2.0, 75.5)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("4_survtrigger")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SurvivorTrigger"]
+shape = SubResource("Shape_SurvivorTrigger")
+
+[node name="Survivor1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.85, 74.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Survivor1"]
+mesh = SubResource("Mesh_Survivor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Survivor1"]
+shape = SubResource("Shape_Survivor")
+
+[node name="Survivor2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.85, 74.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Survivor2"]
+mesh = SubResource("Mesh_Survivor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Survivor2"]
+shape = SubResource("Shape_Survivor")
+
+[node name="SurvivorDialogue" type="Label3D" parent="Survivor1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+pixel_size = 0.005
+text = "THE MACHINES AREN'T BROKEN.
+SOMETHING CONTROLS THEM."
+modulate = Color(0.9, 0.95, 1.0, 1)
+outline_modulate = Color(0, 0.05, 0.1, 1)
+font_size = 36
+horizontal_alignment = 1
+

@@ -6,11 +6,15 @@ signal power_system_online
 signal terminal_online
 signal relay_activated(relay_index: int)
 signal comms_online
+signal shelter_lock_released
+signal survivors_rescued
 
 var terminal_activated: bool = false
 var power_restored: bool = false
 var power_sequence_index: int = 0
 var comms_activated: bool = false
+var shelter_unlocked: bool = false
+var rescue_complete: bool = false
 
 func activate_terminal() -> void:
 	if terminal_activated:
@@ -49,3 +53,17 @@ func activate_comms() -> void:
 	comms_activated = true
 	print("COMMS ACTIVATED")
 	emit_signal("comms_online")
+
+func unlock_shelter() -> void:
+	if shelter_unlocked:
+		return
+	shelter_unlocked = true
+	print("GAME STATE: SHELTER 04 LOCK RELEASED")
+	emit_signal("shelter_lock_released")
+
+func complete_rescue() -> void:
+	if rescue_complete:
+		return
+	rescue_complete = true
+	print("GAME STATE: SURVIVORS RESCUED")
+	emit_signal("survivors_rescued")
