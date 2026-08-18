@@ -9,6 +9,12 @@ var _canvas: CanvasLayer
 var _objective_label: Label
 var _log_container: VBoxContainer
 
+# Failure UI references
+var _failure_overlay: ColorRect
+var _failure_title: Label
+var _failure_subtitle: Label
+var _is_failing: bool = false
+
 func _ready() -> void:
 	_create_hud()
 	_connect_signals()
@@ -57,6 +63,82 @@ func _create_hud() -> void:
 	_log_container.alignment = BoxContainer.ALIGNMENT_END
 	_log_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	root.add_child(_log_container)
+
+	# ── Failure Overlay ──
+	_failure_overlay = ColorRect.new()
+	_failure_overlay.name = "FailureOverlay"
+	_failure_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_failure_overlay.color = Color(0.0, 0.0, 0.0, 0.0) # Start transparent
+	_failure_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_failure_overlay.visible = false
+	root.add_child(_failure_overlay)
+
+	var center_container := CenterContainer.new()
+	center_container.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	center_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_failure_overlay.add_child(center_container)
+
+	var failure_box := VBoxContainer.new()
+	failure_box.alignment = BoxContainer.ALIGNMENT_CENTER
+	failure_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	center_container.add_child(failure_box)
+
+	_failure_title = Label.new()
+	_failure_title.text = "MISSION FAILED"
+	_failure_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_failure_title.add_theme_font_size_override("font_size", 36)
+	_failure_title.add_theme_color_override("font_color", Color(1.0, 0.1, 0.1, 1.0))
+	_failure_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	failure_box.add_child(_failure_title)
+
+	_failure_subtitle = Label.new()
+	_failure_subtitle.text = "AUTONOMOUS UNIT NEUTRALIZED YOU"
+	_failure_subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_failure_subtitle.add_theme_font_size_override("font_size", 18)
+	_failure_subtitle.add_theme_color_override("font_color", Color(0.8, 0.8, 0.8, 1.0))
+	_failure_subtitle.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	failure_box.add_child(_failure_subtitle)
+
+func trigger_player_caught() -> void:
+	if _is_failing:
+		return
+	_is_failing = true
+	
+	var player = get_tree().current_scene.get_node_or_null("Player")
+	if player:
+		player.is_control_disabled = true
+		if "velocity" in player:
+			player.velocity = Vector3.ZERO
+			
+	# Fade in failure screen
+	_failure_overlay.visible = true
+	var tween := create_tween()
+	tween.tween_property(_failure_overlay, "color", Color(0.0, 0.0, 0.0, 0.85), 1.0)
+	await tween.finished
+	
+	# Wait at full opacity
+	await get_tree().create_timer(1.5).timeout
+	
+	# Teleport player to checkpoint
+	if player and player.has_method("reset_to_position"):
+		player.reset_to_position(Vector3(4.1, 1.0, 39.8), PI)
+		
+	# Reset security robots
+	var robots = get_tree().get_nodes_in_group("security_robots")
+	for robot in robots:
+		if robot.has_method("reset_to_initial_state"):
+			robot.reset_to_initial_state()
+			
+	# Fade out failure screen
+	var tween_out := create_tween()
+	tween_out.tween_property(_failure_overlay, "color", Color(0.0, 0.0, 0.0, 0.0), 1.0)
+	await tween_out.finished
+	_failure_overlay.visible = false
+	
+	if player:
+		player.is_control_disabled = false
+		
+	_is_failing = false
 
 # ── Signal Connections ────────────────────────────────────────────
 

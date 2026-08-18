@@ -7,6 +7,8 @@ extends CharacterBody3D
 @onready var spring_arm: SpringArm3D = $SpringArm3D
 @onready var camera: Camera3D = $SpringArm3D/Camera
 
+var is_control_disabled: bool = false
+
 # Temporary debug visualization for interaction ray
 var _debug_mesh_instance: MeshInstance3D
 var _immediate_mesh: ImmediateMesh
@@ -66,6 +68,8 @@ func _update_debug_ray() -> void:
 	_immediate_mesh.surface_end()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if is_control_disabled:
+		return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		rotate_y(-event.relative.x * MOUSE_SENSITIVITY)
 		if spring_arm:
@@ -84,6 +88,12 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
+	if is_control_disabled:
+		velocity.x = 0
+		velocity.z = 0
+		move_and_slide()
+		return
+
 	# Handle jump
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
@@ -100,6 +110,13 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0.0, SPEED)
 
 	move_and_slide()
+
+func reset_to_position(pos: Vector3, rot_y: float) -> void:
+	global_position = pos
+	global_rotation.y = rot_y
+	velocity = Vector3.ZERO
+	if spring_arm:
+		spring_arm.rotation = Vector3.ZERO
 
 func _try_interact() -> void:
 	print("E INTERACTION FUNCTION CALLED")
