@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://c8y37x0term1"]
+
+[ext_resource type="Script" path="res://terminal.gd" id="1_terminal"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pedestal"]
+albedo_color = Color(0.9, 0.45, 0.1, 1)
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="BoxMesh_pedestal"]
+material = SubResource("StandardMaterial3D_pedestal")
+size = Vector3(0.8, 1.2, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_screen"]
+albedo_color = Color(0, 0.9, 1, 1)
+emission_enabled = true
+emission = Color(0, 0.9, 1, 1)
+emission_energy_multiplier = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_screen"]
+material = SubResource("StandardMaterial3D_screen")
+size = Vector3(0.6, 0.5, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_terminal"]
+size = Vector3(0.8, 1.6, 0.6)
+
+[node name="Terminal" type="StaticBody3D" unique_id=987654321]
+collision_layer = 5
+script = ExtResource("1_terminal")
+
+[node name="PedestalMesh" type="MeshInstance3D" parent="." unique_id=987654322]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("BoxMesh_pedestal")
+
+[node name="ScreenMesh" type="MeshInstance3D" parent="." unique_id=987654323]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1.35, 0.05)
+mesh = SubResource("BoxMesh_screen")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=987654324]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("BoxShape3D_terminal")
+
