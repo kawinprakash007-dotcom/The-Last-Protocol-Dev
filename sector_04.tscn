@@ -13,6 +13,11 @@
 [ext_resource type="PackedScene" uid="uid://flyingcarwreck001" path="res://assets/vehicles/flying_car_wreck.tscn" id="12_car_wreck"]
 [ext_resource type="PackedScene" uid="uid://cargodronewreck001" path="res://assets/vehicles/cargo_drone_wreck.tscn" id="13_drone_wreck"]
 [ext_resource type="PackedScene" uid="uid://heromodelsn001" path="res://assets/characters/hero_model.tscn" id="14_hero_model"]
+[ext_resource type="PackedScene" path="res://assets/environment/shelter/shelter_wall.glb" id="50_wall"]
+[ext_resource type="PackedScene" path="res://assets/environment/shelter/shelter_ceiling.glb" id="51_ceil"]
+[ext_resource type="PackedScene" path="res://assets/environment/shelter/shelter_blast_door_frame.glb" id="53_frame"]
+[ext_resource type="PackedScene" path="res://assets/environment/shelter/shelter_blast_door.glb" id="54_door"]
+[ext_resource type="PackedScene" path="res://assets/environment/shelter/shelter_interior_props.glb" id="55_props"]
 
 [sub_resource type="StandardMaterial3D" id="Material_Street"]
 albedo_color = Color(0.08, 0.09, 0.11, 1)
@@ -472,8 +477,7 @@ shape = SubResource("Shape_ShelterFloor")
 [node name="Ceiling" type="StaticBody3D" parent="Shelter"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Shelter/Ceiling"]
-mesh = SubResource("Mesh_ShelterCeiling")
+[node name="ShelterCeilingVisual" parent="Shelter/Ceiling" instance=ExtResource("51_ceil")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/Ceiling"]
 shape = SubResource("Shape_ShelterCeiling")
@@ -481,8 +485,8 @@ shape = SubResource("Shape_ShelterCeiling")
 [node name="LeftWall" type="StaticBody3D" parent="Shelter"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.9, 0, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Shelter/LeftWall"]
-mesh = SubResource("Mesh_ShelterWallX")
+[node name="ShelterWallVisual" parent="Shelter/LeftWall" instance=ExtResource("50_wall")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/LeftWall"]
 shape = SubResource("Shape_ShelterWallX")
@@ -490,8 +494,8 @@ shape = SubResource("Shape_ShelterWallX")
 [node name="RightWall" type="StaticBody3D" parent="Shelter"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9, 0, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Shelter/RightWall"]
-mesh = SubResource("Mesh_ShelterWallX")
+[node name="ShelterWallVisual" parent="Shelter/RightWall" instance=ExtResource("50_wall")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/RightWall"]
 shape = SubResource("Shape_ShelterWallX")
@@ -499,8 +503,7 @@ shape = SubResource("Shape_ShelterWallX")
 [node name="BackWall" type="StaticBody3D" parent="Shelter"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.9)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Shelter/BackWall"]
-mesh = SubResource("Mesh_ShelterBack")
+[node name="ShelterWallVisual" parent="Shelter/BackWall" instance=ExtResource("50_wall")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/BackWall"]
 shape = SubResource("Shape_ShelterBack")
@@ -518,17 +521,8 @@ light_energy = 5.0
 spot_range = 6.0
 spot_angle = 60.0
 
-[node name="ShelterFrameLeft" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 1.7, 71.9)
-mesh = SubResource("Mesh_HazardFrameVertical")
-
-[node name="ShelterFrameRight" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 1.7, 71.9)
-mesh = SubResource("Mesh_HazardFrameVertical")
-
-[node name="ShelterFrameTop" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 3.5, 71.9)
-mesh = SubResource("Mesh_HazardFrameHorizontal")
+[node name="ShelterBlastDoorFrame" parent="." instance=ExtResource("53_frame")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 71.9)
 
 [node name="ShelterLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 4.2, 71.8)
@@ -645,8 +639,7 @@ collision_layer = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.6, 71.9)
 groups = ["shelter_door"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ShelterDoorBlocker"]
-mesh = SubResource("Mesh_DoorBlocker")
+[node name="ShelterBlastDoorVisual" parent="ShelterDoorBlocker" instance=ExtResource("54_door")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ShelterDoorBlocker"]
 shape = SubResource("Shape_DoorBlocker")
@@ -688,6 +681,11 @@ shape = SubResource("Shape_Survivor")
 
 [node name="HumanModel" parent="Survivor2" instance=ExtResource("14_hero_model")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.85, 0)
+
+[node name="ShelterInteriorProps" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 75.0)
+
+[node name="ShelterPropsVisual" parent="ShelterInteriorProps" instance=ExtResource("55_props")]
 
 [node name="SurvivorDialogue" type="Label3D" parent="Survivor1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)

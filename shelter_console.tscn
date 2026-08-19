@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b44r6wur12vqs"]
 
 [ext_resource type="Script" path="res://shelter_console.gd" id="1_consscript"]
+[ext_resource type="PackedScene" path="res://assets/environment/shelter_console/shelter_console.glb" id="2_visual"]
 
 [sub_resource type="StandardMaterial3D" id="Material_Console"]
 albedo_color = Color(0.15, 0.17, 0.2, 1)
@@ -41,9 +42,7 @@ collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_consscript")
 
-[node name="ConsoleBody" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-mesh = SubResource("Mesh_ConsoleBody")
+[node name="ShelterConsoleVisual" parent="." instance=ExtResource("2_visual")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -53,13 +52,7 @@ shape = SubResource("Shape_ConsoleBody")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0.5)
 shape = SubResource("Shape_Interact")
 
-[node name="ScreenMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.978148, -0.207912, 0, 0.207912, 0.978148, 0, 0.9, -0.18)
-mesh = SubResource("Mesh_Screen")
 
-[node name="Base" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-mesh = SubResource("Mesh_Base")
 
 [node name="StatusLight" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)

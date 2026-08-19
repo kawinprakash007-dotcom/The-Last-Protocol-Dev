@@ -1,7 +1,7 @@
 extends Interactable
 
 @onready var status_light: OmniLight3D = $StatusLight
-@onready var screen_mesh: MeshInstance3D = $ScreenMesh
+@onready var screen_mesh: MeshInstance3D = $ShelterConsoleVisual/Shelter_Screen
 
 var _is_unlocked: bool = false
 var _interact_count: int = 0
