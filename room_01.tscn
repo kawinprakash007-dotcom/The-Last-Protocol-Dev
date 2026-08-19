@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c8y37x0term1" path="res://terminal.tscn" id="2_terminal"]
 [ext_resource type="PackedScene" path="res://door.tscn" id="3_door"]
-[ext_resource type="PackedScene" uid="uid://r5v47enrx1pv" path="res://corridor.tscn" id="4_corridor"]
+[ext_resource type="PackedScene" uid="uid://facaccesscorr" path="res://facility_access_corridor.tscn" id="4_corridor"]
 [ext_resource type="PackedScene" uid="uid://propsmarttv001" path="res://assets/props/prop_smart_tv.tscn" id="5_tv"]
 [ext_resource type="PackedScene" uid="uid://propsofa001" path="res://assets/props/prop_futuristic_sofa.tscn" id="6_sofa"]
 [ext_resource type="PackedScene" uid="uid://propventduct001" path="res://assets/props/prop_vent_duct.tscn" id="7_vent"]

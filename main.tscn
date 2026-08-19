@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bc7urnx4wmrwt" path="res://room_01.tscn" id="2_room01"]
 [ext_resource type="PackedScene" uid="uid://room02scene" path="res://room_02.tscn" id="3_room02"]
 [ext_resource type="PackedScene" uid="uid://ct33t37vogu0r" path="res://sector_04.tscn" id="4_sector04"]
+[ext_resource type="PackedScene" uid="uid://r5v47enrx1pv" path="res://corridor.tscn" id="8_corridor"]
 [ext_resource type="PackedScene" uid="uid://arenadatacenter001" path="res://arena_data_center.tscn" id="5_arena"]
 [ext_resource type="PackedScene" uid="uid://c5en3ueyr4q1m" path="res://assets/characters/hero_model.tscn" id="6_hero"]
 [ext_resource type="PackedScene" path="res://assets/characters/player_visual.glb" id="7_visual"]
@@ -63,7 +64,11 @@ transform = Transform3D(0.998632, -0.05228872, 0, 0.05228872, 0.998632, 0, 0, 0,
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1, 0, 17.2)
 
 [node name="Sector04" parent="." unique_id=1262584685 instance=ExtResource("4_sector04")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1, 0, 37.3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1, 0, 127.4)
+
+
+[node name="Corridor" parent="." instance=ExtResource("8_corridor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1, 0, 37.4)
 
 [node name="ArenaDataCenter" parent="." unique_id=888888888 instance=ExtResource("5_arena")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, 0)
