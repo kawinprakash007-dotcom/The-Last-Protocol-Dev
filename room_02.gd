@@ -1,6 +1,6 @@
 extends Node3D
 
-@onready var power_core_mat: StandardMaterial3D = $PowerCore/MeshInstance3D.mesh.surface_get_material(0).duplicate()
+@onready var power_core_mat: StandardMaterial3D = $PowerCore/PowerCoreVisual/Core_Crystal.mesh.surface_get_material(0).duplicate()
 @onready var core_light: OmniLight3D = $CoreLight
 @onready var ambient_lights: Array[OmniLight3D] = [
 	$AmbientLight1, $AmbientLight2, $AmbientLight3, $AmbientLight4
@@ -20,7 +20,7 @@ func _ready() -> void:
 	
 	# Initial inactive state
 	power_core_mat.emission_enabled = false
-	$PowerCore/MeshInstance3D.material_override = power_core_mat
+	$PowerCore/PowerCoreVisual/Core_Crystal.material_override = power_core_mat
 	core_light.visible = false
 	for light in ambient_lights:
 		light.light_energy = 0.5 # Dimmer initially

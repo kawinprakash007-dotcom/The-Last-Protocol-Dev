@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://propsmartappliance001" path="res://assets/props/prop_smart_appliance.tscn" id="7_appliance"]
 [ext_resource type="PackedScene" path="res://assets/environment/datacenter/datacenter_server_rack.glb" id="9_server_rack"]
 [ext_resource type="PackedScene" path="res://assets/environment/datacenter/datacenter_security_door.glb" id="10_sec_door"]
+[ext_resource type="PackedScene" path="res://assets/environment/datacenter/datacenter_power_core.glb" id="11_core"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
 albedo_color = Color(0.12, 0.14, 0.17, 1)
@@ -204,8 +205,8 @@ shape = SubResource("BoxShape3D_sec_door")
 [node name="PowerCore" type="StaticBody3D" parent="." unique_id=300000090]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 10.0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="PowerCore" unique_id=300000091]
-mesh = SubResource("CylinderMesh_power_core")
+[node name="PowerCoreVisual" parent="PowerCore" instance=ExtResource("11_core")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.25, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PowerCore" unique_id=300000092]
 shape = SubResource("CylinderShape3D_power_core")
