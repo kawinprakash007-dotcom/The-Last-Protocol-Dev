@@ -19,6 +19,10 @@
 [ext_resource type="PackedScene" path="res://assets/environment/shelter/shelter_blast_door.glb" id="54_door"]
 [ext_resource type="PackedScene" path="res://assets/environment/shelter/shelter_interior_props.glb" id="55_props"]
 
+[ext_resource type="Script" path="res://last_protocol_terminal.gd" id="99_lastprot"]
+[ext_resource type="PackedScene" path="res://terminal.tscn" id="98_term"]
+[ext_resource type="Script" path="res://last_protocol_terminal.gd" id="99_lastprot"]
+[ext_resource type="PackedScene" path="res://terminal.tscn" id="98_term"]
 [sub_resource type="StandardMaterial3D" id="Material_Street"]
 albedo_color = Color(0.08, 0.09, 0.11, 1)
 roughness = 0.9
@@ -708,4 +712,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 9.0, 45.0)
 
 [node name="SkyFlyingCar" parent="." instance=ExtResource("10_car")]
 transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 8.0, 15.0, 20.0)
+
+
+[node name="LastProtocolTerminal" parent="ShelterInteriorProps" instance=ExtResource("98_term")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.0)
+script = ExtResource("99_lastprot")
+is_activated = false
 

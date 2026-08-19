@@ -11,6 +11,9 @@ signal survivors_rescued
 signal robot_destroyed
 signal entered_data_center
 signal security_threat_detected
+signal last_protocol_accessed
+signal security_questions_passed
+signal last_protocol_activated
 
 var terminal_activated: bool = false
 var data_center_entered: bool = false
@@ -20,6 +23,9 @@ var power_sequence_index: int = 0
 var comms_activated: bool = false
 var shelter_unlocked: bool = false
 var rescue_complete: bool = false
+
+var is_last_protocol_active: bool = false
+var is_city_shutdown: bool = false
 
 func activate_terminal() -> void:
 	if terminal_activated:
@@ -88,3 +94,19 @@ func complete_rescue() -> void:
 func trigger_robot_destroyed() -> void:
 	print("GAME STATE: ROBOT DESTROYED")
 	emit_signal("robot_destroyed")
+
+func access_last_protocol() -> void:
+	print("GAME STATE: LAST PROTOCOL ACCESSED")
+	emit_signal("last_protocol_accessed")
+
+func pass_security_questions() -> void:
+	print("GAME STATE: SECURITY QUESTIONS PASSED")
+	emit_signal("security_questions_passed")
+
+func activate_last_protocol() -> void:
+	if is_last_protocol_active:
+		return
+	is_last_protocol_active = true
+	is_city_shutdown = true
+	print("GAME STATE: LAST PROTOCOL ACTIVATED")
+	emit_signal("last_protocol_activated")

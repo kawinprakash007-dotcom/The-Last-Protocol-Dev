@@ -27,6 +27,7 @@ var warning_timer: float = 0.0
 
 var health: int = 3
 var is_destroyed: bool = false
+var is_shut_down: bool = false
 var attack_cooldown: float = 0.0
 
 var detected_player: Node3D = null
@@ -61,7 +62,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.y = 0
 		
-	if is_destroyed:
+	if is_destroyed or is_shut_down:
 		velocity.x = 0
 		velocity.z = 0
 		move_and_slide()
@@ -309,7 +310,7 @@ func _fire_weapon() -> void:
 		print("[COMBAT DEBUG] Robot weapon ray hit: NONE")
 
 func take_damage(amount: int) -> void:
-	if is_destroyed: return
+	if is_destroyed or is_shut_down: return
 	health -= amount
 	print("[COMBAT] Robot took damage: ", amount)
 	
@@ -370,6 +371,8 @@ func reset_to_initial_state() -> void:
 	warning_timer = 0.0
 	health = 3
 	is_destroyed = false
+	is_shut_down = false
+	collision_layer = 2
 	attack_cooldown = 0.0
 	detected_player = null
 	velocity = Vector3.ZERO
@@ -434,3 +437,13 @@ func _has_line_of_sight() -> bool:
 		return true
 		
 	return false
+
+func shutdown() -> void:
+	is_shut_down = true
+	velocity = Vector3.ZERO
+	current_state = State.PATROL
+	attack_cooldown = 9999.0
+	
+	var tw = create_tween()
+	tw.tween_property(scan_light, "light_energy", 0.0, 2.0)
+	scan_light.light_color = Color.BLACK

@@ -14,6 +14,7 @@ var _failure_overlay: ColorRect
 var _failure_title: Label
 var _failure_subtitle: Label
 var _is_failing: bool = false
+var _is_final_objective_set: bool = false
 
 func _ready() -> void:
 	_create_hud()
@@ -153,6 +154,8 @@ func _connect_signals() -> void:
 	GameState.shelter_lock_released.connect(_on_shelter_unlocked)
 	GameState.survivors_rescued.connect(_on_survivors_rescued)
 	GameState.robot_destroyed.connect(_on_robot_destroyed)
+	GameState.last_protocol_accessed.connect(_on_last_protocol_accessed)
+	GameState.last_protocol_activated.connect(_on_last_protocol_activated)
 
 # ── Narrative Beats ───────────────────────────────────────────────
 
@@ -234,7 +237,9 @@ func _on_survivors_rescued() -> void:
 	await get_tree().create_timer(1.5).timeout
 	_log("SURVIVOR: \"YOU HAVE TO FIND THE CONTROL NETWORK.\"")
 	await get_tree().create_timer(1.0).timeout
-	_set_objective("FIND THE AUTONOMOUS CONTROL NETWORK")
+	if not _is_final_objective_set:
+		_set_objective("FIND THE LAST PROTOCOL SWITCH")
+		_is_final_objective_set = true
 
 func _on_robot_destroyed() -> void:
 	print("[MISSION] Combat encounter completed")
@@ -245,6 +250,82 @@ func _on_robot_destroyed() -> void:
 
 func shelter_console_log(msg: String) -> void:
 	_log(msg)
+
+func _on_last_protocol_accessed() -> void:
+	if not _is_final_objective_set:
+		_set_objective("FIND THE LAST PROTOCOL SWITCH")
+		_is_final_objective_set = true
+	_log("SYSTEM OVERRIDE DETECTED...")
+	await get_tree().create_timer(1.0).timeout
+	_log("SECURITY PROTOCOL ACTIVATED. AWAITING INPUT.")
+
+func _on_last_protocol_activated() -> void:
+	_log("THE LAST PROTOCOL: EXECUTED")
+	await get_tree().create_timer(1.5).timeout
+	_log("OVERRIDING ALL CITY SYSTEMS...")
+	
+	# Shutdown robots safely
+	var robots = get_tree().get_nodes_in_group("security_robots")
+	for robot in robots:
+		if robot.has_method("shutdown"):
+			robot.shutdown()
+			
+	# Fade out environment lights
+	var scene = get_tree().current_scene
+	if scene:
+		var all_nodes = scene.find_children("*", "Light3D", true, false)
+		for light in all_nodes:
+			if light is Light3D and not (light.name == "ShelterInteriorLight" or light.name == "ScanLight"):
+				var tw = create_tween()
+				tw.tween_property(light, "light_energy", 0.0, 3.0)
+				
+	await get_tree().create_timer(4.0).timeout
+	
+	# Show ending UI
+	_show_ending_ui()
+
+func _show_ending_ui() -> void:
+	var player = get_tree().current_scene.get_node_or_null("Player")
+	if player:
+		player.is_control_disabled = true
+		
+	var overlay = ColorRect.new()
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.color = Color(0, 0, 0, 0)
+	_canvas.add_child(overlay)
+	
+	var tw = create_tween()
+	tw.tween_property(overlay, "color", Color(0, 0, 0, 1), 3.0)
+	await tw.finished
+	
+	var center = CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(center)
+	
+	var vbox = VBoxContainer.new()
+	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	vbox.add_theme_constant_override("separation", 20)
+	center.add_child(vbox)
+	
+	var title = Label.new()
+	title.text = "THE LAST PROTOCOL EXECUTED"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 56)
+	title.add_theme_color_override("font_color", Color(0.2, 1.0, 0.4))
+	title.custom_minimum_size = Vector2(900, 0)
+	title.autowrap_mode = TextServer.AUTOWRAP_OFF
+	title.clip_text = false
+	vbox.add_child(title)
+	
+	var sub = Label.new()
+	sub.text = "CITY SHUTDOWN COMPLETE"
+	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	sub.add_theme_font_size_override("font_size", 32)
+	sub.add_theme_color_override("font_color", Color(0.6, 0.6, 0.6))
+	sub.custom_minimum_size = Vector2(900, 0)
+	sub.autowrap_mode = TextServer.AUTOWRAP_OFF
+	sub.clip_text = false
+	vbox.add_child(sub)
 
 # ── HUD Utilities ─────────────────────────────────────────────────
 

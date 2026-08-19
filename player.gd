@@ -8,9 +8,11 @@ extends CharacterBody3D
 @onready var camera: Camera3D = $SpringArm3D/Camera
 
 var is_control_disabled: bool = false
+var is_dead: bool = false
 
-var health: int = 100
+var health: int = 200
 var weapon_cooldown: float = 0.0
+var spawn_protection_timer: float = 0.0
 var _damage_overlay: ColorRect
 var _health_label: Label
 
@@ -65,6 +67,9 @@ func _setup_debug_ray() -> void:
 	add_child(_debug_mesh_instance)
 
 func _process(delta: float) -> void:
+	if spawn_protection_timer > 0:
+		spawn_protection_timer -= delta
+		
 	if weapon_cooldown > 0:
 		weapon_cooldown -= delta
 		
@@ -155,12 +160,19 @@ func reset_to_position(pos: Vector3, rot_y: float) -> void:
 	global_position = pos
 	global_rotation.y = rot_y
 	velocity = Vector3.ZERO
-	health = 100
+	health = 200
+	is_dead = false
+	weapon_cooldown = 0.0
+	spawn_protection_timer = 3.0
+	is_control_disabled = false
 	_update_health_ui()
 	if spring_arm:
 		spring_arm.rotation = Vector3.ZERO
 
 func take_damage(amount: int) -> void:
+	if is_dead or spawn_protection_timer > 0:
+		return
+		
 	health -= amount
 	_update_health_ui()
 	print("[COMBAT] Player took damage: ", amount, " | HP: ", health)
@@ -169,6 +181,7 @@ func take_damage(amount: int) -> void:
 		var tw = create_tween()
 		tw.tween_property(_damage_overlay, "color", Color(1.0, 0.0, 0.0, 0.0), 0.3)
 	if health <= 0:
+		is_dead = true
 		if Mission01.has_method("trigger_player_caught"):
 			Mission01.trigger_player_caught()
 
@@ -182,7 +195,7 @@ func _is_robot_collider(collider) -> bool:
 	return false
 
 func _fire_weapon() -> void:
-	if weapon_cooldown > 0 or is_control_disabled:
+	if weapon_cooldown > 0 or is_control_disabled or is_dead:
 		return
 	weapon_cooldown = 0.5
 	print("[COMBAT] Player fired")
