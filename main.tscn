@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ct33t37vogu0r" path="res://sector_04.tscn" id="4_sector04"]
 [ext_resource type="PackedScene" uid="uid://arenadatacenter001" path="res://arena_data_center.tscn" id="5_arena"]
 [ext_resource type="PackedScene" uid="uid://c5en3ueyr4q1m" path="res://assets/characters/hero_model.tscn" id="6_hero"]
+[ext_resource type="PackedScene" path="res://assets/characters/player_visual.glb" id="7_visual"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_main"]
 
@@ -83,7 +84,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, -0.35)
 visible = false
 mesh = SubResource("BoxMesh_visor")
 
-[node name="HeroModel" parent="Player" unique_id=1279030939 instance=ExtResource("6_hero")]
+[node name="PlayerVisual" parent="Player" instance=ExtResource("7_visual")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9, 0)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="Player" unique_id=1987654321]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
