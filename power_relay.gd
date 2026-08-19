@@ -4,7 +4,7 @@ extends Interactable
 @export var sequence_index: int = 0
 var is_activated: bool = false
 
-@onready var mesh_instance: MeshInstance3D = $MeshInstance3D
+@onready var core_mesh: MeshInstance3D = $PowerRelayVisual/Relay_Core
 @onready var light: OmniLight3D = $OmniLight3D
 
 # Simple visual materials
@@ -89,11 +89,11 @@ func _on_puzzle_reset() -> void:
 
 func _update_visuals() -> void:
 	if is_destroyed:
-		mesh_instance.material_override = _mat_destroyed
+		core_mesh.material_override = _mat_destroyed
 		light.visible = false
 	elif is_activated:
-		mesh_instance.material_override = _mat_active
+		core_mesh.material_override = _mat_active
 		light.visible = true
 	else:
-		mesh_instance.material_override = _mat_inactive
+		core_mesh.material_override = _mat_inactive
 		light.visible = false
