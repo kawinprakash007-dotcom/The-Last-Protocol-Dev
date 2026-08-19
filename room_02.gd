@@ -7,6 +7,14 @@ extends Node3D
 ]
 @onready var security_door: StaticBody3D = $SecurityDoor
 
+@onready var rack_indicators: Array[MeshInstance3D] = [
+	$ServerRack1/ServerRackVisual/Rack_PowerIndicators,
+	$ServerRack2/ServerRackVisual/Rack_PowerIndicators,
+	$ServerRack3/ServerRackVisual/Rack_PowerIndicators,
+	$ServerRack4/ServerRackVisual/Rack_PowerIndicators
+]
+var rack_materials: Array[StandardMaterial3D] = []
+
 func _ready() -> void:
 	GameState.power_system_online.connect(_on_power_online)
 	
@@ -17,6 +25,14 @@ func _ready() -> void:
 	for light in ambient_lights:
 		light.light_energy = 0.5 # Dimmer initially
 
+	for indicator in rack_indicators:
+		if indicator and indicator.mesh:
+			for i in range(indicator.mesh.get_surface_count()):
+				var mat = indicator.mesh.surface_get_material(i).duplicate()
+				mat.emission_energy_multiplier = 0.0
+				indicator.set_surface_override_material(i, mat)
+				rack_materials.append(mat)
+
 func _on_power_online() -> void:
 	power_core_mat.emission_enabled = true
 	core_light.visible = true
@@ -26,6 +42,9 @@ func _on_power_online() -> void:
 	
 	for light in ambient_lights:
 		tween.tween_property(light, "light_energy", 2.0, 1.0)
+	
+	for mat in rack_materials:
+		tween.tween_property(mat, "emission_energy_multiplier", 5.0, 1.0)
 	
 	# Open security door by sliding it down
 	tween.tween_property(security_door, "position:y", -2.5, 2.0)

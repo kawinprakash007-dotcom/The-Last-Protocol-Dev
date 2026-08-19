@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://propsofa001" path="res://assets/props/prop_futuristic_sofa.tscn" id="5_sofa"]
 [ext_resource type="PackedScene" uid="uid://propventduct001" path="res://assets/props/prop_vent_duct.tscn" id="6_vent"]
 [ext_resource type="PackedScene" uid="uid://propsmartappliance001" path="res://assets/props/prop_smart_appliance.tscn" id="7_appliance"]
+[ext_resource type="PackedScene" path="res://assets/environment/datacenter/datacenter_server_rack.glb" id="9_server_rack"]
+[ext_resource type="PackedScene" path="res://assets/environment/datacenter/datacenter_security_door.glb" id="10_sec_door"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
 albedo_color = Color(0.12, 0.14, 0.17, 1)
@@ -194,8 +196,7 @@ shape = SubResource("BoxShape3D_wall_front_top")
 [node name="SecurityDoor" type="StaticBody3D" parent="." unique_id=300000190]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0, 20.1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SecurityDoor" unique_id=300000191]
-mesh = SubResource("BoxMesh_sec_door")
+[node name="SecurityDoorVisual" parent="SecurityDoor" instance=ExtResource("10_sec_door")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SecurityDoor" unique_id=300000192]
 shape = SubResource("BoxShape3D_sec_door")
@@ -258,29 +259,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.0, 0, 8.0)
 
 [node name="ServerRack1" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 8)
-[node name="Mesh" type="MeshInstance3D" parent="ServerRack1"]
-mesh = SubResource("BoxMesh_Server")
+[node name="ServerRackVisual" parent="ServerRack1" instance=ExtResource("9_server_rack")]
 [node name="Collision" type="CollisionShape3D" parent="ServerRack1"]
 shape = SubResource("BoxShape3D_Server")
 
 [node name="ServerRack2" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, 8)
-[node name="Mesh" type="MeshInstance3D" parent="ServerRack2"]
-mesh = SubResource("BoxMesh_Server")
+[node name="ServerRackVisual" parent="ServerRack2" instance=ExtResource("9_server_rack")]
 [node name="Collision" type="CollisionShape3D" parent="ServerRack2"]
 shape = SubResource("BoxShape3D_Server")
 
 [node name="ServerRack3" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 16)
-[node name="Mesh" type="MeshInstance3D" parent="ServerRack3"]
-mesh = SubResource("BoxMesh_Server")
+[node name="ServerRackVisual" parent="ServerRack3" instance=ExtResource("9_server_rack")]
 [node name="Collision" type="CollisionShape3D" parent="ServerRack3"]
 shape = SubResource("BoxShape3D_Server")
 
 [node name="ServerRack4" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, 16)
-[node name="Mesh" type="MeshInstance3D" parent="ServerRack4"]
-mesh = SubResource("BoxMesh_Server")
+[node name="ServerRackVisual" parent="ServerRack4" instance=ExtResource("9_server_rack")]
 [node name="Collision" type="CollisionShape3D" parent="ServerRack4"]
 shape = SubResource("BoxShape3D_Server")
 
