@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://dae34ycadrtnk"]
+
+[ext_resource type="Material" path="res://assets/materials/mat_structural_metal.tres" id="1_metal"]
+[ext_resource type="Material" uid="uid://metal_pbr" path="res://assets/materials/mat_metal_pbr.tres" id="2_metal_pbr"]
+[ext_resource type="Script" path="res://assets/scripts/fan_rotator.gd" id="3_rotator"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_duct_body"]
+material = ExtResource("1_metal")
+size = Vector3(1.2, 0.5, 1.2)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fan_opening"]
+material = ExtResource("2_metal_pbr")
+top_radius = 0.45
+bottom_radius = 0.45
+height = 0.1
+
+[sub_resource type="BoxMesh" id="BoxMesh_blade"]
+material = ExtResource("1_metal")
+size = Vector3(0.08, 0.01, 0.85)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_center_pin"]
+material = ExtResource("2_metal_pbr")
+top_radius = 0.08
+bottom_radius = 0.08
+height = 0.12
+
+[node name="VentDuct" type="Node3D"]
+
+[node name="DuctBody" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_duct_body")
+
+[node name="FanOpening" type="MeshInstance3D" parent="DuctBody"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.56)
+mesh = SubResource("CylinderMesh_fan_opening")
+
+[node name="RotorBlades" type="Node3D" parent="DuctBody/FanOpening"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+script = ExtResource("3_rotator")
+rotate_speed = 6.0
+
+[node name="Blade1" type="MeshInstance3D" parent="DuctBody/FanOpening/RotorBlades"]
+mesh = SubResource("BoxMesh_blade")
+
+[node name="Blade2" type="MeshInstance3D" parent="DuctBody/FanOpening/RotorBlades"]
+transform = Transform3D(0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, 0, 0, 0)
+mesh = SubResource("BoxMesh_blade")
+
+[node name="Blade3" type="MeshInstance3D" parent="DuctBody/FanOpening/RotorBlades"]
+transform = Transform3D(-0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, 0, 0, 0)
+mesh = SubResource("BoxMesh_blade")
+
+[node name="CenterPin" type="MeshInstance3D" parent="DuctBody/FanOpening"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+mesh = SubResource("CylinderMesh_center_pin")

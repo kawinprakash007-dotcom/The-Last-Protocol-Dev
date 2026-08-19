@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/shaders/smart_glass.gdshader" id="1_glass"]
+
+[resource]
+resource_name = "SmartGlass"
+render_priority = 1
+shader = ExtResource("1_glass")
+shader_parameter/glass_tint = Color(0.04, 0.12, 0.18, 0.25)
+shader_parameter/edge_color = Color(0.2, 0.75, 0.95, 0.6)
+shader_parameter/roughness = 0.08
+shader_parameter/metallic = 0.9
+shader_parameter/fresnel_power = 3.5
+shader_parameter/hex_scale = 50.0
+shader_parameter/hex_intensity = 0.12

@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://gqh7ed2kad6w"]
+
+[ext_resource type="Material" path="res://assets/materials/mat_wall_dark.tres" id="1_charred"]
+[ext_resource type="Material" uid="uid://metal_pbr" path="res://assets/materials/mat_metal_pbr.tres" id="2_metal"]
+[ext_resource type="Material" path="res://assets/materials/mat_accent_amber.tres" id="3_amber"]
+[ext_resource type="PackedScene" path="res://assets/vfx/vfx_conduit_sparks.tscn" id="4_sparks"]
+[ext_resource type="PackedScene" path="res://assets/vfx/vfx_steam_vent.tscn" id="5_smoke"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_deformed_body"]
+material = ExtResource("1_charred")
+radius = 0.65
+height = 2.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_broken_plate"]
+material = ExtResource("2_metal")
+size = Vector3(0.8, 0.1, 1.2)
+
+[sub_resource type="PrismMesh" id="PrismMesh_cabin_broken"]
+material = ExtResource("1_charred")
+size = Vector3(0.8, 0.5, 1.0)
+
+[sub_resource type="TorusMesh" id="TorusMesh_broken_thruster"]
+material = ExtResource("3_amber")
+inner_radius = 0.1
+outer_radius = 0.25
+
+[node name="FlyingCarWreck" type="Node3D"]
+
+[node name="CharredChassis" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.939693, 0.34202, 0, -0.321394, 0.883022, 0.34202, 0.116978, -0.321394, 0.939693, 0, 0.4, 0)
+mesh = SubResource("CapsuleMesh_deformed_body")
+
+[node name="BrokenPlateL" type="MeshInstance3D" parent="CharredChassis"]
+transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, -0.7, 0.2, -0.5)
+mesh = SubResource("BoxMesh_broken_plate")
+
+[node name="BrokenCabin" type="MeshInstance3D" parent="CharredChassis"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.3, 0.4)
+mesh = SubResource("PrismMesh_cabin_broken")
+
+[node name="ExposedThruster" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, 0.5, -0.1, -1.0)
+mesh = SubResource("TorusMesh_broken_thruster")
+
+[node name="SparksVFX" parent="ExposedThruster" instance=ExtResource("4_sparks")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+
+[node name="SmokeVFX" parent="ExposedThruster" instance=ExtResource("5_smoke")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+
+[node name="FlickerLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.6, -0.8)
+light_color = Color(1, 0.45, 0.0, 1)
+light_energy = 2.0
+omni_range = 3.0

@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://b18gelrk1eyx1"]
+
+[ext_resource type="Material" path="res://assets/materials/mat_plastic.tres" id="1_plastic"]
+[ext_resource type="Material" path="res://assets/materials/mat_structural_metal.tres" id="2_metal"]
+[ext_resource type="Material" path="res://assets/materials/mat_screen_diagnostic.tres" id="3_screen"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_bracket"]
+material = ExtResource("2_metal")
+size = Vector3(0.4, 0.4, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_frame"]
+material = ExtResource("1_plastic")
+size = Vector3(1.8, 1.0, 0.08)
+
+[sub_resource type="BoxMesh" id="BoxMesh_glass_screen"]
+material = ExtResource("3_screen")
+size = Vector3(1.72, 0.92, 0.02)
+
+[node name="SmartTV" type="Node3D"]
+
+[node name="WallBracket" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.06)
+mesh = SubResource("BoxMesh_bracket")
+
+[node name="TVFrame" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_frame")
+
+[node name="TVScreen" type="MeshInstance3D" parent="TVFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.04)
+mesh = SubResource("BoxMesh_glass_screen")
+
+[node name="AmbientGlow" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.6)
+light_color = Color(0, 0.88, 1, 1)
+light_energy = 1.8
+omni_range = 3.5

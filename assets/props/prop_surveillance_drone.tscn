@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Material" path="res://assets/materials/mat_structural_metal.tres" id="1_metal"]
+[ext_resource type="Material" path="res://assets/materials/mat_accent_cyan.tres" id="2_cyan"]
+[ext_resource type="Material" path="res://assets/materials/mat_accent_amber.tres" id="3_amber"]
+[ext_resource type="Script" path="res://assets/scripts/drone_animator.gd" id="4_drone_anim"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_chassis"]
+material = ExtResource("1_metal")
+radius = 0.28
+height = 0.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_thruster"]
+material = ExtResource("1_metal")
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.08
+
+[sub_resource type="SphereMesh" id="SphereMesh_eye"]
+material = ExtResource("2_cyan")
+radius = 0.08
+height = 0.12
+
+[node name="SurveillanceDrone" type="Node3D"]
+script = ExtResource("4_drone_anim")
+
+[node name="Chassis" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_chassis")
+
+[node name="ThrusterLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.38, 0, 0)
+mesh = SubResource("CylinderMesh_thruster")
+
+[node name="ThrusterRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.38, 0, 0)
+mesh = SubResource("CylinderMesh_thruster")
+
+[node name="OpticalSensor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.22)
+mesh = SubResource("SphereMesh_eye")
+
+[node name="BeaconLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18, 0)
+light_color = Color(1, 0.5, 0.1, 1)
+light_energy = 0.8
+omni_range = 1.5
+
+[node name="ScanLight" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, -0.1, 0.2)
+light_color = Color(0.2, 0.85, 1, 1)
+light_energy = 2.5
+spot_range = 6.0
+spot_angle = 35.0

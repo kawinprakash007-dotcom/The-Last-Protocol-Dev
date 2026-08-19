@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/shaders/hologram_display.gdshader" id="1_holo"]
+
+[resource]
+resource_name = "HologramMaterial"
+render_priority = 2
+shader = ExtResource("1_holo")
+shader_parameter/holo_color = Color(0.0, 0.88, 1.0, 0.5)
+shader_parameter/fresnel_power = 2.5
+shader_parameter/scanline_speed = 2.0
+shader_parameter/scanline_density = 100.0
+shader_parameter/glow_intensity = 3.2
+shader_parameter/flicker_speed = 10.0
+shader_parameter/alpha_base = 0.35

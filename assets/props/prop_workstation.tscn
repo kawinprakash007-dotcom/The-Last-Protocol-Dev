@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Material" path="res://assets/materials/mat_structural_metal.tres" id="1_metal"]
+[ext_resource type="Material" path="res://assets/materials/mat_screen_diagnostic.tres" id="2_screen"]
+[ext_resource type="Material" path="res://assets/materials/mat_accent_cyan.tres" id="3_cyan"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_desk_top"]
+material = ExtResource("1_metal")
+size = Vector3(1.8, 0.08, 0.8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_desk_leg"]
+material = ExtResource("1_metal")
+size = Vector3(0.08, 0.85, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_monitor_frame"]
+material = ExtResource("1_metal")
+size = Vector3(0.7, 0.45, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_screen_face"]
+material = ExtResource("2_screen")
+size = Vector3(0.66, 0.41, 0.02)
+
+[node name="Workstation" type="Node3D"]
+
+[node name="DeskTop" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("BoxMesh_desk_top")
+
+[node name="LegLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.425, 0)
+mesh = SubResource("BoxMesh_desk_leg")
+
+[node name="LegRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.425, 0)
+mesh = SubResource("BoxMesh_desk_leg")
+
+[node name="MonitorLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -0.4, 1.25, -0.1)
+mesh = SubResource("BoxMesh_monitor_frame")
+
+[node name="ScreenLeft" type="MeshInstance3D" parent="MonitorLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.02)
+mesh = SubResource("BoxMesh_screen_face")
+
+[node name="MonitorRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0.4, 1.25, -0.1)
+mesh = SubResource("BoxMesh_monitor_frame")
+
+[node name="ScreenRight" type="MeshInstance3D" parent="MonitorRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.02)
+mesh = SubResource("BoxMesh_screen_face")
+
+[node name="KeyboardAccent" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0.15)
+material_override = ExtResource("3_cyan")
+mesh = SubResource("BoxMesh_monitor_frame")

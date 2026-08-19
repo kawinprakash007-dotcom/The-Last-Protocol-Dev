@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://propsofa001"]
+
+[ext_resource type="Material" path="res://assets/materials/mat_structural_metal.tres" id="1_metal"]
+[ext_resource type="Material" path="res://assets/materials/mat_fabric.tres" id="2_fabric"]
+[ext_resource type="Material" path="res://assets/materials/mat_accent_cyan.tres" id="3_cyan"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_base"]
+material = ExtResource("1_metal")
+size = Vector3(2.2, 0.15, 0.9)
+
+[sub_resource type="BoxMesh" id="BoxMesh_seat"]
+material = ExtResource("2_fabric")
+size = Vector3(2.0, 0.25, 0.75)
+
+[sub_resource type="BoxMesh" id="BoxMesh_armrest"]
+material = ExtResource("2_fabric")
+size = Vector3(0.15, 0.5, 0.9)
+
+[sub_resource type="BoxMesh" id="BoxMesh_backrest"]
+material = ExtResource("2_fabric")
+size = Vector3(2.2, 0.55, 0.15)
+
+[node name="FuturisticSofa" type="Node3D"]
+
+[node name="MetalBase" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_base")
+
+[node name="Seat" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0.05)
+mesh = SubResource("BoxMesh_seat")
+
+[node name="ArmrestLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.025, 0.325, 0)
+mesh = SubResource("BoxMesh_armrest")
+
+[node name="ArmrestRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.025, 0.325, 0)
+mesh = SubResource("BoxMesh_armrest")
+
+[node name="Backrest" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, -0.375)
+mesh = SubResource("BoxMesh_backrest")
+
+[node name="UnderGlow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.09, 0)
+material_override = ExtResource("3_cyan")
+mesh = SubResource("BoxMesh_base")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="UnderGlow"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
+light_color = Color(0, 0.85, 1, 1)
+light_energy = 1.2
+omni_range = 1.8

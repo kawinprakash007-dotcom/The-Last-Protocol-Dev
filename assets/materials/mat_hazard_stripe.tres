@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/shaders/hazard_stripe.gdshader" id="1_hazard"]
+
+[resource]
+resource_name = "HazardStripe"
+render_priority = 0
+shader = ExtResource("1_hazard")
+shader_parameter/stripe_color1 = Color(0.95, 0.75, 0.05, 1)
+shader_parameter/stripe_color2 = Color(0.08, 0.08, 0.09, 1)
+shader_parameter/stripe_scale = 12.0
+shader_parameter/metallic = 0.3
+shader_parameter/roughness = 0.5
+shader_parameter/emission_energy = 0.2

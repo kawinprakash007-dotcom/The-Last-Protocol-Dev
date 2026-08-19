@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/shaders/screen_diagnostic.gdshader" id="1_screen"]
+
+[resource]
+resource_name = "ScreenDiagnostic"
+render_priority = 0
+shader = ExtResource("1_screen")
+shader_parameter/background_color = Color(0.01, 0.04, 0.07, 1)
+shader_parameter/screen_color = Color(0.0, 0.88, 1.0, 1)
+shader_parameter/secondary_color = Color(0.0, 0.42, 0.68, 1)
+shader_parameter/alert_color = Color(1.0, 0.55, 0.05, 1)
+shader_parameter/emission_energy = 2.8
+shader_parameter/scanline_count = 200.0
+shader_parameter/scanline_speed = 1.2
+shader_parameter/scanline_intensity = 0.22
+shader_parameter/glitch_intensity = 0.04
+shader_parameter/is_active = 0.0

@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[resource]
+resource_name = "FloorGrate"
+albedo_color = Color(0.08, 0.09, 0.10, 1.0)
+metallic = 0.9
+roughness = 0.35
+anisotropy_enabled = true
+anisotropy = 0.5

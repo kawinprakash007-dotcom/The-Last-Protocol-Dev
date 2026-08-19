@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://eu58uk2dhrfc"]
+
+[ext_resource type="Material" uid="uid://concrete_pbr" path="res://assets/materials/mat_concrete_pbr.tres" id="1_concrete"]
+[ext_resource type="Material" uid="uid://metal_pbr" path="res://assets/materials/mat_metal_pbr.tres" id="2_metal"]
+[ext_resource type="Material" path="res://assets/materials/mat_hazard_stripe.tres" id="3_hazard"]
+[ext_resource type="Material" path="res://assets/materials/mat_accent_green.tres" id="4_green"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_core"]
+material = ExtResource("1_concrete")
+size = Vector3(10.0, 15.0, 15.0)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pipe"]
+material = ExtResource("2_metal")
+top_radius = 0.25
+bottom_radius = 0.25
+height = 14.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_control_pnl"]
+material = ExtResource("3_hazard")
+size = Vector3(3.0, 4.0, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pwr_cell"]
+material = ExtResource("4_green")
+size = Vector3(1.2, 2.5, 1.2)
+
+[node name="ResearchFacility" type="Node3D"]
+
+[node name="MainCore" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_core")
+
+[node name="VentingPipe" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 0.5, 3.0)
+mesh = SubResource("CylinderMesh_pipe")
+
+[node name="HazardControlPanel" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.5, 7.6)
+mesh = SubResource("BoxMesh_control_pnl")
+
+[node name="PowerCell" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2, -5.0, -2.0)
+mesh = SubResource("BoxMesh_pwr_cell")
+
+[node name="WarningLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.8, 0)
+light_color = Color(0.1, 1, 0.3, 1)
+light_energy = 3.0
+omni_range = 6.0

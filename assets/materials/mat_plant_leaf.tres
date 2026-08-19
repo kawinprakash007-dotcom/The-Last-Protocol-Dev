@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/shaders/foliage_sway.gdshader" id="1_foliage"]
+
+[resource]
+resource_name = "PlantLeaf"
+render_priority = 0
+shader = ExtResource("1_foliage")
+shader_parameter/leaf_color_base = Color(0.06, 0.28, 0.12, 1)
+shader_parameter/leaf_color_tip = Color(0.22, 0.68, 0.28, 1)
+shader_parameter/roughness = 0.35
+shader_parameter/sss_translucency = 0.4
+shader_parameter/sway_speed = 1.8
+shader_parameter/sway_strength = 0.04

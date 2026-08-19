@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Material" path="res://assets/materials/mat_structural_metal.tres" id="1_metal"]
+[ext_resource type="Material" path="res://assets/materials/mat_hazard_stripe.tres" id="2_hazard"]
+[ext_resource type="Material" path="res://assets/materials/mat_accent_amber.tres" id="3_amber"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_pillar"]
+material = ExtResource("1_metal")
+size = Vector3(0.25, 2.8, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lintel"]
+material = ExtResource("1_metal")
+size = Vector3(1.7, 0.35, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hazard_border"]
+material = ExtResource("2_hazard")
+size = Vector3(1.6, 0.08, 0.42)
+
+[node name="DoorFrame" type="Node3D"]
+
+[node name="PillarLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 1.4, 0)
+mesh = SubResource("BoxMesh_pillar")
+
+[node name="PillarRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 1.4, 0)
+mesh = SubResource("BoxMesh_pillar")
+
+[node name="Lintel" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.65, 0)
+mesh = SubResource("BoxMesh_lintel")
+
+[node name="HazardFloor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+mesh = SubResource("BoxMesh_hazard_border")
+
+[node name="StatusLight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, 0.21)
+material_override = ExtResource("3_amber")
+mesh = SubResource("BoxMesh_hazard_border")
+
+[node name="RecessedLight" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2.5, 0)
+light_color = Color(1, 0.8, 0.5, 1)
+light_energy = 2.0
+spot_range = 3.5
+spot_angle = 45.0

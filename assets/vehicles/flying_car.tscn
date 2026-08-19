@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://flyingcar001"]
+
+[ext_resource type="Material" path="res://assets/materials/mat_plastic.tres" id="1_plastic"]
+[ext_resource type="Material" uid="uid://metal_pbr" path="res://assets/materials/mat_metal_pbr.tres" id="2_metal"]
+[ext_resource type="Material" uid="uid://glass_pbr" path="res://assets/materials/mat_glass_pbr.tres" id="3_glass"]
+[ext_resource type="Material" path="res://assets/materials/mat_accent_cyan.tres" id="4_cyan"]
+[ext_resource type="Script" path="res://assets/scripts/drone_animator.gd" id="5_anim"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
+material = ExtResource("1_plastic")
+radius = 0.65
+height = 3.2
+
+[sub_resource type="PrismMesh" id="PrismMesh_cabin"]
+material = ExtResource("3_glass")
+size = Vector3(0.9, 0.65, 1.4)
+
+[sub_resource type="TorusMesh" id="TorusMesh_thruster"]
+material = ExtResource("4_cyan")
+inner_radius = 0.15
+outer_radius = 0.28
+
+[sub_resource type="BoxMesh" id="BoxMesh_spoiler"]
+material = ExtResource("2_metal")
+size = Vector3(1.3, 0.1, 0.4)
+
+[node name="FlyingCar" type="Node3D"]
+script = ExtResource("5_anim")
+bob_amplitude = 0.15
+bob_frequency = 0.8
+tilt_amplitude = 0.08
+wander_radius = 0.6
+
+[node name="Chassis" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_body")
+
+[node name="CabinGlass" type="MeshInstance3D" parent="Chassis"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.4, 0.5)
+mesh = SubResource("PrismMesh_cabin")
+
+[node name="ThrusterFL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, -0.5, -1.0)
+mesh = SubResource("TorusMesh_thruster")
+
+[node name="ThrusterFR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, -0.5, -1.0)
+mesh = SubResource("TorusMesh_thruster")
+
+[node name="ThrusterBL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, -0.5, 1.0)
+mesh = SubResource("TorusMesh_thruster")
+
+[node name="ThrusterBR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, -0.5, 1.0)
+mesh = SubResource("TorusMesh_thruster")
+
+[node name="Spoiler" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1.4)
+mesh = SubResource("BoxMesh_spoiler")
+
+[node name="HeadlightL" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, -0.1, -1.6)
+light_color = Color(0.9, 0.95, 1, 1)
+light_energy = 5.0
+spot_range = 15.0
+spot_angle = 30.0
+
+[node name="HeadlightR" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, -0.1, -1.6)
+light_color = Color(0.9, 0.95, 1, 1)
+light_energy = 5.0
+spot_range = 15.0
+spot_angle = 30.0
+
+[node name="HoverGlow" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
+light_color = Color(0, 0.85, 1, 1)
+light_energy = 3.0
+omni_range = 4.0

@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://b3ajja4oitama"]
+
+[ext_resource type="Material" path="res://assets/materials/mat_structural_metal.tres" id="1_metal"]
+[ext_resource type="Material" path="res://assets/materials/mat_accent_green.tres" id="2_green"]
+[ext_resource type="Material" path="res://assets/materials/mat_plastic.tres" id="3_plastic"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_body"]
+material = ExtResource("1_metal")
+size = Vector3(0.5, 0.6, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_screen"]
+material = ExtResource("2_green")
+size = Vector3(0.35, 0.2, 0.02)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_button"]
+material = ExtResource("3_plastic")
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.04
+
+[node name="SmartAppliance" type="Node3D"]
+
+[node name="MainBody" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_body")
+
+[node name="InterfaceScreen" type="MeshInstance3D" parent="MainBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, 0.2)
+mesh = SubResource("BoxMesh_screen")
+
+[node name="StatusLight" type="OmniLight3D" parent="MainBody/InterfaceScreen"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.15)
+light_color = Color(0.1, 1, 0.35, 1)
+light_energy = 1.0
+omni_range = 1.2
+
+[node name="Button1" type="MeshInstance3D" parent="MainBody"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.1, -0.15, 0.2)
+mesh = SubResource("CylinderMesh_button")
+
+[node name="Button2" type="MeshInstance3D" parent="MainBody"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.15, 0.2)
+mesh = SubResource("CylinderMesh_button")
+
+[node name="Button3" type="MeshInstance3D" parent="MainBody"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.1, -0.15, 0.2)
+mesh = SubResource("CylinderMesh_button")

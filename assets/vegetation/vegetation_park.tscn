@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://dldah2itgvsy"]
+
+[ext_resource type="Material" uid="uid://concrete_pbr" path="res://assets/materials/mat_concrete_pbr.tres" id="1_concrete"]
+[ext_resource type="Material" uid="uid://metal_pbr" path="res://assets/materials/mat_metal_pbr.tres" id="2_metal"]
+[ext_resource type="Material" path="res://assets/materials/mat_plant_leaf.tres" id="3_leaf"]
+[ext_resource type="Material" path="res://assets/materials/mat_wall_dark.tres" id="4_dark"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_planter"]
+material = ExtResource("1_concrete")
+size = Vector3(4.0, 0.5, 4.0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_soil"]
+material = ExtResource("4_dark")
+size = Vector3(3.8, 0.45, 3.8)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_trunk"]
+material = ExtResource("4_dark")
+top_radius = 0.08
+bottom_radius = 0.15
+height = 2.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_leaves"]
+material = ExtResource("3_leaf")
+radius = 0.95
+height = 1.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_bench"]
+material = ExtResource("2_metal")
+size = Vector3(1.8, 0.4, 0.6)
+
+[node name="VegetationPark" type="Node3D"]
+
+[node name="PlanterBox" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_planter")
+
+[node name="Soil" type="MeshInstance3D" parent="PlanterBox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+mesh = SubResource("BoxMesh_soil")
+
+[node name="TreeTrunk" type="MeshInstance3D" parent="PlanterBox/Soil"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+mesh = SubResource("CylinderMesh_trunk")
+
+[node name="Leaves" type="MeshInstance3D" parent="PlanterBox/Soil/TreeTrunk"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+mesh = SubResource("SphereMesh_leaves")
+
+[node name="SmartSolarBench" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 0.2, 2.4)
+mesh = SubResource("BoxMesh_bench")
+
+[node name="SolarGlow" type="OmniLight3D" parent="SmartSolarBench"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
+light_color = Color(0, 0.85, 1, 1)
+light_energy = 1.5
+omni_range = 2.0

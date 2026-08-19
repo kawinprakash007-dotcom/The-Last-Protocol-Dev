@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://rjv7m8lnd2xg"]
+
+[ext_resource type="Material" uid="uid://concrete_pbr" path="res://assets/materials/mat_concrete_pbr.tres" id="1_concrete"]
+[ext_resource type="Material" uid="uid://metal_pbr" path="res://assets/materials/mat_metal_pbr.tres" id="2_metal"]
+[ext_resource type="Material" uid="uid://glass_pbr" path="res://assets/materials/mat_glass_pbr.tres" id="3_glass"]
+[ext_resource type="Material" path="res://assets/materials/mat_accent_amber.tres" id="4_amber"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_base"]
+material = ExtResource("1_concrete")
+size = Vector3(8.0, 6.0, 12.0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_window"]
+material = ExtResource("3_glass")
+size = Vector3(3.5, 4.0, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_billboard"]
+material = ExtResource("4_amber")
+size = Vector3(4.0, 1.2, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_roof_trim"]
+material = ExtResource("2_metal")
+size = Vector3(8.4, 0.4, 12.4)
+
+[node name="SmartShop" type="Node3D"]
+
+[node name="MainBase" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_base")
+
+[node name="ShopWindow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 6.05)
+mesh = SubResource("BoxMesh_window")
+
+[node name="RoofTrim" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.0, 0)
+mesh = SubResource("BoxMesh_roof_trim")
+
+[node name="HoloBillboard" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2, 5.0)
+mesh = SubResource("BoxMesh_billboard")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2.8, 5.5)
+light_color = Color(1, 0.7, 0.2, 1)
+light_energy = 4.0
+spot_range = 8.0
+spot_angle = 50.0

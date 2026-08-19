@@ -3,6 +3,16 @@
 [ext_resource type="PackedScene" uid="uid://secrobotblockout" path="res://security_robot.tscn" id="2_robot"]
 [ext_resource type="PackedScene" path="res://shelter_console.tscn" id="3_sheltercon"]
 [ext_resource type="Script" path="res://survivor_trigger.gd" id="4_survtrigger"]
+[ext_resource type="PackedScene" uid="uid://buildingtower001" path="res://assets/buildings/building_futuristic_tower.tscn" id="5_tower"]
+[ext_resource type="PackedScene" uid="uid://buildingsmartshop001" path="res://assets/buildings/building_smart_shop.tscn" id="6_shop"]
+[ext_resource type="PackedScene" uid="uid://buildinglab001" path="res://assets/buildings/building_research_facility.tscn" id="7_lab"]
+[ext_resource type="PackedScene" uid="uid://smartroadsn001" path="res://assets/environment/smart_road_segment.tscn" id="8_road"]
+[ext_resource type="PackedScene" uid="uid://vegetationpark001" path="res://assets/vegetation/vegetation_park.tscn" id="9_park"]
+[ext_resource type="PackedScene" uid="uid://flyingcar001" path="res://assets/vehicles/flying_car.tscn" id="10_car"]
+[ext_resource type="PackedScene" uid="uid://cargodrone001" path="res://assets/vehicles/cargo_drone.tscn" id="11_drone"]
+[ext_resource type="PackedScene" uid="uid://flyingcarwreck001" path="res://assets/vehicles/flying_car_wreck.tscn" id="12_car_wreck"]
+[ext_resource type="PackedScene" uid="uid://cargodronewreck001" path="res://assets/vehicles/cargo_drone_wreck.tscn" id="13_drone_wreck"]
+[ext_resource type="PackedScene" uid="uid://heromodelsn001" path="res://assets/characters/hero_model.tscn" id="14_hero_model"]
 
 [sub_resource type="StandardMaterial3D" id="Material_Street"]
 albedo_color = Color(0.08, 0.09, 0.11, 1)
@@ -294,15 +304,20 @@ shape = SubResource("Shape_Transition")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 25.0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Street"]
+visible = false
 mesh = SubResource("Mesh_Street")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Street"]
 shape = SubResource("Shape_Street")
 
+[node name="RoadVisual" parent="Street" instance=ExtResource("8_road")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+
 [node name="SidewalkLeft" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.0, 0.1, 25.0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SidewalkLeft"]
+visible = false
 mesh = SubResource("Mesh_Sidewalk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SidewalkLeft"]
@@ -312,6 +327,7 @@ shape = SubResource("Shape_Sidewalk")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.0, 0.1, 25.0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SidewalkRight"]
+visible = false
 mesh = SubResource("Mesh_Sidewalk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SidewalkRight"]
@@ -321,28 +337,38 @@ shape = SubResource("Shape_Sidewalk")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.0, 10.0, 15.0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Building1"]
+visible = false
 mesh = SubResource("Mesh_Building_1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Building1"]
 shape = SubResource("Shape_Building_1")
 
+[node name="TowerVisual" parent="Building1" instance=ExtResource("5_tower")]
+
 [node name="Building2" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.0, 14.0, 22.0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Building2"]
+visible = false
 mesh = SubResource("Mesh_Building_2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Building2"]
 shape = SubResource("Shape_Building_2")
 
+[node name="TowerVisual" parent="Building2" instance=ExtResource("5_tower")]
+transform = Transform3D(1.0, 0, 0, 0, 1.4, 0, 0, 0, 1.2, 0, 0, 0)
+
 [node name="Building3" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.0, 7.5, 35.0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Building3"]
+visible = false
 mesh = SubResource("Mesh_Building_3")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Building3"]
 shape = SubResource("Shape_Building_3")
+
+[node name="LabVisual" parent="Building3" instance=ExtResource("7_lab")]
 
 [node name="BoundaryLeft" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.2, 4.0, 40.0)
@@ -402,19 +428,25 @@ shape = SubResource("Shape_Debris_2")
 transform = Transform3D(0.965926, 0.258819, 0, -0.250001, 0.933013, 0.258819, 0.0669873, -0.25, 0.965926, 4.5, 1.0, 32.0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Wreckage1"]
+visible = false
 mesh = SubResource("Mesh_Wreck_1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Wreckage1"]
 shape = SubResource("Shape_Wreck_1")
 
+[node name="WreckVisual" parent="Wreckage1" instance=ExtResource("12_car_wreck")]
+
 [node name="Wreckage2" type="StaticBody3D" parent="."]
 transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, 2.0, 0.25, 34.0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Wreckage2"]
+visible = false
 mesh = SubResource("Mesh_Wreck_2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Wreckage2"]
 shape = SubResource("Shape_Wreck_2")
+
+[node name="WreckVisual" parent="Wreckage2" instance=ExtResource("13_drone_wreck")]
 
 [node name="WreckLight" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 2.5, 32.0)
@@ -635,19 +667,27 @@ shape = SubResource("Shape_SurvivorTrigger")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.85, 74.5)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Survivor1"]
+visible = false
 mesh = SubResource("Mesh_Survivor")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Survivor1"]
 shape = SubResource("Shape_Survivor")
 
+[node name="HumanModel" parent="Survivor1" instance=ExtResource("14_hero_model")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.85, 0)
+
 [node name="Survivor2" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.85, 74.5)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Survivor2"]
+visible = false
 mesh = SubResource("Mesh_Survivor")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Survivor2"]
 shape = SubResource("Shape_Survivor")
+
+[node name="HumanModel" parent="Survivor2" instance=ExtResource("14_hero_model")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.85, 0)
 
 [node name="SurvivorDialogue" type="Label3D" parent="Survivor1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
@@ -658,4 +698,16 @@ modulate = Color(0.9, 0.95, 1.0, 1)
 outline_modulate = Color(0, 0.05, 0.1, 1)
 font_size = 36
 horizontal_alignment = 1
+
+[node name="PlazaParkLeft" parent="." instance=ExtResource("9_park")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.0, 0.15, 62.5)
+
+[node name="PlazaParkRight" parent="." instance=ExtResource("9_park")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.0, 0.15, 62.5)
+
+[node name="SkyCargoDrone" parent="." instance=ExtResource("11_drone")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 9.0, 45.0)
+
+[node name="SkyFlyingCar" parent="." instance=ExtResource("10_car")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 8.0, 15.0, 20.0)
 

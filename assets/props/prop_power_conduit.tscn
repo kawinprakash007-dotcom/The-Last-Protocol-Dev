@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Material" path="res://assets/materials/mat_structural_metal.tres" id="1_metal"]
+[ext_resource type="Material" path="res://assets/materials/mat_conduit_pulse.tres" id="2_pulse"]
+[ext_resource type="Material" path="res://assets/materials/mat_accent_cyan.tres" id="3_cyan"]
+[ext_resource type="Material" path="res://assets/materials/mat_hazard_stripe.tres" id="4_hazard"]
+[ext_resource type="PackedScene" path="res://assets/vfx/vfx_conduit_sparks.tscn" id="5_sparks"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_junction_box"]
+material = ExtResource("1_metal")
+size = Vector3(0.65, 0.85, 0.3)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pipe"]
+material = ExtResource("1_metal")
+top_radius = 0.04
+bottom_radius = 0.04
+height = 3.8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_data_pulse"]
+material = ExtResource("2_pulse")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 3.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_hazard_badge"]
+material = ExtResource("4_hazard")
+size = Vector3(0.45, 0.15, 0.02)
+
+[node name="PowerConduit" type="Node3D"]
+
+[node name="JunctionBox" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+mesh = SubResource("BoxMesh_junction_box")
+
+[node name="HazardBadge" type="MeshInstance3D" parent="JunctionBox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.16)
+mesh = SubResource("BoxMesh_hazard_badge")
+
+[node name="StatusLED" type="MeshInstance3D" parent="JunctionBox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18, -0.2, 0.16)
+material_override = ExtResource("3_cyan")
+mesh = SubResource("BoxMesh_hazard_badge")
+
+[node name="PipeLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18, 1.9, -0.05)
+mesh = SubResource("CylinderMesh_pipe")
+
+[node name="PipeCenter" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, -0.02)
+mesh = SubResource("CylinderMesh_data_pulse")
+
+[node name="PipeRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, 1.9, -0.05)
+mesh = SubResource("CylinderMesh_pipe")
+
+[node name="ConduitSparks" parent="." instance=ExtResource("5_sparks")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0.15)

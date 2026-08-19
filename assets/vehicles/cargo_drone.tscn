@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://cargodrone001"]
+
+[ext_resource type="Material" uid="uid://metal_pbr" path="res://assets/materials/mat_metal_pbr.tres" id="1_metal"]
+[ext_resource type="Material" path="res://assets/materials/mat_structural_metal.tres" id="2_structural"]
+[ext_resource type="Material" path="res://assets/materials/mat_accent_green.tres" id="3_green"]
+[ext_resource type="Script" path="res://assets/scripts/drone_animator.gd" id="4_anim"]
+[ext_resource type="Script" path="res://assets/scripts/fan_rotator.gd" id="5_rotor"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_chassis"]
+material = ExtResource("1_metal")
+size = Vector3(1.2, 0.7, 1.5)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_arm"]
+material = ExtResource("2_structural")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_blade"]
+material = ExtResource("2_structural")
+size = Vector3(0.08, 0.02, 1.2)
+
+[node name="CargoDrone" type="Node3D"]
+script = ExtResource("4_anim")
+bob_amplitude = 0.12
+bob_frequency = 1.0
+tilt_amplitude = 0.05
+wander_radius = 0.4
+
+[node name="Chassis" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_chassis")
+
+[node name="ArmFL" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, -0.6, 0.25, -0.6)
+mesh = SubResource("CylinderMesh_arm")
+
+[node name="RotorFL" type="MeshInstance3D" parent="ArmFL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
+mesh = SubResource("BoxMesh_blade")
+script = ExtResource("5_rotor")
+rotate_speed = 15.0
+
+[node name="ArmFR" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.6, 0.25, -0.6)
+mesh = SubResource("CylinderMesh_arm")
+
+[node name="RotorFR" type="MeshInstance3D" parent="ArmFR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
+mesh = SubResource("BoxMesh_blade")
+script = ExtResource("5_rotor")
+rotate_speed = -15.0
+
+[node name="ArmBL" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, -0.6, 0.25, 0.6)
+mesh = SubResource("CylinderMesh_arm")
+
+[node name="RotorBL" type="MeshInstance3D" parent="ArmBL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
+mesh = SubResource("BoxMesh_blade")
+script = ExtResource("5_rotor")
+rotate_speed = -15.0
+
+[node name="ArmBR" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.6, 0.25, 0.6)
+mesh = SubResource("CylinderMesh_arm")
+
+[node name="RotorBR" type="MeshInstance3D" parent="ArmBR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
+mesh = SubResource("BoxMesh_blade")
+script = ExtResource("5_rotor")
+rotate_speed = 15.0
+
+[node name="StatusLED" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0.8)
+light_color = Color(0, 1, 0.2, 1)
+light_energy = 2.0
+omni_range = 1.5
+
+[node name="DownwardBeam" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.4, 0)
+light_color = Color(0.2, 0.8, 1, 1)
+light_energy = 3.5
+spot_range = 12.0
+spot_angle = 35.0

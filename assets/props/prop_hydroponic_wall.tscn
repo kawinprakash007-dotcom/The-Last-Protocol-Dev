@@ -1,0 +1,100 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Material" path="res://assets/materials/mat_structural_metal.tres" id="1_metal"]
+[ext_resource type="Material" path="res://assets/materials/mat_plant_leaf.tres" id="2_leaf"]
+[ext_resource type="Material" path="res://assets/materials/mat_smart_glass.tres" id="3_glass"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_hydro_frame"]
+material = ExtResource("1_metal")
+size = Vector3(2.4, 3.2, 0.45)
+
+[sub_resource type="BoxMesh" id="BoxMesh_planter_bed"]
+material = ExtResource("1_metal")
+size = Vector3(2.2, 0.25, 0.35)
+
+[sub_resource type="PrismMesh" id="PrismMesh_leaf_cluster"]
+material = ExtResource("2_leaf")
+size = Vector3(0.55, 0.65, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_grow_light"]
+albedo_color = Color(1.0, 0.85, 0.7, 1)
+emission_enabled = true
+emission = Color(1.0, 0.85, 0.7, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_grow_light"]
+material = SubResource("StandardMaterial3D_grow_light")
+size = Vector3(2.2, 0.06, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_glass_cover"]
+material = ExtResource("3_glass")
+size = Vector3(2.25, 2.7, 0.05)
+
+[node name="HydroponicWall" type="Node3D"]
+
+[node name="Frame" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+mesh = SubResource("BoxMesh_hydro_frame")
+
+[node name="Tier0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0.05)
+mesh = SubResource("BoxMesh_planter_bed")
+
+[node name="Plants0_A" type="MeshInstance3D" parent="Tier0"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -0.65, 0.25, 0)
+mesh = SubResource("PrismMesh_leaf_cluster")
+
+[node name="Plants0_B" type="MeshInstance3D" parent="Tier0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
+mesh = SubResource("PrismMesh_leaf_cluster")
+
+[node name="Plants0_C" type="MeshInstance3D" parent="Tier0"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 0.65, 0.25, 0)
+mesh = SubResource("PrismMesh_leaf_cluster")
+
+[node name="Tier1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0.05)
+mesh = SubResource("BoxMesh_planter_bed")
+
+[node name="Plants1_A" type="MeshInstance3D" parent="Tier1"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -0.65, 0.25, 0)
+mesh = SubResource("PrismMesh_leaf_cluster")
+
+[node name="Plants1_B" type="MeshInstance3D" parent="Tier1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
+mesh = SubResource("PrismMesh_leaf_cluster")
+
+[node name="Plants1_C" type="MeshInstance3D" parent="Tier1"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 0.65, 0.25, 0)
+mesh = SubResource("PrismMesh_leaf_cluster")
+
+[node name="Tier2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0.05)
+mesh = SubResource("BoxMesh_planter_bed")
+
+[node name="Plants2_A" type="MeshInstance3D" parent="Tier2"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -0.65, 0.25, 0)
+mesh = SubResource("PrismMesh_leaf_cluster")
+
+[node name="Plants2_B" type="MeshInstance3D" parent="Tier2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
+mesh = SubResource("PrismMesh_leaf_cluster")
+
+[node name="Plants2_C" type="MeshInstance3D" parent="Tier2"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 0.65, 0.25, 0)
+mesh = SubResource("PrismMesh_leaf_cluster")
+
+[node name="GrowLight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.95, 0.12)
+mesh = SubResource("BoxMesh_grow_light")
+
+[node name="GrowSpotLight" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2.9, 0.15)
+light_color = Color(1, 0.9, 0.78, 1)
+light_energy = 2.5
+spot_range = 3.5
+spot_angle = 50.0
+
+[node name="GlassFront" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0.21)
+mesh = SubResource("BoxMesh_glass_cover")

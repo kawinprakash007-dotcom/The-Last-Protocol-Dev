@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://metal_pbr"]
+
+[resource]
+resource_name = "MetalPBR"
+albedo_color = Color(0.6, 0.65, 0.7, 1)
+metallic = 1.0
+roughness = 0.25
+clearcoat_enabled = true
+clearcoat_roughness = 0.1
+uv1_scale = Vector3(2, 2, 2)

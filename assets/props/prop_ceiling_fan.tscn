@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Material" path="res://assets/materials/mat_structural_metal.tres" id="1_metal"]
+[ext_resource type="Material" path="res://assets/materials/mat_ceiling_grid.tres" id="2_grid"]
+[ext_resource type="Script" path="res://assets/scripts/fan_rotator.gd" id="3_rotator"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_housing"]
+material = ExtResource("1_metal")
+size = Vector3(1.6, 0.25, 1.6)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_hub"]
+material = ExtResource("2_grid")
+top_radius = 0.18
+bottom_radius = 0.18
+height = 0.15
+
+[sub_resource type="BoxMesh" id="BoxMesh_blade"]
+material = ExtResource("2_grid")
+size = Vector3(0.55, 0.02, 0.14)
+
+[node name="CeilingFan" type="Node3D"]
+
+[node name="Housing" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_housing")
+
+[node name="Rotor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+script = ExtResource("3_rotator")
+rotation_speed = 5.0
+axis = Vector3(0, 1, 0)
+
+[node name="Hub" type="MeshInstance3D" parent="Rotor"]
+mesh = SubResource("CylinderMesh_hub")
+
+[node name="Blade0" type="MeshInstance3D" parent="Rotor"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0.38, 0, 0)
+mesh = SubResource("BoxMesh_blade")
+
+[node name="Blade1" type="MeshInstance3D" parent="Rotor"]
+transform = Transform3D(-0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, -0.258819, 0, 0, 0.38)
+mesh = SubResource("BoxMesh_blade")
+
+[node name="Blade2" type="MeshInstance3D" parent="Rotor"]
+transform = Transform3D(-0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965926, -0.38, 0, 0)
+mesh = SubResource("BoxMesh_blade")
+
+[node name="Blade3" type="MeshInstance3D" parent="Rotor"]
+transform = Transform3D(0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, 0, 0, -0.38)
+mesh = SubResource("BoxMesh_blade")

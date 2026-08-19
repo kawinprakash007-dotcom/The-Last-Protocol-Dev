@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://glass_pbr"]
+
+[resource]
+resource_name = "GlassPBR"
+transparency = 1
+blend_mode = 0
+albedo_color = Color(0.9, 0.95, 1.0, 0.2)
+metallic = 0.1
+roughness = 0.05
+refraction_enabled = true
+refraction_scale = 0.05
