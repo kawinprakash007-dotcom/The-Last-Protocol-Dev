@@ -8,7 +8,7 @@ extends Interactable
 var is_powered: bool = false
 var is_activated: bool = false
 
-@onready var screen_mesh: MeshInstance3D = $ScreenMesh
+@onready var screen_mesh: MeshInstance3D = $TerminalVisual/Terminal_Screen
 @onready var light: OmniLight3D = $OmniLight3D
 
 var _mat_off: StandardMaterial3D

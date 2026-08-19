@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c8y37x0term1"]
 
 [ext_resource type="Script" path="res://terminal.gd" id="1_terminal"]
+[ext_resource type="PackedScene" path="res://assets/environment/terminals/terminal.glb" id="2_visual"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pedestal"]
 albedo_color = Color(0.9, 0.45, 0.1, 1)
@@ -27,13 +28,7 @@ size = Vector3(0.8, 1.6, 0.6)
 collision_layer = 5
 script = ExtResource("1_terminal")
 
-[node name="PedestalMesh" type="MeshInstance3D" parent="." unique_id=987654322]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
-mesh = SubResource("BoxMesh_pedestal")
-
-[node name="ScreenMesh" type="MeshInstance3D" parent="." unique_id=987654323]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1.35, 0.05)
-mesh = SubResource("BoxMesh_screen")
+[node name="TerminalVisual" parent="." instance=ExtResource("2_visual")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=987654324]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
