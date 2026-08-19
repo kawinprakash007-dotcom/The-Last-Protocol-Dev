@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GameState="*res://game_state.gd"
 Mission01="*res://mission_01.gd"
+AudioManager="*res://audio_manager.gd"
 
 [display]
 

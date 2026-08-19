@@ -8,8 +8,13 @@ signal relay_activated(relay_index: int)
 signal comms_online
 signal shelter_lock_released
 signal survivors_rescued
+signal robot_destroyed
+signal entered_data_center
+signal security_threat_detected
 
 var terminal_activated: bool = false
+var data_center_entered: bool = false
+var threat_detected: bool = false
 var power_restored: bool = false
 var power_sequence_index: int = 0
 var comms_activated: bool = false
@@ -22,6 +27,18 @@ func activate_terminal() -> void:
 	terminal_activated = true
 	print("GAME STATE: TERMINAL ACTIVATED")
 	emit_signal("terminal_online")
+
+func enter_data_center() -> void:
+	if data_center_entered: return
+	data_center_entered = true
+	print("GAME STATE: ENTERED DATA CENTER")
+	emit_signal("entered_data_center")
+
+func trigger_security_threat() -> void:
+	if threat_detected: return
+	threat_detected = true
+	print("GAME STATE: SECURITY THREAT DETECTED")
+	emit_signal("security_threat_detected")
 
 func advance_power_sequence(expected_index: int) -> bool:
 	if power_restored:
@@ -67,3 +84,7 @@ func complete_rescue() -> void:
 	rescue_complete = true
 	print("GAME STATE: SURVIVORS RESCUED")
 	emit_signal("survivors_rescued")
+
+func trigger_robot_destroyed() -> void:
+	print("GAME STATE: ROBOT DESTROYED")
+	emit_signal("robot_destroyed")

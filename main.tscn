@@ -4,7 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://bc7urnx4wmrwt" path="res://room_01.tscn" id="2_room01"]
 [ext_resource type="PackedScene" uid="uid://room02scene" path="res://room_02.tscn" id="3_room02"]
 [ext_resource type="PackedScene" uid="uid://ct33t37vogu0r" path="res://sector_04.tscn" id="4_sector04"]
-[ext_resource type="PackedScene" uid="uid://c5en3ueyr4q1m" path="res://assets/characters/hero_model.tscn" id="5_hero"]
+[ext_resource type="PackedScene" uid="uid://arenadatacenter001" path="res://arena_data_center.tscn" id="5_arena"]
+[ext_resource type="PackedScene" uid="uid://c5en3ueyr4q1m" path="res://assets/characters/hero_model.tscn" id="6_hero"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_main"]
 
@@ -63,6 +64,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1, 0, 17.2)
 [node name="Sector04" parent="." unique_id=1262584685 instance=ExtResource("4_sector04")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1, 0, 37.3)
 
+[node name="ArenaDataCenter" parent="." unique_id=888888888 instance=ExtResource("5_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, 0)
+
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1730796894]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("1_player")
@@ -79,7 +83,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, -0.35)
 visible = false
 mesh = SubResource("BoxMesh_visor")
 
-[node name="HeroModel" parent="Player" unique_id=1279030939 instance=ExtResource("5_hero")]
+[node name="HeroModel" parent="Player" unique_id=1279030939 instance=ExtResource("6_hero")]
 
 [node name="SpringArm3D" type="SpringArm3D" parent="Player" unique_id=1987654321]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)

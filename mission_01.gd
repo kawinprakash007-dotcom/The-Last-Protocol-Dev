@@ -121,7 +121,7 @@ func trigger_player_caught() -> void:
 	
 	# Teleport player to checkpoint
 	if player and player.has_method("reset_to_position"):
-		player.reset_to_position(Vector3(4.1, 1.0, 39.8), PI)
+		player.reset_to_position(Vector3(4.1, 1.0, 18.0), 0)
 		
 	# Reset security robots
 	var robots = get_tree().get_nodes_in_group("security_robots")
@@ -144,12 +144,15 @@ func trigger_player_caught() -> void:
 
 func _connect_signals() -> void:
 	GameState.terminal_online.connect(_on_terminal_online)
+	GameState.entered_data_center.connect(_on_entered_data_center)
 	GameState.relay_activated.connect(_on_relay_activated)
 	GameState.power_puzzle_reset.connect(_on_puzzle_reset)
 	GameState.power_system_online.connect(_on_power_online)
+	GameState.security_threat_detected.connect(_on_security_threat_detected)
 	GameState.comms_online.connect(_on_comms_online)
 	GameState.shelter_lock_released.connect(_on_shelter_unlocked)
 	GameState.survivors_rescued.connect(_on_survivors_rescued)
+	GameState.robot_destroyed.connect(_on_robot_destroyed)
 
 # ── Narrative Beats ───────────────────────────────────────────────
 
@@ -169,10 +172,18 @@ func _on_terminal_online() -> void:
 	await get_tree().create_timer(0.6).timeout
 	_log("COMMS REQUIRE AUXILIARY POWER")
 	await get_tree().create_timer(0.5).timeout
-	_log("POWER RELAY GRID: SECTOR 02 — ACCESSIBLE")
-	_set_objective("RESTORE AUXILIARY POWER")
-	await get_tree().create_timer(1.0).timeout
-	_log("BULKHEAD UNLOCKED — SECTOR 02 ACCESS GRANTED")
+	_log("ROUTING TO DATA CENTER RELAYS...")
+	_set_objective("ENTER DATA CENTER")
+
+func _on_entered_data_center() -> void:
+	_log("DATA CENTER: ACCESSED")
+	await get_tree().create_timer(0.8).timeout
+	_set_objective("RESTORE / REROUTE POWER")
+
+func _on_security_threat_detected() -> void:
+	_log("WARNING: AUTONOMOUS SECURITY UNIT ACTIVE")
+	await get_tree().create_timer(0.5).timeout
+	_set_objective("DISABLE SECURITY SYSTEM")
 
 func _on_relay_activated(relay_index: int) -> void:
 	var relay_names := ["ALPHA", "BETA", "GAMMA"]
@@ -224,6 +235,13 @@ func _on_survivors_rescued() -> void:
 	_log("SURVIVOR: \"YOU HAVE TO FIND THE CONTROL NETWORK.\"")
 	await get_tree().create_timer(1.0).timeout
 	_set_objective("FIND THE AUTONOMOUS CONTROL NETWORK")
+
+func _on_robot_destroyed() -> void:
+	print("[MISSION] Combat encounter completed")
+	_log("THREAT NEUTRALIZED.")
+	await get_tree().create_timer(1.5).timeout
+	print("[MISSION] Objective updated")
+	_set_objective("REACH SECTOR 04")
 
 func shelter_console_log(msg: String) -> void:
 	_log(msg)

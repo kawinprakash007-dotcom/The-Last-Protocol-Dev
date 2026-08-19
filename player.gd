@@ -9,15 +9,48 @@ extends CharacterBody3D
 
 var is_control_disabled: bool = false
 
+var health: int = 100
+var weapon_cooldown: float = 0.0
+var _damage_overlay: ColorRect
+var _health_label: Label
+
 # Temporary debug visualization for interaction ray
 var _debug_mesh_instance: MeshInstance3D
 var _immediate_mesh: ImmediateMesh
 var _debug_material: StandardMaterial3D
 
 func _ready() -> void:
+	add_to_group("player")
+	collision_layer = 4 # Layer 3 is bit 2 (1 << 2 = 4)
+	collision_mask = 3  # Layer 1 (Env) + Layer 2 (Robot)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	_ensure_input_map()
 	_setup_debug_ray()
+	_setup_damage_overlay()
+
+func _setup_damage_overlay() -> void:
+	_damage_overlay = ColorRect.new()
+	_damage_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_damage_overlay.color = Color(1.0, 0.0, 0.0, 0.0)
+	_damage_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	
+	_health_label = Label.new()
+	_health_label.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
+	_health_label.offset_left = 20
+	_health_label.offset_bottom = -20
+	_health_label.add_theme_font_size_override("font_size", 32)
+	_health_label.add_theme_color_override("font_color", Color.GREEN_YELLOW)
+	_update_health_ui()
+	
+	var canvas = CanvasLayer.new()
+	canvas.layer = 5
+	add_child(canvas)
+	canvas.add_child(_damage_overlay)
+	canvas.add_child(_health_label)
+
+func _update_health_ui() -> void:
+	if _health_label:
+		_health_label.text = "HP: " + str(health)
 
 func _setup_debug_ray() -> void:
 	_debug_mesh_instance = MeshInstance3D.new()
@@ -31,8 +64,15 @@ func _setup_debug_ray() -> void:
 	_debug_mesh_instance.material_override = _debug_material
 	add_child(_debug_mesh_instance)
 
-func _process(_delta: float) -> void:
-	_update_debug_ray()
+func _process(delta: float) -> void:
+	if weapon_cooldown > 0:
+		weapon_cooldown -= delta
+		
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		if weapon_cooldown <= 0:
+			print("[COMBAT DEBUG]\nPlayer fire input received")
+			print("[COMBAT] Fire input detected")
+			_fire_weapon()
 
 func _update_debug_ray() -> void:
 	if not camera or not _immediate_mesh:
@@ -115,8 +155,56 @@ func reset_to_position(pos: Vector3, rot_y: float) -> void:
 	global_position = pos
 	global_rotation.y = rot_y
 	velocity = Vector3.ZERO
+	health = 100
+	_update_health_ui()
 	if spring_arm:
 		spring_arm.rotation = Vector3.ZERO
+
+func take_damage(amount: int) -> void:
+	health -= amount
+	_update_health_ui()
+	print("[COMBAT] Player took damage: ", amount, " | HP: ", health)
+	if _damage_overlay:
+		_damage_overlay.color = Color(1.0, 0.0, 0.0, 0.4)
+		var tw = create_tween()
+		tw.tween_property(_damage_overlay, "color", Color(1.0, 0.0, 0.0, 0.0), 0.3)
+	if health <= 0:
+		if Mission01.has_method("trigger_player_caught"):
+			Mission01.trigger_player_caught()
+
+func _is_robot_collider(collider) -> bool:
+	if not collider: return false
+	var curr = collider
+	while curr:
+		if curr.is_in_group("security_robots"):
+			return true
+		curr = curr.get_parent()
+	return false
+
+func _fire_weapon() -> void:
+	if weapon_cooldown > 0 or is_control_disabled:
+		return
+	weapon_cooldown = 0.5
+	print("[COMBAT] Player fired")
+	
+	if not camera: return
+	var space_state := get_world_3d().direct_space_state
+	var ray_origin := camera.global_position
+	var ray_end := ray_origin - camera.global_transform.basis.z * 50.0
+	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
+	query.collision_mask = 3 # Layer 1 (Env) + Layer 2 (Security Robot)
+	query.exclude = [get_rid()]
+	var result := space_state.intersect_ray(query)
+	
+	if result and result.has("collider"):
+		var collider = result["collider"]
+		print("[COMBAT DEBUG] Player weapon ray hit: ", collider.name)
+		if _is_robot_collider(collider):
+			print("[COMBAT] Player weapon hit: SecurityRobot")
+			if collider.has_method("take_damage"):
+				collider.take_damage(1)
+	else:
+		print("[COMBAT DEBUG] Player weapon ray hit: NONE")
 
 func _try_interact() -> void:
 	print("E INTERACTION FUNCTION CALLED")
@@ -150,3 +238,9 @@ func _ensure_input_map() -> void:
 			var key_event := InputEventKey.new()
 			key_event.physical_keycode = required_actions[action]
 			InputMap.action_add_event(action, key_event)
+			
+	if not InputMap.has_action("fire"):
+		InputMap.add_action("fire")
+		var mouse_event := InputEventMouseButton.new()
+		mouse_event.button_index = MOUSE_BUTTON_LEFT
+		InputMap.action_add_event("fire", mouse_event)
