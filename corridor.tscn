@@ -1,109 +1,288 @@
-[gd_scene format=3 uid="uid://corridorblockout"]
+[gd_scene load_steps=20 format=3 uid="uid://r5v47enrx1pv"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+[ext_resource type="PackedScene" path="res://security_robot.tscn" id="1_robot"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_AccessFloor"]
 albedo_color = Color(0.12, 0.14, 0.17, 1)
 roughness = 0.95
-metallic = 0.1
 
-[sub_resource type="BoxMesh" id="BoxMesh_floor"]
-material = SubResource("StandardMaterial3D_floor")
-size = Vector3(4, 0.2, 12)
+[sub_resource type="BoxMesh" id="Mesh_AccessFloor"]
+material = SubResource("Mat_AccessFloor")
+size = Vector3(4, 0.2, 15)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
-size = Vector3(4, 0.2, 12)
+[sub_resource type="BoxShape3D" id="Shape_AccessFloor"]
+size = Vector3(4, 0.2, 15)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wall"]
-albedo_color = Color(0.25, 0.27, 0.3, 1)
-roughness = 0.8
-metallic = 0.05
+[sub_resource type="BoxMesh" id="Mesh_AccessWall"]
+material = SubResource("Mat_AccessFloor")
+size = Vector3(0.2, 4.2, 15)
 
-[sub_resource type="BoxMesh" id="BoxMesh_wall_side"]
-material = SubResource("StandardMaterial3D_wall")
-size = Vector3(0.2, 4.2, 12)
+[sub_resource type="BoxShape3D" id="Shape_AccessWall"]
+size = Vector3(0.2, 4.2, 15)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_wall_side"]
-size = Vector3(0.2, 4.2, 12)
+[sub_resource type="StandardMaterial3D" id="Mat_Road"]
+albedo_color = Color(0.2, 0.2, 0.2, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_wall_end"]
-material = SubResource("StandardMaterial3D_wall")
-size = Vector3(4.4, 4.2, 0.2)
+[sub_resource type="BoxMesh" id="Mesh_Road"]
+material = SubResource("Mat_Road")
+size = Vector3(12, 0.2, 25)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_wall_end"]
-size = Vector3(4.4, 4.2, 0.2)
+[sub_resource type="BoxShape3D" id="Shape_Road"]
+size = Vector3(12, 0.2, 25)
 
-[sub_resource type="BoxMesh" id="BoxMesh_wall_header"]
-material = SubResource("StandardMaterial3D_wall")
-size = Vector3(1.0, 2.0, 0.2)
+[sub_resource type="BoxMesh" id="Mesh_RoadWall"]
+material = SubResource("Mat_AccessFloor")
+size = Vector3(0.2, 8, 25)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_wall_header"]
-size = Vector3(1.0, 2.0, 0.2)
+[sub_resource type="BoxShape3D" id="Shape_RoadWall"]
+size = Vector3(0.2, 8, 25)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ceiling"]
-albedo_color = Color(0.18, 0.2, 0.23, 1)
-roughness = 0.85
+[sub_resource type="StandardMaterial3D" id="Mat_Patrol"]
+albedo_color = Color(0.15, 0.15, 0.15, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_ceiling"]
-material = SubResource("StandardMaterial3D_ceiling")
-size = Vector3(4, 0.2, 12)
+[sub_resource type="BoxMesh" id="Mesh_Patrol"]
+material = SubResource("Mat_Patrol")
+size = Vector3(16, 0.2, 30)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ceiling"]
-size = Vector3(4, 0.2, 12)
+[sub_resource type="BoxShape3D" id="Shape_Patrol"]
+size = Vector3(16, 0.2, 30)
+
+[sub_resource type="BoxMesh" id="Mesh_PatrolWall"]
+material = SubResource("Mat_AccessFloor")
+size = Vector3(0.2, 8, 30)
+
+[sub_resource type="BoxShape3D" id="Shape_PatrolWall"]
+size = Vector3(0.2, 8, 30)
+
+[sub_resource type="StandardMaterial3D" id="Mat_ShelterApp"]
+albedo_color = Color(0.25, 0.25, 0.25, 1)
+
+[sub_resource type="BoxMesh" id="Mesh_ShelterApp"]
+material = SubResource("Mat_ShelterApp")
+size = Vector3(16, 0.2, 20)
+
+[sub_resource type="BoxShape3D" id="Shape_ShelterApp"]
+size = Vector3(16, 0.2, 20)
+
+[sub_resource type="BoxMesh" id="Mesh_ShelterAppWall"]
+material = SubResource("Mat_ShelterApp")
+size = Vector3(6, 4.2, 20)
+
+[sub_resource type="BoxShape3D" id="Shape_ShelterAppWall"]
+size = Vector3(6, 4.2, 20)
+
+[sub_resource type="BoxMesh" id="Mesh_Rubble"]
+albedo_color = Color(0.4, 0.3, 0.2, 1)
+size = Vector3(3, 2, 3)
+
+[sub_resource type="BoxShape3D" id="Shape_Rubble"]
+size = Vector3(3, 2, 3)
+
+[sub_resource type="BoxMesh" id="Mesh_Car"]
+albedo_color = Color(0.6, 0.1, 0.1, 1)
+size = Vector3(2, 1.5, 4)
+
+[sub_resource type="BoxShape3D" id="Shape_Car"]
+size = Vector3(2, 1.5, 4)
 
 [node name="Corridor" type="Node3D" unique_id=742816800]
 
-[node name="Floor" type="StaticBody3D" parent="." unique_id=200000010]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 1.2)
+[node name="Zone0_Access" type="Node3D" parent="."]
+[node name="Floor" type="StaticBody3D" parent="Zone0_Access"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 7.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone0_Access/Floor"]
+mesh = SubResource("Mesh_AccessFloor")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone0_Access/Floor"]
+shape = SubResource("Shape_AccessFloor")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=200000011]
-mesh = SubResource("BoxMesh_floor")
+[node name="Ceiling" type="StaticBody3D" parent="Zone0_Access"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.1, 7.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone0_Access/Ceiling"]
+mesh = SubResource("Mesh_AccessFloor")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone0_Access/Ceiling"]
+shape = SubResource("Shape_AccessFloor")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=200000012]
-shape = SubResource("BoxShape3D_floor")
+[node name="WallLeft" type="StaticBody3D" parent="Zone0_Access"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 2, 7.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone0_Access/WallLeft"]
+mesh = SubResource("Mesh_AccessWall")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone0_Access/WallLeft"]
+shape = SubResource("Shape_AccessWall")
 
-[node name="Ceiling" type="StaticBody3D" parent="." unique_id=200000020]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.1, 1.2)
+[node name="WallRight" type="StaticBody3D" parent="Zone0_Access"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 2, 7.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone0_Access/WallRight"]
+mesh = SubResource("Mesh_AccessWall")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone0_Access/WallRight"]
+shape = SubResource("Shape_AccessWall")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ceiling" unique_id=200000021]
-mesh = SubResource("BoxMesh_ceiling")
+[node name="Zone1_Road" type="Node3D" parent="."]
+[node name="Floor" type="StaticBody3D" parent="Zone1_Road"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 27.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone1_Road/Floor"]
+mesh = SubResource("Mesh_Road")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone1_Road/Floor"]
+shape = SubResource("Shape_Road")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceiling" unique_id=200000022]
-shape = SubResource("BoxShape3D_ceiling")
+[node name="WallLeft" type="StaticBody3D" parent="Zone1_Road"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.1, 4, 27.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone1_Road/WallLeft"]
+mesh = SubResource("Mesh_RoadWall")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone1_Road/WallLeft"]
+shape = SubResource("Shape_RoadWall")
 
-[node name="WallLeft" type="StaticBody3D" parent="." unique_id=200000040]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 2, 1.2)
+[node name="WallRight" type="StaticBody3D" parent="Zone1_Road"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.1, 4, 27.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone1_Road/WallRight"]
+mesh = SubResource("Mesh_RoadWall")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone1_Road/WallRight"]
+shape = SubResource("Shape_RoadWall")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WallLeft" unique_id=200000041]
-mesh = SubResource("BoxMesh_wall_side")
+[node name="Car1" type="StaticBody3D" parent="Zone1_Road"]
+transform = Transform3D(0.866, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866, -3, 0.75, 25)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone1_Road/Car1"]
+mesh = SubResource("Mesh_Car")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone1_Road/Car1"]
+shape = SubResource("Shape_Car")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WallLeft" unique_id=200000042]
-shape = SubResource("BoxShape3D_wall_side")
+[node name="Car2" type="StaticBody3D" parent="Zone1_Road"]
+transform = Transform3D(0.965, 0, -0.258, 0, 1, 0, 0.258, 0, 0.965, 3.5, 0.75, 33)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone1_Road/Car2"]
+mesh = SubResource("Mesh_Car")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone1_Road/Car2"]
+shape = SubResource("Shape_Car")
 
-[node name="WallRight" type="StaticBody3D" parent="." unique_id=200000050]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 2, 1.2)
+[node name="Zone2_Patrol" type="Node3D" parent="."]
+[node name="Floor" type="StaticBody3D" parent="Zone2_Patrol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 55)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone2_Patrol/Floor"]
+mesh = SubResource("Mesh_Patrol")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone2_Patrol/Floor"]
+shape = SubResource("Shape_Patrol")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WallRight" unique_id=200000051]
-mesh = SubResource("BoxMesh_wall_side")
+[node name="WallLeft" type="StaticBody3D" parent="Zone2_Patrol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.1, 4, 55)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone2_Patrol/WallLeft"]
+mesh = SubResource("Mesh_PatrolWall")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone2_Patrol/WallLeft"]
+shape = SubResource("Shape_PatrolWall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WallRight" unique_id=200000052]
-shape = SubResource("BoxShape3D_wall_side")
+[node name="WallRight" type="StaticBody3D" parent="Zone2_Patrol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.1, 4, 55)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone2_Patrol/WallRight"]
+mesh = SubResource("Mesh_PatrolWall")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone2_Patrol/WallRight"]
+shape = SubResource("Shape_PatrolWall")
 
-[node name="Light1" type="OmniLight3D" parent="." unique_id=200000080]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6, 0)
-light_color = Color(0.8, 0.9, 1.0, 1)
-light_energy = 1.0
-omni_range = 8.0
+[node name="Rubble1" type="StaticBody3D" parent="Zone2_Patrol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, 48)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone2_Patrol/Rubble1"]
+mesh = SubResource("Mesh_Rubble")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone2_Patrol/Rubble1"]
+shape = SubResource("Shape_Rubble")
 
-[node name="Light2" type="OmniLight3D" parent="." unique_id=200000090]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6, 5.0)
-light_color = Color(0.8, 0.9, 1.0, 1)
-light_energy = 1.0
-omni_range = 8.0
+[node name="Rubble2" type="StaticBody3D" parent="Zone2_Patrol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, 57)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone2_Patrol/Rubble2"]
+mesh = SubResource("Mesh_Rubble")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone2_Patrol/Rubble2"]
+shape = SubResource("Shape_Rubble")
 
-[node name="HeaderWall" type="StaticBody3D" parent="." unique_id=200000070]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.0, -4.9)
+[node name="Rubble3" type="StaticBody3D" parent="Zone2_Patrol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 65)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone2_Patrol/Rubble3"]
+mesh = SubResource("Mesh_Rubble")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone2_Patrol/Rubble3"]
+shape = SubResource("Shape_Rubble")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="HeaderWall" unique_id=200000071]
-mesh = SubResource("BoxMesh_wall_header")
+[node name="Zone3_ShelterApp" type="Node3D" parent="."]
+[node name="Floor" type="StaticBody3D" parent="Zone3_ShelterApp"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 80)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone3_ShelterApp/Floor"]
+mesh = SubResource("Mesh_ShelterApp")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone3_ShelterApp/Floor"]
+shape = SubResource("Shape_ShelterApp")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="HeaderWall" unique_id=200000072]
-shape = SubResource("BoxShape3D_wall_header")
+[node name="Ceiling" type="StaticBody3D" parent="Zone3_ShelterApp"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.1, 80)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone3_ShelterApp/Ceiling"]
+mesh = SubResource("Mesh_ShelterApp")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone3_ShelterApp/Ceiling"]
+shape = SubResource("Shape_ShelterApp")
+
+[node name="WallLeft" type="StaticBody3D" parent="Zone3_ShelterApp"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.1, 2, 80)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone3_ShelterApp/WallLeft"]
+mesh = SubResource("Mesh_ShelterAppWall")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone3_ShelterApp/WallLeft"]
+shape = SubResource("Shape_ShelterAppWall")
+
+[node name="WallRight" type="StaticBody3D" parent="Zone3_ShelterApp"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.1, 2, 80)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Zone3_ShelterApp/WallRight"]
+mesh = SubResource("Mesh_ShelterAppWall")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone3_ShelterApp/WallRight"]
+shape = SubResource("Shape_ShelterAppWall")
+
+[node name="PatrolPoints" type="Node3D" parent="."]
+
+[node name="R1_P1" type="Marker3D" parent="PatrolPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.5)
+[node name="R1_P2" type="Marker3D" parent="PatrolPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12.0)
+
+[node name="R2_P1" type="Marker3D" parent="PatrolPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 20)
+[node name="R2_P2" type="Marker3D" parent="PatrolPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 35)
+
+[node name="R3_P1" type="Marker3D" parent="PatrolPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 30)
+[node name="R3_P2" type="Marker3D" parent="PatrolPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 20)
+
+[node name="R4_P1" type="Marker3D" parent="PatrolPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 42)
+[node name="R4_P2" type="Marker3D" parent="PatrolPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 48)
+[node name="R4_P3" type="Marker3D" parent="PatrolPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 53)
+
+[node name="R5_P1" type="Marker3D" parent="PatrolPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 53)
+[node name="R5_P2" type="Marker3D" parent="PatrolPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 60)
+[node name="R5_P3" type="Marker3D" parent="PatrolPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 68)
+
+[node name="R6_P1" type="Marker3D" parent="PatrolPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 75)
+[node name="R6_P2" type="Marker3D" parent="PatrolPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 80)
+[node name="R6_P3" type="Marker3D" parent="PatrolPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 85)
+
+[node name="SecurityRobot_01" parent="." instance=ExtResource("1_robot")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.5)
+patrol_points = Array[NodePath]([NodePath("../PatrolPoints/R1_P1"), NodePath("../PatrolPoints/R1_P2")])
+
+[node name="SecurityRobot_02" parent="." instance=ExtResource("1_robot")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 20)
+patrol_points = Array[NodePath]([NodePath("../PatrolPoints/R2_P1"), NodePath("../PatrolPoints/R2_P2")])
+
+[node name="SecurityRobot_03" parent="." instance=ExtResource("1_robot")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 30)
+patrol_points = Array[NodePath]([NodePath("../PatrolPoints/R3_P1"), NodePath("../PatrolPoints/R3_P2")])
+
+[node name="SecurityRobot_04" parent="." instance=ExtResource("1_robot")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 42)
+patrol_points = Array[NodePath]([NodePath("../PatrolPoints/R4_P1"), NodePath("../PatrolPoints/R4_P2"), NodePath("../PatrolPoints/R4_P3")])
+
+[node name="SecurityRobot_05" parent="." instance=ExtResource("1_robot")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 53)
+patrol_points = Array[NodePath]([NodePath("../PatrolPoints/R5_P1"), NodePath("../PatrolPoints/R5_P2"), NodePath("../PatrolPoints/R5_P3")])
+
+[node name="SecurityRobot_06" parent="." instance=ExtResource("1_robot")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 75)
+patrol_points = Array[NodePath]([NodePath("../PatrolPoints/R6_P1"), NodePath("../PatrolPoints/R6_P2"), NodePath("../PatrolPoints/R6_P3")])
+
