@@ -351,6 +351,11 @@ func _show_ending_ui() -> void:
 	sub.autowrap_mode = TextServer.AUTOWRAP_OFF
 	sub.clip_text = false
 	vbox.add_child(sub)
+	
+	# Wait for player to read the ending text, then start the post-credit sequence
+	await get_tree().create_timer(5.0).timeout
+	if CutsceneManager.has_method("play_cutscene"):
+		CutsceneManager.play_cutscene("res://post_credit/post_credit.tscn")
 
 # ── HUD Utilities ─────────────────────────────────────────────────
 
