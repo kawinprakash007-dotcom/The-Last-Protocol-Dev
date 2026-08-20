@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="DialogueSpeakerStyle" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://story/ui/dialogue_speaker_style.gd" id="1_style"]
+
+[resource]
+script = ExtResource("1_style")
+speaker_id = "RADIO"
+display_name = "RADIO"
+text_color = Color(0.72, 0.91, 1, 1)
+speaker_color = Color(0.42, 0.82, 1, 1)
+panel_color = Color(0.025, 0.045, 0.06, 0.9)
+border_color = Color(0.24, 0.62, 0.86, 0.68)
+accent_color = Color(0.2, 0.74, 1, 1)
+typing_speed = 46.0
+sound_key = "ui_dialogue_radio_tick"
+signal_effect = "radio"
+glitch_amount = 0.14

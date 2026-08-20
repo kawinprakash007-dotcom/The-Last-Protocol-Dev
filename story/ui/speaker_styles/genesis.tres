@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="DialogueSpeakerStyle" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://story/ui/dialogue_speaker_style.gd" id="1_style"]
+
+[resource]
+script = ExtResource("1_style")
+speaker_id = "GENESIS"
+display_name = "GENESIS"
+text_color = Color(0.78, 0.95, 0.82, 1)
+speaker_color = Color(0.5, 0.95, 0.62, 1)
+panel_color = Color(0.025, 0.045, 0.04, 0.9)
+border_color = Color(0.28, 0.75, 0.45, 0.68)
+accent_color = Color(0.42, 0.95, 0.58, 1)
+typing_speed = 52.0
+sound_key = "ui_dialogue_genesis_tick"
+signal_effect = "diagnostic"
+glitch_amount = 0.08

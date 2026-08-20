@@ -1,0 +1,76 @@
+[gd_scene format=3]
+
+[sub_resource type="Shader" id="Shader_pmsgd"]
+code = "
+shader_type canvas_item;
+uniform float speed : hint_range(0.1, 5.0) = 1.5;
+uniform float line_density : hint_range(10.0, 200.0) = 80.0;
+uniform float line_opacity : hint_range(0.0, 1.0) = 0.08;
+void fragment() {
+	float line = mod(UV.y * line_density - TIME * speed, 1.0);
+	float alpha = smoothstep(0.0, 0.05, line) * (1.0 - smoothstep(0.95, 1.0, line));
+	COLOR = texture(TEXTURE, UV);
+	COLOR.a *= mix(1.0 - line_opacity, 1.0, 1.0 - alpha);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_021tj"]
+shader = SubResource("Shader_pmsgd")
+shader_parameter/speed = null
+shader_parameter/line_density = null
+shader_parameter/line_opacity = null
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bux46"]
+bg_color = Color(0, 0.12, 0.22, 0.78)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0.67, 1, 0.35)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="HolographicTerminal" type="Control" unique_id=699489129]
+custom_minimum_size = Vector2(300, 220)
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=124111148]
+material = SubResource("ShaderMaterial_021tj")
+custom_minimum_size = Vector2(300, 220)
+layout_mode = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bux46")
+
+[node name="@VBoxContainer@35" type="VBoxContainer" parent="Panel" unique_id=1948068231]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="@ColorRect@36" type="ColorRect" parent="Panel/@VBoxContainer@35" unique_id=1781129732]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0, 0.67, 1, 0.18)
+
+[node name="Header" type="Label" parent="Panel/@VBoxContainer@35/@ColorRect@36" unique_id=1060538364]
+layout_mode = 0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_right = 217.0
+offset_bottom = 11.5
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0, 0.67, 1, 1)
+text = "▸ HOLOGRAPHIC TERMINAL"
+
+[node name="DataStream" type="Label" parent="Panel/@VBoxContainer@35" unique_id=647940798]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.5, 1, 0.7, 0.85)
+text = "INIT SEQUENCE...
+LOADING NEURAL PROTOCOLS...
+SYNC: 0001 0110 1001 0101
+ACCESS: GRANTED
+STATUS: OPERATIONAL"
+autowrap_mode = 3

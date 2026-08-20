@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_axvm5"]
+direction = Vector3(0, 1, 0)
+spread = 90.0
+initial_velocity_min = 1.5
+initial_velocity_max = 4.0
+damping_min = 2.0
+damping_max = 5.0
+scale_min = 0.05
+scale_max = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_moc68"]
+shading_mode = 0
+albedo_color = Color(1, 0.8, 0.4, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_1e3vp"]
+material = SubResource("StandardMaterial3D_moc68")
+
+[node name="SmallSparkBurst" type="GPUParticles3D" unique_id=1545284921]
+amount = 10
+lifetime = 0.25
+one_shot = true
+explosiveness = 0.95
+process_material = SubResource("ParticleProcessMaterial_axvm5")
+draw_pass_1 = SubResource("QuadMesh_1e3vp")

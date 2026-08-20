@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://story/cinematics/environments/base_city.tscn" id="1_gaeii"]
+[ext_resource type="Script" path="res://story/scripts/city_state_manager.gd" id="2_0ax2f"]
+
+[node name="CityPreview" type="Node3D" unique_id=1482383875]
+
+[node name="CityEnvironment" type="Node3D" parent="." unique_id=734607027 instance=ExtResource("1_gaeii")]
+script = ExtResource("2_0ax2f")
+
+[node name="Cameras" type="Node3D" parent="." unique_id=955302056]
+
+[node name="Cam_CityWide" type="Camera3D" parent="Cameras" unique_id=626189277]
+transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 50, 100)

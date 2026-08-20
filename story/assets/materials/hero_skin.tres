@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://story/assets/characters/hero/Standing W_Briefcase Idle_0.png" id="1_ldttn"]
+[ext_resource type="Texture2D" path="res://story/assets/characters/hero/Standing W_Briefcase Idle_3.png" id="2_5qynv"]
+[ext_resource type="Texture2D" path="res://story/assets/characters/hero/Standing W_Briefcase Idle_2.png" id="3_c66vt"]
+
+[resource]
+resource_name = "hero_skin"
+albedo_texture = ExtResource("1_ldttn")
+roughness = 0.8
+roughness_texture = ExtResource("3_c66vt")
+normal_enabled = true
+normal_texture = ExtResource("2_5qynv")
+subsurf_scatter_enabled = true
+subsurf_scatter_strength = 0.2

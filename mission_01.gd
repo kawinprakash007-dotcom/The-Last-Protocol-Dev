@@ -19,6 +19,18 @@ var _is_final_objective_set: bool = false
 func _ready() -> void:
 	_create_hud()
 	_connect_signals()
+	
+	_start_mission.call_deferred()
+
+func _start_mission() -> void:
+	# Wait until the main scene is loaded and the player is ready
+	while not get_tree().get_first_node_in_group("player"):
+		await get_tree().process_frame
+		
+	if CutsceneManager.has_method("play_cutscene"):
+		CutsceneManager.play_cutscene("res://story/ui/story_intro.tscn")
+		await CutsceneManager.cutscene_finished
+		
 	_boot_sequence()
 
 # ── HUD Construction ──────────────────────────────────────────────

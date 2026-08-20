@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="DialogueSpeakerStyle" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://story/ui/dialogue_speaker_style.gd" id="1_style"]
+
+[resource]
+script = ExtResource("1_style")
+speaker_id = "NARRATION"
+display_name = ""
+text_color = Color(0.86, 0.87, 0.86, 1)
+speaker_color = Color(0.7, 0.72, 0.72, 1)
+panel_color = Color(0.035, 0.038, 0.04, 0.86)
+border_color = Color(0.42, 0.45, 0.45, 0.55)
+accent_color = Color(0.64, 0.66, 0.66, 1)
+typing_speed = 36.0
+sound_key = "ui_dialogue_narration_tick"
+signal_effect = "neutral"
+glitch_amount = 0.0

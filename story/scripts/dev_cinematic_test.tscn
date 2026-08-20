@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://story/scripts/dev_cinematic_test.gd" id="1_test"]
+[ext_resource type="Script" path="res://story/scripts/cinematic_camera_controller.gd" id="2_camera_controller"]
+[ext_resource type="PackedScene" path="res://story/ui/cinematic_fade.tscn" id="3_fade"]
+[ext_resource type="PackedScene" path="res://story/ui/dialogue_ui.tscn" id="4_dialogue_ui"]
+
+[node name="DevCinematicTest" type="Node3D"]
+script = ExtResource("1_test")
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="GameplayCamera" type="Camera3D" parent="." groups=["gameplay_camera"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+current = true
+
+[node name="CinematicCamera" type="Camera3D" parent="." groups=["cinematic_camera"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -160, 0, -90)
+
+[node name="CinematicCameraController" type="Node" parent="."]
+script = ExtResource("2_camera_controller")
+gameplay_camera_path = NodePath("../GameplayCamera")
+cinematic_camera_path = NodePath("../CinematicCamera")
+
+[node name="CinematicMarkers" type="Node3D" parent="."]
+
+[node name="Shot_02" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.980067, 0, -0.198669, 0, 1, 0, 0.198669, 0, 0.980067, 140, 0, 40)
+
+[node name="LookTarget" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 260, 0, 40)
+
+[node name="CinematicFade" parent="." instance=ExtResource("3_fade")]
+
+[node name="DialogueUI" parent="." instance=ExtResource("4_dialogue_ui")]
+presentation_mode = 1
+
+[node name="VideoLayer" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="VideoLayer" groups=["cinematic_video_player"]]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand = true
+

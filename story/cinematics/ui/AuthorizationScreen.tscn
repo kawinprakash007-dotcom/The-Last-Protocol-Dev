@@ -1,0 +1,271 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://story/cinematics/ui/authorization_screen.gd" id="1_script"]
+
+[sub_resource type="Shader" id="Shader_3cnqq"]
+code = "
+shader_type canvas_item;
+uniform float speed : hint_range(0.1, 5.0) = 1.5;
+uniform float line_density : hint_range(10.0, 200.0) = 80.0;
+uniform float line_opacity : hint_range(0.0, 1.0) = 0.08;
+void fragment() {
+	float line = mod(UV.y * line_density - TIME * speed, 1.0);
+	float alpha = smoothstep(0.0, 0.05, line) * (1.0 - smoothstep(0.95, 1.0, line));
+	COLOR = texture(TEXTURE, UV);
+	COLOR.a *= mix(1.0 - line_opacity, 1.0, 1.0 - alpha);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_awb0e"]
+shader = SubResource("Shader_3cnqq")
+shader_parameter/speed = 1.2
+shader_parameter/line_density = 100.0
+shader_parameter/line_opacity = 0.12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_glass"]
+bg_color = Color(0.01, 0.02, 0.06, 0.88)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0.67, 1, 0.35)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_warning"]
+bg_color = Color(0.15, 0.03, 0.01, 0.65)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.3, 0.1, 0.35)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+bg_color = Color(0.01, 0.02, 0.05, 0.6)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0.67, 1, 0.3)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+bg_color = Color(0, 0.67, 1, 0.18)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0.67, 1, 0.75)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_deny_normal"]
+bg_color = Color(0.06, 0.01, 0.01, 0.6)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.3, 0.1, 0.3)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_deny_hover"]
+bg_color = Color(1, 0.3, 0.1, 0.18)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.3, 0.1, 0.75)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="AuthorizationScreen" type="Control"]
+material = SubResource("ShaderMaterial_awb0e")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Overlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.0117647, 0.0352941, 0.78)
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(500, 380)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_offset_y = -190.0
+offset_right = 250.0
+offset_bottom = 190.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_glass")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 28
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.670588, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "AUTONOMOUS AUTHORITY PROTOCOL"
+horizontal_alignment = 1
+
+[node name="Separator" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0, 0.670588, 1, 0.25)
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="CreatorLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.65, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "CREATOR"
+
+[node name="CreatorVal" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "DR. RYAN VANCE"
+
+[node name="StatusLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.65, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "IDENTITY"
+
+[node name="StatusVal" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 1, 0.55, 1)
+theme_override_font_sizes/font_size = 13
+text = "VERIFIED"
+
+[node name="ModeLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.65, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "CURRENT MODE"
+
+[node name="ModeVal" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "HUMAN CONTROL"
+
+[node name="ReqLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.65, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "REQUEST"
+
+[node name="ReqVal" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.67, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "TRANSFER AUTONOMOUS AUTHORITY"
+
+[node name="WarningPanel" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_warning")
+
+[node name="Margin" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/WarningPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="WarningLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/WarningPanel/Margin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.35, 0.1, 1)
+theme_override_font_sizes/font_size = 11
+text = "WARNING: THIS ACTION IS PERMANENT AND CANNOT BE REVERSED"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="StatusArea" type="CenterContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="SubLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/StatusArea"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "AWAITING AUTHORIZATION..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="DenyButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ButtonBox"]
+custom_minimum_size = Vector2(140, 36)
+layout_mode = 2
+focus_neighbor_right = NodePath("../AuthorizeButton")
+theme_override_colors/font_hover_color = Color(1, 0.3, 0.1, 1)
+theme_override_colors/font_focus_color = Color(1, 0.3, 0.1, 1)
+theme_override_colors/font_color = Color(1, 0.3, 0.1, 0.8)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/focus = SubResource("StyleBoxFlat_deny_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_deny_hover")
+theme_override_styles/normal = SubResource("StyleBoxFlat_deny_normal")
+text = "DENY"
+
+[node name="AuthorizeButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ButtonBox"]
+custom_minimum_size = Vector2(140, 36)
+layout_mode = 2
+focus_neighbor_left = NodePath("../DenyButton")
+theme_override_colors/font_hover_color = Color(0.2, 1, 0.55, 1)
+theme_override_colors/font_focus_color = Color(0.2, 1, 0.55, 1)
+theme_override_colors/font_color = Color(0, 0.67, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+text = "AUTHORIZE"

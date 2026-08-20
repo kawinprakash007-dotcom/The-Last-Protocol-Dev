@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://story/cinematics/gameplay_handoff.gd" id="1_handoff"]
+[ext_resource type="PackedScene" path="res://story/ui/cinematic_subtitle.tscn" id="2_subtitle"]
+
+[node name="GameplayHandoff" type="Node"]
+script = ExtResource("1_handoff")
+
+[node name="FadeOverlay" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+z_index = 100
+
+[node name="CinematicSubtitle" parent="." instance=ExtResource("2_subtitle")]

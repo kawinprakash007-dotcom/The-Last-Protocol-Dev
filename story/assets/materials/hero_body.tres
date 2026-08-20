@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://story/assets/characters/hero/Standing W_Briefcase Idle_0.png" id="1_i1dm8"]
+[ext_resource type="Texture2D" path="res://story/assets/characters/hero/Standing W_Briefcase Idle_3.png" id="2_ohhmu"]
+[ext_resource type="Texture2D" path="res://story/assets/characters/hero/Standing W_Briefcase Idle_2.png" id="3_2lx2h"]
+
+[resource]
+resource_name = "hero_body"
+albedo_texture = ExtResource("1_i1dm8")
+roughness_texture = ExtResource("3_2lx2h")
+normal_enabled = true
+normal_texture = ExtResource("2_ohhmu")

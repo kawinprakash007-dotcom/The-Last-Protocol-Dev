@@ -1,0 +1,27 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://story/cinematics/environments/laboratory.tscn" id="1_sx6mo"]
+
+[node name="LaboratoryPreview" type="Node3D" unique_id=1809039915]
+
+[node name="LaboratoryEnvironment" type="Node3D" parent="." unique_id=1571638705 instance=ExtResource("1_sx6mo")]
+
+[node name="Cameras" type="Node3D" parent="." unique_id=2041929704]
+
+[node name="Cam_WideEstablishing" type="Camera3D" parent="Cameras" unique_id=787757693]
+transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 8, 12)
+
+[node name="Cam_HeroWorkstation" type="Camera3D" parent="Cameras" unique_id=943717924]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, -8, 2, 8)
+
+[node name="Cam_RobotAssembly" type="Camera3D" parent="Cameras" unique_id=482990117]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 2, 2, 2)
+
+[node name="Cam_CloseUpMachinery" type="Camera3D" parent="Cameras" unique_id=224162449]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 10, 1.5, -9)
+
+[node name="Cam_HeroFace" type="Camera3D" parent="Cameras" unique_id=1479364802]
+transform = Transform3D(-0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, -0.70710677, -10, 1.7, 9)
+
+[node name="Cam_RobotFace" type="Camera3D" parent="Cameras" unique_id=870248298]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.8, 1)

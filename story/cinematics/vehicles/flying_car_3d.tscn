@@ -1,0 +1,58 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://story/assets/materials/chrome.tres" id="1_chrome"]
+[ext_resource type="Material" path="res://story/assets/materials/emissive_cyan.tres" id="2_cyan"]
+
+[node name="FlyingCar3D" type="Node3D"]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+use_collision = false
+
+[node name="Body" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+size = Vector3(1.4, 0.4, 3.0)
+material = ExtResource("1_chrome")
+
+[node name="Cabin" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0.2)
+size = Vector3(1.0, 0.3, 1.4)
+material = ExtResource("1_chrome")
+
+[node name="Wings" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, -0.2)
+size = Vector3(2.4, 0.08, 0.8)
+material = ExtResource("1_chrome")
+
+[node name="LeftEngine" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.6, -0.15, -1.2)
+radius = 0.18
+height = 0.8
+material = ExtResource("1_chrome")
+
+[node name="RightEngine" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.6, -0.15, -1.2)
+radius = 0.18
+height = 0.8
+material = ExtResource("1_chrome")
+
+[node name="LeftGlow" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.6, -0.15, -1.62)
+radius = 0.14
+height = 0.05
+material = ExtResource("2_cyan")
+
+[node name="RightGlow" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.6, -0.15, -1.62)
+radius = 0.14
+height = 0.05
+material = ExtResource("2_cyan")
+
+[node name="HeadlightLeft" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.05, 1.51)
+size = Vector3(0.3, 0.1, 0.04)
+material = ExtResource("2_cyan")
+
+[node name="HeadlightRight" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.05, 1.51)
+size = Vector3(0.3, 0.1, 0.04)
+material = ExtResource("2_cyan")

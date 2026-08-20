@@ -1,0 +1,90 @@
+[gd_scene format=3]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cpiwd"]
+bg_color = Color(0, 0.05, 0.1, 0.72)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0.67, 1, 0.35)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="CityStatus" type="Control" unique_id=232786656]
+custom_minimum_size = Vector2(260, 100)
+layout_mode = 3
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -320.0
+offset_bottom = -100.0
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=462575035]
+layout_mode = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_cpiwd")
+
+[node name="@VBoxContainer@20" type="VBoxContainer" parent="Panel" unique_id=949592114]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Header" type="Label" parent="Panel/@VBoxContainer@20" unique_id=301330750]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0, 0.67, 1, 1)
+text = "CITY STATUS"
+
+[node name="@ColorRect@21" type="ColorRect" parent="Panel/@VBoxContainer@20" unique_id=498395433]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0, 0.67, 1, 0.35)
+
+[node name="@HBoxContainer@22" type="HBoxContainer" parent="Panel/@VBoxContainer@20" unique_id=639851513]
+layout_mode = 2
+
+[node name="@Label@23" type="Label" parent="Panel/@VBoxContainer@20/@HBoxContainer@22" unique_id=504780808]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.85, 0.95, 1, 0.55)
+text = "POPULATION"
+
+[node name="@Label@24" type="Label" parent="Panel/@VBoxContainer@20/@HBoxContainer@22" unique_id=1624904009]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.85, 0.95, 1, 1)
+text = "8.2M"
+
+[node name="@HBoxContainer@25" type="HBoxContainer" parent="Panel/@VBoxContainer@20" unique_id=1007623108]
+layout_mode = 2
+
+[node name="@Label@26" type="Label" parent="Panel/@VBoxContainer@20/@HBoxContainer@25" unique_id=135519746]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.85, 0.95, 1, 0.55)
+text = "INFRASTRUCTURE"
+
+[node name="@Label@27" type="Label" parent="Panel/@VBoxContainer@20/@HBoxContainer@25" unique_id=1987586012]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.85, 0.95, 1, 1)
+text = "OPERATIONAL"
+
+[node name="@HBoxContainer@28" type="HBoxContainer" parent="Panel/@VBoxContainer@20" unique_id=2045709787]
+layout_mode = 2
+
+[node name="@Label@29" type="Label" parent="Panel/@VBoxContainer@20/@HBoxContainer@28" unique_id=1838120004]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.85, 0.95, 1, 0.55)
+text = "NETWORK UPTIME"
+
+[node name="@Label@30" type="Label" parent="Panel/@VBoxContainer@20/@HBoxContainer@28" unique_id=647868227]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.85, 0.95, 1, 1)
+text = "99.7%"

@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_iikd8"]
+direction = Vector3(0, 1, 0)
+spread = 90.0
+initial_velocity_min = 3.6
+initial_velocity_max = 9.6
+damping_min = 2.0
+damping_max = 5.0
+scale_min = 0.05
+scale_max = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fx0x7"]
+shading_mode = 0
+albedo_color = Color(1, 0.8, 0.4, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_xahj5"]
+material = SubResource("StandardMaterial3D_fx0x7")
+
+[node name="HeavySparkBurst" type="GPUParticles3D" unique_id=1590370688]
+amount = 100
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.95
+process_material = SubResource("ParticleProcessMaterial_iikd8")
+draw_pass_1 = SubResource("QuadMesh_xahj5")

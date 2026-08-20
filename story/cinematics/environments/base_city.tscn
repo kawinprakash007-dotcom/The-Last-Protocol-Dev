@@ -1,0 +1,353 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://story/scripts/city_state_manager.gd" id="1_4257e"]
+[ext_resource type="PackedScene" path="res://story/assets/environments/city/GLB format/building-b.glb" id="2_s4j81"]
+[ext_resource type="PackedScene" path="res://story/assets/environments/city/GLB format/building-d.glb" id="3_p8k5y"]
+[ext_resource type="PackedScene" path="res://story/assets/environments/city/GLB format/building-a.glb" id="4_3icbw"]
+[ext_resource type="PackedScene" path="res://story/assets/environments/city/GLB format/building-f.glb" id="5_0cu04"]
+[ext_resource type="PackedScene" path="res://story/assets/environments/city/GLB format/building-c.glb" id="6_soku2"]
+[ext_resource type="PackedScene" path="res://story/assets/environments/city/GLB format/building-e.glb" id="7_pn3cm"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_hqmq8"]
+
+[sub_resource type="Sky" id="Sky_moaqp"]
+sky_material = SubResource("ProceduralSkyMaterial_hqmq8")
+
+[sub_resource type="Environment" id="Environment_8ssl1"]
+background_mode = 2
+sky = SubResource("Sky_moaqp")
+
+[node name="CityEnvironment" type="Node3D" unique_id=734607027]
+script = ExtResource("1_4257e")
+
+[node name="Environment" type="Node3D" parent="." unique_id=607128881]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment" unique_id=1017163052]
+environment = SubResource("Environment_8ssl1")
+
+[node name="MainLight" type="DirectionalLight3D" parent="Environment" unique_id=176794692]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 0, 0)
+shadow_enabled = true
+
+[node name="VFX" type="Node3D" parent="." unique_id=950313183]
+
+[node name="CollapseParticles" type="GPUParticles3D" parent="VFX" unique_id=292828722]
+
+[node name="Lighting" type="Node3D" parent="." unique_id=1842920727]
+
+[node name="NightLights" type="Node3D" parent="Lighting" unique_id=773806880]
+
+[node name="Infrastructure" type="Node3D" parent="." unique_id=543891787]
+
+[node name="AdvancedTech" type="Node3D" parent="Infrastructure" unique_id=669772701]
+
+[node name="FlyingCars" type="Node3D" parent="Infrastructure" unique_id=253215087]
+
+[node name="Robots" type="Node3D" parent="Infrastructure" unique_id=882572850]
+
+[node name="Construction" type="Node3D" parent="Infrastructure" unique_id=1445094123]
+
+[node name="Details" type="Node3D" parent="." unique_id=1394308972]
+
+[node name="Holograms" type="Node3D" parent="Details" unique_id=419107635]
+
+[node name="Skyscrapers" type="Node3D" parent="." unique_id=969506648]
+
+[node name="building-b2" type="Node3D" parent="Skyscrapers" unique_id=702793679 instance=ExtResource("2_s4j81")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -75, 0, -75)
+
+[node name="building-d2" type="Node3D" parent="Skyscrapers" unique_id=1538865503 instance=ExtResource("3_p8k5y")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -75, 0, -60)
+
+[node name="building-a2" type="Node3D" parent="Skyscrapers" unique_id=232667777 instance=ExtResource("4_3icbw")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -75, 0, -45)
+
+[node name="@Node3D@201" type="Node3D" parent="Skyscrapers" unique_id=591373174 instance=ExtResource("3_p8k5y")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -75, 0, -30)
+
+[node name="@Node3D@202" type="Node3D" parent="Skyscrapers" unique_id=862361498 instance=ExtResource("3_p8k5y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -75, 0, -15)
+
+[node name="@Node3D@203" type="Node3D" parent="Skyscrapers" unique_id=1037920660 instance=ExtResource("4_3icbw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -75, 0, 0)
+
+[node name="building-f2" type="Node3D" parent="Skyscrapers" unique_id=91890250 instance=ExtResource("5_0cu04")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -75, 0, 15)
+
+[node name="@Node3D@204" type="Node3D" parent="Skyscrapers" unique_id=1746974033 instance=ExtResource("5_0cu04")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -75, 0, 30)
+
+[node name="@Node3D@205" type="Node3D" parent="Skyscrapers" unique_id=761578550 instance=ExtResource("3_p8k5y")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -75, 0, 45)
+
+[node name="building-c2" type="Node3D" parent="Skyscrapers" unique_id=841144593 instance=ExtResource("6_soku2")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -75, 0, 60)
+
+[node name="@Node3D@206" type="Node3D" parent="Skyscrapers" unique_id=836649462 instance=ExtResource("4_3icbw")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -60, 0, -75)
+
+[node name="@Node3D@207" type="Node3D" parent="Skyscrapers" unique_id=2142956211 instance=ExtResource("6_soku2")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -60, 0, -60)
+
+[node name="@Node3D@208" type="Node3D" parent="Skyscrapers" unique_id=1079587032 instance=ExtResource("2_s4j81")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -60, 0, -45)
+
+[node name="building-e2" type="Node3D" parent="Skyscrapers" unique_id=2007067232 instance=ExtResource("7_pn3cm")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -60, 0, -30)
+
+[node name="@Node3D@209" type="Node3D" parent="Skyscrapers" unique_id=350760356 instance=ExtResource("7_pn3cm")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -60, 0, -15)
+
+[node name="@Node3D@210" type="Node3D" parent="Skyscrapers" unique_id=1026062484 instance=ExtResource("5_0cu04")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -60, 0, 0)
+
+[node name="@Node3D@211" type="Node3D" parent="Skyscrapers" unique_id=642856422 instance=ExtResource("5_0cu04")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -60, 0, 15)
+
+[node name="@Node3D@212" type="Node3D" parent="Skyscrapers" unique_id=703214605 instance=ExtResource("2_s4j81")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 0, 30)
+
+[node name="@Node3D@213" type="Node3D" parent="Skyscrapers" unique_id=353177985 instance=ExtResource("6_soku2")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -60, 0, 45)
+
+[node name="@Node3D@214" type="Node3D" parent="Skyscrapers" unique_id=1897124978 instance=ExtResource("4_3icbw")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -60, 0, 60)
+
+[node name="@Node3D@215" type="Node3D" parent="Skyscrapers" unique_id=1459548052 instance=ExtResource("2_s4j81")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -45, 0, -75)
+
+[node name="@Node3D@216" type="Node3D" parent="Skyscrapers" unique_id=225842767 instance=ExtResource("5_0cu04")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -45, 0, -60)
+
+[node name="@Node3D@217" type="Node3D" parent="Skyscrapers" unique_id=2016821667 instance=ExtResource("3_p8k5y")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -45, 0, -45)
+
+[node name="@Node3D@218" type="Node3D" parent="Skyscrapers" unique_id=241518652 instance=ExtResource("7_pn3cm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45, 0, -30)
+
+[node name="@Node3D@219" type="Node3D" parent="Skyscrapers" unique_id=640768813 instance=ExtResource("6_soku2")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -45, 0, -15)
+
+[node name="@Node3D@220" type="Node3D" parent="Skyscrapers" unique_id=829636842 instance=ExtResource("5_0cu04")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -45, 0, 0)
+
+[node name="@Node3D@221" type="Node3D" parent="Skyscrapers" unique_id=926193196 instance=ExtResource("6_soku2")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -45, 0, 15)
+
+[node name="@Node3D@222" type="Node3D" parent="Skyscrapers" unique_id=963429903 instance=ExtResource("2_s4j81")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -45, 0, 30)
+
+[node name="@Node3D@223" type="Node3D" parent="Skyscrapers" unique_id=1697134292 instance=ExtResource("5_0cu04")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -45, 0, 45)
+
+[node name="@Node3D@224" type="Node3D" parent="Skyscrapers" unique_id=320022177 instance=ExtResource("2_s4j81")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -45, 0, 60)
+
+[node name="@Node3D@225" type="Node3D" parent="Skyscrapers" unique_id=1307540768 instance=ExtResource("4_3icbw")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -30, 0, -75)
+
+[node name="@Node3D@226" type="Node3D" parent="Skyscrapers" unique_id=46024958 instance=ExtResource("2_s4j81")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -30, 0, -60)
+
+[node name="@Node3D@227" type="Node3D" parent="Skyscrapers" unique_id=1997597417 instance=ExtResource("6_soku2")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -30, 0, -45)
+
+[node name="@Node3D@228" type="Node3D" parent="Skyscrapers" unique_id=723415340 instance=ExtResource("7_pn3cm")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -30, 0, -30)
+
+[node name="@Node3D@229" type="Node3D" parent="Skyscrapers" unique_id=687429349 instance=ExtResource("7_pn3cm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, -15)
+
+[node name="@Node3D@230" type="Node3D" parent="Skyscrapers" unique_id=2017503760 instance=ExtResource("3_p8k5y")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -30, 0, 0)
+
+[node name="@Node3D@231" type="Node3D" parent="Skyscrapers" unique_id=1859121033 instance=ExtResource("6_soku2")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -30, 0, 15)
+
+[node name="@Node3D@232" type="Node3D" parent="Skyscrapers" unique_id=1833495476 instance=ExtResource("7_pn3cm")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -30, 0, 30)
+
+[node name="@Node3D@233" type="Node3D" parent="Skyscrapers" unique_id=1314853526 instance=ExtResource("5_0cu04")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -30, 0, 45)
+
+[node name="@Node3D@234" type="Node3D" parent="Skyscrapers" unique_id=192619391 instance=ExtResource("2_s4j81")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -30, 0, 60)
+
+[node name="@Node3D@235" type="Node3D" parent="Skyscrapers" unique_id=720300799 instance=ExtResource("6_soku2")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -15, 0, -75)
+
+[node name="@Node3D@236" type="Node3D" parent="Skyscrapers" unique_id=1368456781 instance=ExtResource("4_3icbw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, -60)
+
+[node name="@Node3D@237" type="Node3D" parent="Skyscrapers" unique_id=1949750201 instance=ExtResource("7_pn3cm")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -15, 0, -45)
+
+[node name="@Node3D@238" type="Node3D" parent="Skyscrapers" unique_id=991117756 instance=ExtResource("2_s4j81")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -15, 0, -30)
+
+[node name="@Node3D@239" type="Node3D" parent="Skyscrapers" unique_id=315009150 instance=ExtResource("4_3icbw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, -15)
+
+[node name="@Node3D@240" type="Node3D" parent="Skyscrapers" unique_id=1399103187 instance=ExtResource("7_pn3cm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
+
+[node name="@Node3D@241" type="Node3D" parent="Skyscrapers" unique_id=1870963764 instance=ExtResource("3_p8k5y")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -15, 0, 15)
+
+[node name="@Node3D@242" type="Node3D" parent="Skyscrapers" unique_id=1158643626 instance=ExtResource("3_p8k5y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 30)
+
+[node name="@Node3D@243" type="Node3D" parent="Skyscrapers" unique_id=36134859 instance=ExtResource("4_3icbw")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -15, 0, 45)
+
+[node name="@Node3D@244" type="Node3D" parent="Skyscrapers" unique_id=1806973161 instance=ExtResource("2_s4j81")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -15, 0, 60)
+
+[node name="@Node3D@245" type="Node3D" parent="Skyscrapers" unique_id=8970660 instance=ExtResource("2_s4j81")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -75)
+
+[node name="@Node3D@246" type="Node3D" parent="Skyscrapers" unique_id=999396464 instance=ExtResource("7_pn3cm")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, -60)
+
+[node name="@Node3D@247" type="Node3D" parent="Skyscrapers" unique_id=1956660725 instance=ExtResource("5_0cu04")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -45)
+
+[node name="@Node3D@248" type="Node3D" parent="Skyscrapers" unique_id=54215028 instance=ExtResource("4_3icbw")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, -30)
+
+[node name="@Node3D@249" type="Node3D" parent="Skyscrapers" unique_id=478176516 instance=ExtResource("2_s4j81")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, -15)
+
+[node name="@Node3D@250" type="Node3D" parent="Skyscrapers" unique_id=782119734 instance=ExtResource("7_pn3cm")]
+
+[node name="@Node3D@251" type="Node3D" parent="Skyscrapers" unique_id=681211032 instance=ExtResource("6_soku2")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 15)
+
+[node name="@Node3D@252" type="Node3D" parent="Skyscrapers" unique_id=806577809 instance=ExtResource("6_soku2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)
+
+[node name="@Node3D@253" type="Node3D" parent="Skyscrapers" unique_id=1673122523 instance=ExtResource("6_soku2")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 45)
+
+[node name="@Node3D@254" type="Node3D" parent="Skyscrapers" unique_id=605615827 instance=ExtResource("6_soku2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 60)
+
+[node name="@Node3D@255" type="Node3D" parent="Skyscrapers" unique_id=1710263626 instance=ExtResource("6_soku2")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 15, 0, -75)
+
+[node name="@Node3D@256" type="Node3D" parent="Skyscrapers" unique_id=1332186853 instance=ExtResource("2_s4j81")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 15, 0, -60)
+
+[node name="@Node3D@257" type="Node3D" parent="Skyscrapers" unique_id=388459709 instance=ExtResource("7_pn3cm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -45)
+
+[node name="@Node3D@258" type="Node3D" parent="Skyscrapers" unique_id=1387865516 instance=ExtResource("2_s4j81")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 15, 0, -30)
+
+[node name="@Node3D@259" type="Node3D" parent="Skyscrapers" unique_id=199253378 instance=ExtResource("3_p8k5y")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 15, 0, -15)
+
+[node name="@Node3D@260" type="Node3D" parent="Skyscrapers" unique_id=141103696 instance=ExtResource("7_pn3cm")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 15, 0, 0)
+
+[node name="@Node3D@261" type="Node3D" parent="Skyscrapers" unique_id=361359350 instance=ExtResource("6_soku2")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 15, 0, 15)
+
+[node name="@Node3D@262" type="Node3D" parent="Skyscrapers" unique_id=1410924921 instance=ExtResource("3_p8k5y")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 15, 0, 30)
+
+[node name="@Node3D@263" type="Node3D" parent="Skyscrapers" unique_id=1578107998 instance=ExtResource("5_0cu04")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 15, 0, 45)
+
+[node name="@Node3D@264" type="Node3D" parent="Skyscrapers" unique_id=619629078 instance=ExtResource("2_s4j81")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 60)
+
+[node name="@Node3D@265" type="Node3D" parent="Skyscrapers" unique_id=1295867856 instance=ExtResource("5_0cu04")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 30, 0, -75)
+
+[node name="@Node3D@266" type="Node3D" parent="Skyscrapers" unique_id=1164018627 instance=ExtResource("4_3icbw")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 30, 0, -60)
+
+[node name="@Node3D@267" type="Node3D" parent="Skyscrapers" unique_id=926753710 instance=ExtResource("2_s4j81")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 30, 0, -45)
+
+[node name="@Node3D@268" type="Node3D" parent="Skyscrapers" unique_id=1497928796 instance=ExtResource("3_p8k5y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -30)
+
+[node name="@Node3D@269" type="Node3D" parent="Skyscrapers" unique_id=929336357 instance=ExtResource("2_s4j81")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -15)
+
+[node name="@Node3D@270" type="Node3D" parent="Skyscrapers" unique_id=1207466511 instance=ExtResource("5_0cu04")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 30, 0, 0)
+
+[node name="@Node3D@271" type="Node3D" parent="Skyscrapers" unique_id=39111668 instance=ExtResource("6_soku2")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 30, 0, 15)
+
+[node name="@Node3D@272" type="Node3D" parent="Skyscrapers" unique_id=453323111 instance=ExtResource("4_3icbw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 30)
+
+[node name="@Node3D@273" type="Node3D" parent="Skyscrapers" unique_id=251809218 instance=ExtResource("2_s4j81")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 30, 0, 45)
+
+[node name="@Node3D@274" type="Node3D" parent="Skyscrapers" unique_id=1771110718 instance=ExtResource("4_3icbw")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 30, 0, 60)
+
+[node name="@Node3D@275" type="Node3D" parent="Skyscrapers" unique_id=2126353160 instance=ExtResource("4_3icbw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 0, -75)
+
+[node name="@Node3D@276" type="Node3D" parent="Skyscrapers" unique_id=921386262 instance=ExtResource("5_0cu04")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 0, -60)
+
+[node name="@Node3D@277" type="Node3D" parent="Skyscrapers" unique_id=1365430556 instance=ExtResource("5_0cu04")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 45, 0, -45)
+
+[node name="@Node3D@278" type="Node3D" parent="Skyscrapers" unique_id=141761460 instance=ExtResource("6_soku2")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 45, 0, -30)
+
+[node name="@Node3D@279" type="Node3D" parent="Skyscrapers" unique_id=491361677 instance=ExtResource("5_0cu04")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 45, 0, -15)
+
+[node name="@Node3D@280" type="Node3D" parent="Skyscrapers" unique_id=174627349 instance=ExtResource("3_p8k5y")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 45, 0, 0)
+
+[node name="@Node3D@281" type="Node3D" parent="Skyscrapers" unique_id=347228984 instance=ExtResource("4_3icbw")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 45, 0, 15)
+
+[node name="@Node3D@282" type="Node3D" parent="Skyscrapers" unique_id=1712249933 instance=ExtResource("5_0cu04")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 45, 0, 30)
+
+[node name="@Node3D@283" type="Node3D" parent="Skyscrapers" unique_id=2047090367 instance=ExtResource("7_pn3cm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 0, 45)
+
+[node name="@Node3D@284" type="Node3D" parent="Skyscrapers" unique_id=627320054 instance=ExtResource("7_pn3cm")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 45, 0, 60)
+
+[node name="@Node3D@285" type="Node3D" parent="Skyscrapers" unique_id=1447038491 instance=ExtResource("2_s4j81")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 60, 0, -75)
+
+[node name="@Node3D@286" type="Node3D" parent="Skyscrapers" unique_id=917558621 instance=ExtResource("6_soku2")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 60, 0, -60)
+
+[node name="@Node3D@287" type="Node3D" parent="Skyscrapers" unique_id=1184265193 instance=ExtResource("3_p8k5y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, -45)
+
+[node name="@Node3D@288" type="Node3D" parent="Skyscrapers" unique_id=1761888766 instance=ExtResource("3_p8k5y")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 60, 0, -30)
+
+[node name="@Node3D@289" type="Node3D" parent="Skyscrapers" unique_id=320213072 instance=ExtResource("7_pn3cm")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 60, 0, -15)
+
+[node name="@Node3D@290" type="Node3D" parent="Skyscrapers" unique_id=1378325458 instance=ExtResource("2_s4j81")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 60, 0, 0)
+
+[node name="@Node3D@291" type="Node3D" parent="Skyscrapers" unique_id=1977249934 instance=ExtResource("6_soku2")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 60, 0, 15)
+
+[node name="@Node3D@292" type="Node3D" parent="Skyscrapers" unique_id=2125100326 instance=ExtResource("4_3icbw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, 30)
+
+[node name="@Node3D@293" type="Node3D" parent="Skyscrapers" unique_id=119576835 instance=ExtResource("5_0cu04")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 60, 0, 45)
+
+[node name="@Node3D@294" type="Node3D" parent="Skyscrapers" unique_id=1806013286 instance=ExtResource("5_0cu04")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 60, 0, 60)

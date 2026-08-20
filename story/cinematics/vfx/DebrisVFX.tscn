@@ -1,0 +1,25 @@
+[gd_scene format=3]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pcu3i"]
+angle_max = 360.0
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+angular_velocity_min = 50.0
+angular_velocity_max = 150.0
+scale_min = 0.1
+scale_max = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6vw5y"]
+albedo_color = Color(0.3, 0.3, 0.3, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2euda"]
+material = SubResource("StandardMaterial3D_6vw5y")
+
+[node name="DebrisVFX" type="GPUParticles3D" unique_id=893243060]
+amount = 20
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.9
+process_material = SubResource("ParticleProcessMaterial_pcu3i")
+draw_pass_1 = SubResource("BoxMesh_2euda")

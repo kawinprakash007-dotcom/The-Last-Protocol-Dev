@@ -1,0 +1,82 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://story/ui/dialogue_ui.gd" id="1_dialogue_ui"]
+[ext_resource type="Resource" path="res://story/ui/speaker_styles/genesis.tres" id="2_genesis"]
+[ext_resource type="Resource" path="res://story/ui/speaker_styles/vance.tres" id="3_vance"]
+[ext_resource type="Resource" path="res://story/ui/speaker_styles/radio.tres" id="4_radio"]
+[ext_resource type="Resource" path="res://story/ui/speaker_styles/warden.tres" id="5_warden"]
+[ext_resource type="Resource" path="res://story/ui/speaker_styles/narration.tres" id="6_narration"]
+
+[node name="DialogueUI" type="CanvasLayer"]
+layer = 20
+script = ExtResource("1_dialogue_ui")
+speaker_styles = Array[Resource]([ExtResource("2_genesis"), ExtResource("3_vance"), ExtResource("4_radio"), ExtResource("5_warden"), ExtResource("6_narration")])
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DialogueFrame" type="PanelContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.18
+anchor_top = 0.72
+anchor_right = 0.82
+anchor_bottom = 0.93
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Margin" type="MarginContainer" parent="Root/DialogueFrame"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 16
+
+[node name="Content" type="VBoxContainer" parent="Root/DialogueFrame/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SpeakerLabel" type="Label" parent="Root/DialogueFrame/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 15
+text = "GENESIS"
+
+[node name="DialogueText" type="RichTextLabel" parent="Root/DialogueFrame/Margin/Content"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+bbcode_enabled = false
+fit_content = true
+scroll_active = false
+autowrap_mode = 3
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/line_separation = 4
+theme_override_font_sizes/normal_font_size = 22
+text = ""
+
+[node name="ContinueIndicator" type="Label" parent="Root/DialogueFrame/Margin/Content"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "CONTINUE"
+horizontal_alignment = 2
+
+[node name="SignalDecoration" type="Label" parent="Root"]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.18
+anchor_top = 0.685
+anchor_right = 0.82
+anchor_bottom = 0.715
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 11
+text = "NARRATIVE CHANNEL"
+horizontal_alignment = 2

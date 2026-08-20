@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="DialogueSpeakerStyle" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://story/ui/dialogue_speaker_style.gd" id="1_style"]
+
+[resource]
+script = ExtResource("1_style")
+speaker_id = "WARDEN"
+display_name = "WARDEN"
+text_color = Color(1, 0.78, 0.76, 1)
+speaker_color = Color(1, 0.28, 0.24, 1)
+panel_color = Color(0.06, 0.025, 0.025, 0.91)
+border_color = Color(0.88, 0.18, 0.14, 0.72)
+accent_color = Color(1, 0.2, 0.16, 1)
+typing_speed = 34.0
+sound_key = "ui_dialogue_warden_tick"
+signal_effect = "corruption"
+glitch_amount = 0.2

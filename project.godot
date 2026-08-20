@@ -20,6 +20,14 @@ config/icon="res://icon.svg"
 GameState="*res://game_state.gd"
 Mission01="*res://mission_01.gd"
 AudioManager="*res://audio_manager.gd"
+CutsceneManager="*res://cutscene_manager.gd"
+EventBus="*res://story/scripts/event_bus.gd"
+DialogueManager="*res://story/scripts/dialogue_manager.gd"
+CinematicManager="*res://story/scripts/cinematic_manager.gd"
+StoryManager="*res://story/scripts/story_manager.gd"
+NarrationManager="*res://story/scripts/narration_manager.gd"
+StoryState="*res://story/scripts/story_state.gd"
+StoryAudioManager="*res://story/scripts/story_audio_manager.gd"
 
 [display]
 

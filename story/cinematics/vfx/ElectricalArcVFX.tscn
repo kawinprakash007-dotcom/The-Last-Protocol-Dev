@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_42kqo"]
+emission_shape = 1
+emission_sphere_radius = 0.5
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xpcfh"]
+shading_mode = 0
+albedo_color = Color(0.5, 0.8, 1, 1)
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_00qj3"]
+material = SubResource("StandardMaterial3D_xpcfh")
+
+[node name="ElectricalArcVFX" type="GPUParticles3D" unique_id=479596925]
+amount = 5
+lifetime = 0.2
+explosiveness = 0.5
+process_material = SubResource("ParticleProcessMaterial_42kqo")
+draw_pass_1 = SubResource("QuadMesh_00qj3")

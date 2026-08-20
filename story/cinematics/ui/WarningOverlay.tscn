@@ -1,0 +1,53 @@
+[gd_scene format=3]
+
+[node name="WarningOverlay" type="Control" unique_id=951657354]
+layout_mode = 3
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="@ColorRect@31" type="ColorRect" parent="." unique_id=923859247]
+custom_minimum_size = Vector2(40, 2)
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 20.0
+offset_bottom = 20.0
+color = Color(1, 0.3, 0.1, 1)
+
+[node name="@ColorRect@32" type="ColorRect" parent="." unique_id=1830950501]
+custom_minimum_size = Vector2(40, 2)
+layout_mode = 0
+offset_left = -60.0
+offset_top = 20.0
+offset_right = -60.0
+offset_bottom = 20.0
+color = Color(1, 0.3, 0.1, 1)
+
+[node name="@ColorRect@33" type="ColorRect" parent="." unique_id=654868618]
+custom_minimum_size = Vector2(40, 2)
+layout_mode = 0
+offset_left = 20.0
+offset_top = -22.0
+offset_right = 20.0
+offset_bottom = -22.0
+color = Color(1, 0.3, 0.1, 1)
+
+[node name="@ColorRect@34" type="ColorRect" parent="." unique_id=45535472]
+custom_minimum_size = Vector2(40, 2)
+layout_mode = 0
+offset_left = -60.0
+offset_top = -22.0
+offset_right = -60.0
+offset_bottom = -22.0
+color = Color(1, 0.3, 0.1, 1)
+
+[node name="WarnLabel" type="Label" parent="." unique_id=253256945]
+layout_mode = 0
+anchor_bottom = 1.0
+offset_left = 60.0
+offset_bottom = -60.0
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 0.3, 0.1, 1)
+text = "WARNING"

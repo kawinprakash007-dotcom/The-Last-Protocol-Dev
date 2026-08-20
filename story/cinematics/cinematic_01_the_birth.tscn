@@ -1,0 +1,812 @@
+[gd_scene load_steps=38 format=3]
+
+[ext_resource type="Script" path="res://story/cinematics/cinematic_01_the_birth.gd" id="01_scene"]
+[ext_resource type="Script" path="res://story/scripts/cinematic_camera_controller.gd" id="02_controller"]
+[ext_resource type="PackedScene" path="res://story/ui/cinematic_fade.tscn" id="03_fade"]
+[ext_resource type="PackedScene" path="res://story/ui/dialogue_ui.tscn" id="04_dialogue_ui"]
+[ext_resource type="PackedScene" path="res://story/ui/objective_hud.tscn" id="05_objective_hud"]
+[ext_resource type="Resource" path="res://story/ui/speaker_styles/narration.tres" id="11_narration"]
+
+[sub_resource type="Environment" id="Environment_3D"]
+background_mode = 1
+background_color = Color(0.01, 0.012, 0.018, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.02, 0.03, 0.05, 1)
+tonemap_mode = 3
+glow_enabled = true
+glow_intensity = 0.8
+glow_strength = 0.9
+glow_bloom = 0.1
+glow_blend_mode = 1
+fog_enabled = true
+fog_light_color = Color(0.02, 0.03, 0.05, 1)
+fog_density = 0.015
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.03
+
+[sub_resource type="StandardMaterial3D" id="Mat_Wall"]
+albedo_color = Color(0.18, 0.2, 0.22, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_Floor"]
+albedo_color = Color(0.12, 0.14, 0.16, 1)
+roughness = 0.5
+metallic = 0.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_Platform"]
+albedo_color = Color(0.15, 0.17, 0.2, 1)
+metallic = 0.8
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Mat_Support"]
+albedo_color = Color(0.25, 0.28, 0.32, 1)
+metallic = 0.7
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_RobotMetal"]
+albedo_color = Color(0.45, 0.5, 0.55, 1)
+metallic = 0.3
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_RobotJoint"]
+albedo_color = Color(0.15, 0.15, 0.15, 1)
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_Eye"]
+albedo_color = Color(0.2, 0.8, 1, 1)
+emission_enabled = true
+emission = Color(0.2, 0.8, 1, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Cable"]
+albedo_color = Color(0.05, 0.05, 0.05, 1)
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="Mat_OrangeArm"]
+albedo_color = Color(0.85, 0.4, 0.05, 1)
+metallic = 0.4
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Mat_ScientistCoat"]
+albedo_color = Color(0.85, 0.88, 0.9, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Mat_ScientistPants"]
+albedo_color = Color(0.1, 0.15, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_TerminalScreen"]
+albedo_color = Color(0.0, 0.1, 0.05, 1)
+emission_enabled = true
+emission = Color(0.0, 0.3, 0.15, 1)
+emission_energy_multiplier = 0.5
+
+[sub_resource type="ParticleProcessMaterial" id="PartMat_Sparks"]
+direction = Vector3(0, 1, 0)
+spread = 45.0
+initial_velocity_min = 3.0
+initial_velocity_max = 6.0
+gravity = Vector3(0, -9.8, 0)
+scale_min = 0.02
+scale_max = 0.06
+color = Color(1, 0.7, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Spark"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+emission_enabled = true
+emission = Color(1, 0.7, 0.1, 1)
+emission_energy_multiplier = 8.0
+
+[sub_resource type="QuadMesh" id="Mesh_Spark"]
+material = SubResource("Mat_Spark")
+
+[sub_resource type="ParticleProcessMaterial" id="PartMat_Steam"]
+emission_shape = 3
+emission_box_extents = Vector3(0.1, 0.1, 0.1)
+direction = Vector3(0, 1, 0)
+spread = 20.0
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+gravity = Vector3(0, 0.5, 0)
+scale_min = 0.1
+scale_max = 0.3
+color_add = Color(0.6, 0.6, 0.6, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Steam"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.8, 0.8, 0.8, 0.2)
+
+[sub_resource type="QuadMesh" id="Mesh_Steam"]
+material = SubResource("Mat_Steam")
+
+[sub_resource type="Animation" id="Anim_ComponentReveal"]
+resource_name = "component_reveal"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Environment/RoboticArm:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.5, -0.2, 0.3), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Anim_AssemblyProcess"]
+resource_name = "assembly_process"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Environment/RoboticArm:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3.0, 4.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-3.5, 2.5, 0), Vector3(-1.0, 2.0, 0.5), Vector3(-1.2, 2.3, -0.2), Vector3(-3.5, 2.5, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Environment/RoboticArm/WelderNode:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5, 3.0),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.5, 0, -0.5), Vector3(-0.2, 0.2, 0.1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Environment/Sparks:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.2, 3.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Environment/Lights/WeldLight:light_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.2, 1.4, 1.8, 2.0, 2.4, 2.6, 3.0, 3.2, 3.8, 4.0),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 6.0, 1.0, 7.0, 0.5, 6.0, 1.0, 5.0, 0.0, 0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Environment/Platform/RobotTorso:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Anim_CablesConnect"]
+resource_name = "cables_connect"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Environment/Platform/Cables:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 3.0, -0.5), Vector3(0, 1.2, -0.5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Environment/Steam:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2.4, 3.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Anim_HeadInstall"]
+resource_name = "head_install"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Environment/Platform/RobotTorso/RobotHead:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.0),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Environment/RoboticArm:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.8, 3.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-3.5, 2.5, 0), Vector3(0, 2.2, 0), Vector3(-3.5, 2.5, 0)]
+}
+
+[sub_resource type="Animation" id="Anim_Activation"]
+resource_name = "activation"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Environment/Platform/RobotTorso/RobotHead/Eyes/EyeLeft:material:emission_energy_multiplier")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3.0),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 6.0, 4.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Environment/Platform/RobotTorso/RobotHead/Eyes/EyeRight:material:emission_energy_multiplier")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5, 3.0),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 6.0, 4.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Environment/Platform/RobotTorso/ArmR/ForearmR/HandR/FingersR:rotation")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.5, 2.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.5, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Environment/Platform/RobotTorso/RobotHead:rotation")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.0, 3.0),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.4, 0, 0), Vector3(0.1, 0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Environment/Lights/PulseLight:light_energy")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.4, 1.0),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 12.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Anim_ScientistObserve"]
+resource_name = "scientist_observe"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Environment/Scientist:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1.5, 0.8, 6.0), Vector3(1.2, 0.8, 3.2)]
+}
+
+[sub_resource type="Animation" id="Anim_FirstContact"]
+resource_name = "first_contact"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Environment/Scientist/ArmR:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.2, 0, 0), Vector3(1.6, 0, 0.2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Environment/Platform/RobotTorso/ArmR:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.2, 4.0),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(1.5, 0, -0.3)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Environment/Lights/WarmSpotLight:light_energy")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 3.0),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 3.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Environment/Platform/RobotTorso/RobotHead:rotation")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.1, 0, 0), Vector3(0.2, 0.4, 0)]
+}
+
+[sub_resource type="Animation" id="Anim_FirstWalk"]
+resource_name = "first_walk"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Environment/Platform/RobotTorso:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.8, 4.0),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.6, 0), Vector3(0, 1.0, 0), Vector3(0, 1.0, 1.2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Environment/Platform/RobotTorso/Legs:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.9, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimLib_TheBirth"]
+_data = {
+"component_reveal": SubResource("Anim_ComponentReveal"),
+"assembly_process": SubResource("Anim_AssemblyProcess"),
+"cables_connect": SubResource("Anim_CablesConnect"),
+"head_install": SubResource("Anim_HeadInstall"),
+"activation": SubResource("Anim_Activation"),
+"scientist_observe": SubResource("Anim_ScientistObserve"),
+"first_contact": SubResource("Anim_FirstContact"),
+"first_walk": SubResource("Anim_FirstWalk")
+}
+
+[node name="Cinematic01TheBirth" type="Node3D"]
+script = ExtResource("01_scene")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_3D")
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="Room" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+flip_faces = true
+size = Vector3(40, 12, 40)
+material = SubResource("Mat_Wall")
+
+[node name="Floor" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+size = Vector3(40, 1, 40)
+material = SubResource("Mat_Floor")
+
+[node name="TrussBeam" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.5, 0)
+size = Vector3(38, 0.8, 0.8)
+material = SubResource("Mat_Platform")
+
+[node name="TrussPillarL" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 5, 0)
+size = Vector3(0.8, 10, 0.8)
+material = SubResource("Mat_Platform")
+
+[node name="TrussPillarR" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 5, 0)
+size = Vector3(0.8, 10, 0.8)
+material = SubResource("Mat_Platform")
+
+[node name="TerminalL" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -4, 0.6, 4.5)
+size = Vector3(1.5, 1.2, 0.8)
+material = SubResource("Mat_Platform")
+
+[node name="ScreenL" type="CSGBox3D" parent="Environment/TerminalL"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0.5, -0.2)
+size = Vector3(1.2, 0.8, 0.1)
+material = SubResource("Mat_TerminalScreen")
+
+[node name="TerminalR" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 4, 0.6, 4.5)
+size = Vector3(1.5, 1.2, 0.8)
+material = SubResource("Mat_Platform")
+
+[node name="ScreenR" type="CSGBox3D" parent="Environment/TerminalR"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0.5, -0.2)
+size = Vector3(1.2, 0.8, 0.1)
+material = SubResource("Mat_TerminalScreen")
+
+[node name="Platform" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="PlatBase" type="CSGCylinder3D" parent="Environment/Platform"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+radius = 2.2
+height = 0.4
+sides = 8
+material = SubResource("Mat_Platform")
+
+[node name="PlatPillar" type="CSGBox3D" parent="Environment/Platform"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+size = Vector3(4.5, 0.2, 4.5)
+material = SubResource("Mat_Support")
+
+[node name="RobotTorso" type="Node3D" parent="Environment/Platform"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+visible = false
+
+[node name="TorsoBase" type="CSGBox3D" parent="Environment/Platform/RobotTorso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+size = Vector3(0.8, 1.2, 0.5)
+material = SubResource("Mat_RobotMetal")
+
+[node name="TorsoCore" type="CSGCylinder3D" parent="Environment/Platform/RobotTorso/TorsoBase"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.2)
+radius = 0.3
+height = 0.2
+material = SubResource("Mat_RobotJoint")
+
+[node name="Neck" type="CSGCylinder3D" parent="Environment/Platform/RobotTorso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+radius = 0.15
+height = 0.3
+material = SubResource("Mat_RobotJoint")
+
+[node name="RobotHead" type="Node3D" parent="Environment/Platform/RobotTorso"]
+transform = Transform3D(1, 0, 0, 0, 0.921061, -0.389418, 0, 0.389418, 0.921061, 0, 1.7, 0)
+visible = false
+
+[node name="HeadShell" type="CSGSphere3D" parent="Environment/Platform/RobotTorso/RobotHead"]
+radius = 0.4
+radial_segments = 16
+rings = 12
+material = SubResource("Mat_RobotMetal")
+
+[node name="Eyes" type="Node3D" parent="Environment/Platform/RobotTorso/RobotHead"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0.3)
+
+[node name="EyeLeft" type="CSGCylinder3D" parent="Environment/Platform/RobotTorso/RobotHead/Eyes"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.15, 0, 0)
+radius = 0.1
+height = 0.15
+material = SubResource("Mat_Eye")
+surface_material_override/0 = SubResource("Mat_Eye")
+
+[node name="EyeRight" type="CSGCylinder3D" parent="Environment/Platform/RobotTorso/RobotHead/Eyes"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.15, 0, 0)
+radius = 0.1
+height = 0.15
+material = SubResource("Mat_Eye")
+surface_material_override/0 = SubResource("Mat_Eye")
+
+[node name="ArmL" type="Node3D" parent="Environment/Platform/RobotTorso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.0, 0)
+
+[node name="ShoulderL" type="CSGSphere3D" parent="Environment/Platform/RobotTorso/ArmL"]
+radius = 0.18
+material = SubResource("Mat_RobotJoint")
+
+[node name="UpperArmL" type="CSGCylinder3D" parent="Environment/Platform/RobotTorso/ArmL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+radius = 0.12
+height = 0.8
+material = SubResource("Mat_RobotMetal")
+
+[node name="ArmR" type="Node3D" parent="Environment/Platform/RobotTorso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.0, 0)
+
+[node name="ShoulderR" type="CSGSphere3D" parent="Environment/Platform/RobotTorso/ArmR"]
+radius = 0.18
+material = SubResource("Mat_RobotJoint")
+
+[node name="UpperArmR" type="CSGCylinder3D" parent="Environment/Platform/RobotTorso/ArmR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+radius = 0.12
+height = 0.8
+material = SubResource("Mat_RobotMetal")
+
+[node name="ForearmR" type="Node3D" parent="Environment/Platform/RobotTorso/ArmR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
+
+[node name="ElbowR" type="CSGSphere3D" parent="Environment/Platform/RobotTorso/ArmR/ForearmR"]
+radius = 0.14
+material = SubResource("Mat_RobotJoint")
+
+[node name="LowerArmR" type="CSGCylinder3D" parent="Environment/Platform/RobotTorso/ArmR/ForearmR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+radius = 0.1
+height = 0.8
+material = SubResource("Mat_RobotMetal")
+
+[node name="HandR" type="Node3D" parent="Environment/Platform/RobotTorso/ArmR/ForearmR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
+
+[node name="WristR" type="CSGSphere3D" parent="Environment/Platform/RobotTorso/ArmR/ForearmR/HandR"]
+radius = 0.1
+material = SubResource("Mat_RobotJoint")
+
+[node name="FingersR" type="Node3D" parent="Environment/Platform/RobotTorso/ArmR/ForearmR/HandR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
+
+[node name="Finger1" type="CSGBox3D" parent="Environment/Platform/RobotTorso/ArmR/ForearmR/HandR/FingersR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, -0.1, 0)
+size = Vector3(0.04, 0.2, 0.04)
+material = SubResource("Mat_RobotMetal")
+
+[node name="Finger2" type="CSGBox3D" parent="Environment/Platform/RobotTorso/ArmR/ForearmR/HandR/FingersR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, -0.1, 0)
+size = Vector3(0.04, 0.2, 0.04)
+material = SubResource("Mat_RobotMetal")
+
+[node name="Legs" type="Node3D" parent="Environment/Platform/RobotTorso"]
+transform = Transform3D(1, 0, 0, 0, 0.621598, 0.783333, 0, -0.783333, 0.621598, 0, 0.0, 0)
+
+[node name="HipJoint" type="CSGSphere3D" parent="Environment/Platform/RobotTorso/Legs"]
+radius = 0.2
+material = SubResource("Mat_RobotJoint")
+
+[node name="LegL" type="CSGCylinder3D" parent="Environment/Platform/RobotTorso/Legs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, -0.5, 0)
+radius = 0.15
+height = 1.0
+material = SubResource("Mat_RobotMetal")
+
+[node name="LegR" type="CSGCylinder3D" parent="Environment/Platform/RobotTorso/Legs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.5, 0)
+radius = 0.15
+height = 1.0
+material = SubResource("Mat_RobotMetal")
+
+[node name="Cables" type="Node3D" parent="Environment/Platform"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -0.5)
+
+[node name="Cable1" type="CSGCylinder3D" parent="Environment/Platform/Cables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 2, 0)
+radius = 0.06
+height = 4.0
+material = SubResource("Mat_Cable")
+
+[node name="Cable2" type="CSGCylinder3D" parent="Environment/Platform/Cables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 2, 0)
+radius = 0.06
+height = 4.0
+material = SubResource("Mat_Cable")
+
+[node name="RoboticArm" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2.5, 0)
+
+[node name="Base" type="CSGBox3D" parent="Environment/RoboticArm"]
+size = Vector3(1.0, 0.5, 1.0)
+material = SubResource("Mat_OrangeArm")
+
+[node name="Link1" type="CSGCylinder3D" parent="Environment/RoboticArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+radius = 0.3
+height = 1.2
+material = SubResource("Mat_OrangeArm")
+
+[node name="Link2" type="CSGBox3D" parent="Environment/RoboticArm"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 1.6, 0.4)
+size = Vector3(0.4, 0.4, 1.5)
+material = SubResource("Mat_OrangeArm")
+
+[node name="WelderNode" type="Node3D" parent="Environment/RoboticArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 1.2)
+
+[node name="WelderTool" type="CSGCylinder3D" parent="Environment/RoboticArm/WelderNode"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.4)
+radius = 0.08
+height = 0.8
+material = SubResource("Mat_Platform")
+
+[node name="Scientist" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.8, 6)
+
+[node name="Coat" type="CSGBox3D" parent="Environment/Scientist"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+size = Vector3(0.6, 1.2, 0.4)
+material = SubResource("Mat_ScientistCoat")
+
+[node name="Pants" type="CSGBox3D" parent="Environment/Scientist"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+size = Vector3(0.5, 0.4, 0.3)
+material = SubResource("Mat_ScientistPants")
+
+[node name="Head" type="CSGSphere3D" parent="Environment/Scientist"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+radius = 0.22
+radial_segments = 12
+rings = 10
+material = SubResource("Mat_Support")
+
+[node name="ArmL" type="CSGBox3D" parent="Environment/Scientist"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, -0.4, 0.9, 0)
+size = Vector3(0.18, 0.8, 0.18)
+material = SubResource("Mat_ScientistCoat")
+
+[node name="ArmR" type="Node3D" parent="Environment/Scientist"]
+transform = Transform3D(1, 0, 0, 0, 0.980067, 0.198669, 0, -0.198669, 0.980067, 0.4, 1.3, 0)
+
+[node name="ArmRShape" type="CSGBox3D" parent="Environment/Scientist/ArmR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+size = Vector3(0.18, 0.8, 0.18)
+material = SubResource("Mat_ScientistCoat")
+
+[node name="Sparks" type="GPUParticles3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.2)
+emitting = false
+amount = 40
+lifetime = 0.6
+process_material = SubResource("PartMat_Sparks")
+draw_pass_1 = SubResource("Mesh_Spark")
+
+[node name="Steam" type="GPUParticles3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -0.5)
+emitting = false
+amount = 25
+lifetime = 1.0
+process_material = SubResource("PartMat_Steam")
+draw_pass_1 = SubResource("Mesh_Steam")
+
+[node name="Lights" type="Node3D" parent="Environment"]
+
+[node name="FillLight" type="DirectionalLight3D" parent="Environment/Lights"]
+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 10, 0)
+light_color = Color(0.25, 0.35, 0.45, 1)
+light_energy = 0.5
+sky_mode = 1
+
+[node name="IndustrialLight1" type="SpotLight3D" parent="Environment/Lights"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -5, 8, 0)
+light_color = Color(0.7, 0.85, 1, 1)
+light_energy = 5.0
+spot_range = 15.0
+spot_angle = 45.0
+
+[node name="IndustrialLight2" type="SpotLight3D" parent="Environment/Lights"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 5, 8, 0)
+light_color = Color(0.7, 0.85, 1, 1)
+light_energy = 5.0
+spot_range = 15.0
+spot_angle = 45.0
+
+[node name="WeldLight" type="OmniLight3D" parent="Environment/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.2)
+light_color = Color(0.4, 0.9, 1, 1)
+light_energy = 0.0
+omni_range = 4.0
+
+[node name="PulseLight" type="OmniLight3D" parent="Environment/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+light_color = Color(1, 1, 1, 1)
+light_energy = 0.0
+omni_range = 8.0
+
+[node name="WarmSpotLight" type="SpotLight3D" parent="Environment/Lights"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.8, 6, 2.5)
+light_color = Color(1, 0.8, 0.6, 1)
+light_energy = 0.0
+spot_range = 8.0
+spot_angle = 35.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimLib_TheBirth")
+}
+
+[node name="GameplayCamera" type="Camera3D" parent="." groups=["gameplay_camera"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 5)
+current = true
+
+[node name="CinematicCamera" type="Camera3D" parent="." groups=["cinematic_camera"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 4, -8)
+
+[node name="CinematicCameraController" type="Node" parent="."]
+script = ExtResource("02_controller")
+gameplay_camera_path = NodePath("../GameplayCamera")
+cinematic_camera_path = NodePath("../CinematicCamera")
+
+[node name="CinematicMarkers" type="Node3D" parent="."]
+
+[node name="Establishing_Wide" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.965926, 0.0683013, -0.249673, 0, 0.964722, 0.263266, 0.258819, -0.254296, 0.931852, -2.5, 3.5, 7.5)
+
+[node name="Component_Close" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.965926, -0.0683013, 0.249673, 0, 0.964722, 0.263266, -0.258819, -0.254296, 0.931852, -2, 1.6, 1.5)
+
+[node name="Arm_Assembly" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.866025, 0.12941, -0.482963, 0, 0.965926, 0.258819, 0.5, -0.224144, 0.836516, -2, 2.5, 2.5)
+
+[node name="Cable_Connection" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 2.2, 1.8)
+
+[node name="Head_Installation" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.965926, 0.0965926, -0.241481, 0, 0.928477, 0.371391, 0.258819, -0.358738, 0.89684, -1, 2.4, 2)
+
+[node name="Sensor_Activation" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0.9)
+
+[node name="Scientist_Reaction" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.707107, 0.258819, -0.658013, 0, 0.931852, 0.362846, 0.707107, -0.256563, 0.658919, 0.2, 1.8, 4.8)
+
+[node name="First_Contact" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -2, 1.8, 3)
+
+[node name="Complete_Laboratory" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.965926, 0.12941, -0.224144, 0, 0.866025, 0.5, 0.258819, -0.482963, 0.836516, -1.5, 5, 8.5)
+
+[node name="CinematicFade" parent="." instance=ExtResource("03_fade")]
+
+[node name="DialogueUI" parent="." instance=ExtResource("04_dialogue_ui")]
+presentation_mode = 1
+speaker_styles = Array[Resource]([ExtResource("11_narration")])
+
+[node name="ObjectiveHUD" parent="." instance=ExtResource("05_objective_hud")]

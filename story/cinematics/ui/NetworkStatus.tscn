@@ -1,0 +1,51 @@
+[gd_scene format=3]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rownc"]
+bg_color = Color(0, 0.05, 0.1, 0.72)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0.67, 1, 0.35)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="NetworkStatus" type="Control" unique_id=662033783]
+custom_minimum_size = Vector2(440, 56)
+layout_mode = 3
+anchors_preset = 0
+anchor_bottom = 1.0
+offset_left = 60.0
+offset_bottom = -100.0
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1860683463]
+layout_mode = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_rownc")
+
+[node name="@VBoxContainer@19" type="VBoxContainer" parent="Panel" unique_id=1724025108]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TitleLabel" type="Label" parent="Panel/@VBoxContainer@19" unique_id=1851446294]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.85, 0.95, 1, 1)
+text = "AUTOMATION NETWORK: 42%"
+
+[node name="BarTrack" type="Control" parent="Panel/@VBoxContainer@19" unique_id=1442655154]
+custom_minimum_size = Vector2(400, 6)
+layout_mode = 2
+
+[node name="BarBG" type="ColorRect" parent="Panel/@VBoxContainer@19/BarTrack" unique_id=1021824991]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0.67, 1, 0.12)
+
+[node name="Bar" type="ColorRect" parent="Panel/@VBoxContainer@19/BarTrack" unique_id=286980286]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 0
+anchor_bottom = 1.0
+color = Color(0, 0.67, 1, 1)

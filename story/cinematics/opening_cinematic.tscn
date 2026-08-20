@@ -1,0 +1,888 @@
+[gd_scene load_steps=34 format=3]
+
+[ext_resource type="Script" path="res://story/cinematics/opening_cinematic.gd" id="01_scene"]
+[ext_resource type="Script" path="res://story/scripts/cinematic_camera_controller.gd" id="02_controller"]
+[ext_resource type="PackedScene" path="res://story/ui/cinematic_fade.tscn" id="03_fade"]
+[ext_resource type="PackedScene" path="res://story/ui/dialogue_ui.tscn" id="04_dialogue_ui"]
+[ext_resource type="PackedScene" path="res://story/ui/objective_hud.tscn" id="05_objective_hud"]
+[ext_resource type="PackedScene" path="res://story/ui/cinematic_subtitle.tscn" id="p15_subtitle"]
+[ext_resource type="PackedScene" path="res://story/ui/cinematic_letterbox.tscn" id="p15_letterbox"]
+[ext_resource type="PackedScene" path="res://story/ui/cinematic_meta_hud.tscn" id="p15_metahud"]
+[ext_resource type="Resource" path="res://story/ui/speaker_styles/genesis.tres" id="07_genesis"]
+[ext_resource type="Resource" path="res://story/ui/speaker_styles/vance.tres" id="08_vance"]
+[ext_resource type="Resource" path="res://story/ui/speaker_styles/radio.tres" id="09_radio"]
+[ext_resource type="Resource" path="res://story/ui/speaker_styles/warden.tres" id="10_warden"]
+[ext_resource type="Resource" path="res://story/ui/speaker_styles/narration.tres" id="11_narration"]
+[ext_resource type="Material" path="res://story/assets/materials/skin.tres" id="ExtMat_Skin"]
+[ext_resource type="Material" path="res://story/assets/materials/chrome.tres" id="ExtMat_Chrome"]
+[ext_resource type="Material" path="res://story/assets/materials/gold_award.tres" id="ExtMat_GoldAward"]
+[ext_resource type="Material" path="res://story/assets/materials/emissive_cyan.tres" id="ExtMat_EmissiveCyan"]
+[ext_resource type="Material" path="res://story/assets/materials/emissive_red.tres" id="ExtMat_EmissiveRed"]
+
+[sub_resource type="Environment" id="Environment_3D"]
+background_mode = 1
+background_color = Color(0.01, 0.012, 0.018, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.12, 0.15, 0.2, 1)
+tonemap_mode = 3
+glow_enabled = true
+glow_intensity = 0.8
+glow_strength = 0.95
+glow_bloom = 0.15
+glow_blend_mode = 1
+fog_enabled = true
+fog_light_color = Color(0.04, 0.06, 0.08, 1)
+fog_density = 0.015
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.02
+
+[sub_resource type="StandardMaterial3D" id="Mat_Wall"]
+albedo_color = Color(0.18, 0.2, 0.22, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_Floor"]
+albedo_color = Color(0.12, 0.14, 0.16, 1)
+roughness = 0.6
+metallic = 0.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_Desk"]
+albedo_color = Color(0.3, 0.25, 0.2, 1)
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="Mat_EmissiveScreen"]
+albedo_color = Color(0.0, 0.5, 0.9, 1)
+emission_enabled = true
+emission = Color(0.0, 0.4, 0.8, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_HoloGreen"]
+transparency = 1
+albedo_color = Color(0.1, 0.9, 0.3, 0.4)
+emission_enabled = true
+emission = Color(0.05, 0.8, 0.2, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_OrangeArm"]
+albedo_color = Color(0.9, 0.4, 0.05, 1)
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_HeroTorso"]
+albedo_color = Color(0.25, 0.18, 0.12, 1)
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="Mat_HeroSkin"]
+albedo_color = Color(0.88, 0.68, 0.58, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_HeroVisor"]
+albedo_color = Color(0, 0.8, 1, 1)
+emission_enabled = true
+emission = Color(0, 0.6, 0.8, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_HeroHair"]
+albedo_color = Color(0.12, 0.08, 0.05, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_WhiteCoat"]
+albedo_color = Color(0.9, 0.9, 0.95, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_RobotChrome"]
+albedo_color = Color(0.82, 0.84, 0.86, 1)
+metallic = 0.95
+roughness = 0.15
+
+[sub_resource type="StandardMaterial3D" id="Mat_RobotCyan"]
+albedo_color = Color(0, 0.9, 1, 1)
+emission_enabled = true
+emission = Color(0, 0.8, 0.8, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_RobotRed"]
+albedo_color = Color(1, 0, 0, 1)
+emission_enabled = true
+emission = Color(0.8, 0, 0, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_CivilianShirt"]
+albedo_color = Color(0.8, 0.2, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Pants"]
+albedo_color = Color(0.2, 0.3, 0.6, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Boots"]
+albedo_color = Color(0.08, 0.08, 0.08, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Laser"]
+albedo_color = Color(1, 0.1, 0.1, 1)
+emission_enabled = true
+emission = Color(0.8, 0, 0, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Explosion"]
+transparency = 1
+albedo_color = Color(1, 0.5, 0.1, 0.8)
+emission_enabled = true
+emission = Color(0.8, 0.3, 0, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Rubble"]
+albedo_color = Color(0.16, 0.16, 0.18, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Mat_Award"]
+albedo_color = Color(0.85, 0.7, 0.15, 1)
+metallic = 0.85
+roughness = 0.2
+
+[sub_resource type="BoxMesh" id="Mesh_Torso"]
+size = Vector3(0.5, 0.8, 0.3)
+
+[sub_resource type="SphereMesh" id="Mesh_Head"]
+radius = 0.18
+height = 0.36
+
+[sub_resource type="BoxMesh" id="Mesh_Visor"]
+size = Vector3(0.22, 0.08, 0.1)
+
+[sub_resource type="CylinderMesh" id="Mesh_Limb"]
+top_radius = 0.06
+bottom_radius = 0.06
+height = 0.4
+
+[sub_resource type="SphereMesh" id="Mesh_Joint"]
+radius = 0.08
+height = 0.16
+
+[sub_resource type="BoxMesh" id="Mesh_Foot"]
+size = Vector3(0.12, 0.08, 0.25)
+
+[sub_resource type="BoxMesh" id="Mesh_Car"]
+size = Vector3(1.2, 0.4, 2.5)
+
+[sub_resource type="BoxMesh" id="Mesh_Skyscraper"]
+size = Vector3(4, 25, 4)
+
+[sub_resource type="ParticleProcessMaterial" id="PartMat_Dust"]
+emission_shape = 3
+emission_box_extents = Vector3(150, 10, 20)
+gravity = Vector3(0, 0.03, 0)
+scale_min = 0.01
+scale_max = 0.05
+color = Color(0.85, 0.9, 1, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Dust"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+
+[sub_resource type="QuadMesh" id="Mesh_Dust"]
+material = SubResource("Mat_Dust")
+
+[sub_resource type="Animation" id="Anim_WeldSparks"]
+resource_name = "assembly_weld_start"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Environment/Lights/WeldLight:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.0, 1.2, 1.4, 2.0, 2.2, 3.0),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 4.0, 0.0, 4.0, 0.0, 5.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Environment/Zone1/AssemblyWeldSparks:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.0, 1.5, 2.0, 2.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false]
+}
+
+[sub_resource type="Animation" id="Anim_NightGlitch"]
+resource_name = "night_glitch_start"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Environment/Lights/GlitchLight:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.0, 1.2, 1.5, 2.0, 3.0, 4.0),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 5.0, 0.0, 5.0, 0.0, 5.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Anim_ControlFailure"]
+resource_name = "control_failure_start"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Environment/Zone4/ControlConsole/FailureScreenText:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.0),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Anim_DisasterChaos"]
+resource_name = "disaster_chaos_start"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Environment/Zone5/ExplosionSphere:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.0, 4.0),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Environment/Zone5/ExplosionSphere:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2.0, 3.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.1, 0.1, 0.1), Vector3(3.0, 3.0, 3.0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimLib_Prolog"]
+_data = {
+"assembly_weld_start": SubResource("Anim_WeldSparks"),
+"night_glitch_start": SubResource("Anim_NightGlitch"),
+"control_failure_start": SubResource("Anim_ControlFailure"),
+"disaster_chaos_start": SubResource("Anim_DisasterChaos")
+}
+
+[node name="OpeningCinematic" type="Node3D"]
+script = ExtResource("01_scene")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_3D")
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="Room" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 125, 10, 0)
+flip_faces = true
+size = Vector3(300, 20, 30)
+material = SubResource("Mat_Wall")
+
+[node name="Floor" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 125, -0.5, 0)
+size = Vector3(300, 1, 30)
+material = SubResource("Mat_Floor")
+
+[node name="DustParticles" type="GPUParticles3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 125, 8, 0)
+amount = 400
+lifetime = 6.0
+process_material = SubResource("PartMat_Dust")
+draw_pass_1 = SubResource("Mesh_Dust")
+
+[node name="Zone1" type="Node3D" parent="Environment"]
+
+[node name="EngineeringTable" type="CSGBox3D" parent="Environment/Zone1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -2)
+size = Vector3(3.5, 1.0, 1.5)
+material = SubResource("Mat_Desk")
+
+[node name="TechnicalScreen" type="MeshInstance3D" parent="Environment/Zone1/EngineeringTable"]
+transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 0.8, -0.2)
+mesh = SubResource("Mesh_Visor")
+material = SubResource("Mat_EmissiveScreen")
+
+[node name="HoloBlueprint" type="CSGCylinder3D" parent="Environment/Zone1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 1.2, -1.8)
+radius = 0.4
+height = 0.6
+material = SubResource("Mat_HoloGreen")
+
+[node name="AssemblyPlatform" type="CSGBox3D" parent="Environment/Zone1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.5, 0)
+size = Vector3(3.0, 1.0, 3.0)
+material = SubResource("Mat_Floor")
+
+[node name="MechanicalArm" type="Node3D" parent="Environment/Zone1/AssemblyPlatform"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 1.5, 0)
+
+[node name="Base" type="CSGBox3D" parent="Environment/Zone1/AssemblyPlatform/MechanicalArm"]
+size = Vector3(0.5, 0.3, 0.5)
+material = SubResource("Mat_OrangeArm")
+
+[node name="Joint" type="MeshInstance3D" parent="Environment/Zone1/AssemblyPlatform/MechanicalArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("Mesh_Joint")
+material = SubResource("Mat_Wall")
+
+[node name="Link" type="MeshInstance3D" parent="Environment/Zone1/AssemblyPlatform/MechanicalArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0.2)
+mesh = SubResource("Mesh_Limb")
+material = SubResource("Mat_OrangeArm")
+
+[node name="AssemblyWeldSparks" type="GPUParticles3D" parent="Environment/Zone1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, 0)
+emitting = false
+amount = 40
+lifetime = 0.4
+process_material = SubResource("PartMat_Dust")
+draw_pass_1 = SubResource("Mesh_Dust")
+
+[node name="HeroLab" type="Node3D" parent="Environment/Zone1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.6)
+
+[node name="Torso" type="MeshInstance3D" parent="Environment/Zone1/HeroLab"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("Mesh_Torso")
+material = SubResource("Mat_HeroTorso")
+
+[node name="Head" type="MeshInstance3D" parent="Environment/Zone1/HeroLab"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+mesh = SubResource("Mesh_Head")
+material = ExtResource("ExtMat_Skin")
+
+[node name="Visor" type="MeshInstance3D" parent="Environment/Zone1/HeroLab/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.15)
+mesh = SubResource("Mesh_Visor")
+material = SubResource("Mat_HeroVisor")
+
+[node name="Hair" type="MeshInstance3D" parent="Environment/Zone1/HeroLab/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, -0.08)
+mesh = SubResource("Mesh_Head")
+material = SubResource("Mat_HeroHair")
+
+[node name="ArmL" type="Node3D" parent="Environment/Zone1/HeroLab"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -0.35, 1.15, 0)
+
+[node name="UpperArm" type="MeshInstance3D" parent="Environment/Zone1/HeroLab/ArmL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+mesh = SubResource("Mesh_Limb")
+material = SubResource("Mat_HeroTorso")
+
+[node name="ArmR" type="Node3D" parent="Environment/Zone1/HeroLab"]
+transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 0.35, 1.15, 0)
+
+[node name="UpperArm" type="MeshInstance3D" parent="Environment/Zone1/HeroLab/ArmR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+mesh = SubResource("Mesh_Limb")
+material = SubResource("Mat_HeroTorso")
+
+[node name="LegL" type="Node3D" parent="Environment/Zone1/HeroLab"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18, 0.6, 0)
+
+[node name="LegMesh" type="MeshInstance3D" parent="Environment/Zone1/HeroLab/LegL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+mesh = SubResource("Mesh_Limb")
+material = SubResource("Mat_Pants")
+
+[node name="LegR" type="Node3D" parent="Environment/Zone1/HeroLab"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, 0.6, 0)
+
+[node name="LegMesh" type="MeshInstance3D" parent="Environment/Zone1/HeroLab/LegR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+mesh = SubResource("Mesh_Limb")
+material = SubResource("Mat_Pants")
+
+[node name="Scientist1" type="Node3D" parent="Environment/Zone1"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -2, 0, -1.8)
+
+[node name="Torso" type="MeshInstance3D" parent="Environment/Zone1/Scientist1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("Mesh_Torso")
+material = SubResource("Mat_WhiteCoat")
+
+[node name="Head" type="MeshInstance3D" parent="Environment/Zone1/Scientist1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+mesh = SubResource("Mesh_Head")
+material = ExtResource("ExtMat_Skin")
+
+[node name="Visor" type="MeshInstance3D" parent="Environment/Zone1/Scientist1/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.15)
+mesh = SubResource("Mesh_Visor")
+material = SubResource("Mat_HeroVisor")
+
+[node name="RobotAssembly" type="Node3D" parent="Environment/Zone1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.0, 0.2)
+
+[node name="Torso" type="MeshInstance3D" parent="Environment/Zone1/RobotAssembly"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("Mesh_Torso")
+material = ExtResource("ExtMat_Chrome")
+
+[node name="Head" type="MeshInstance3D" parent="Environment/Zone1/RobotAssembly"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+mesh = SubResource("Mesh_Head")
+material = ExtResource("ExtMat_Chrome")
+
+[node name="Visor" type="MeshInstance3D" parent="Environment/Zone1/RobotAssembly/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.15)
+mesh = SubResource("Mesh_Visor")
+material = ExtResource("ExtMat_EmissiveCyan")
+
+[node name="Zone2" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, 0)
+
+[node name="SmallFactory1" type="CSGBox3D" parent="Environment/Zone2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2.0, -4)
+size = Vector3(4.0, 4.0, 4.0)
+material = SubResource("Mat_Wall")
+
+[node name="Pipe" type="CSGCylinder3D" parent="Environment/Zone2/SmallFactory1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.8, 2.2)
+radius = 0.2
+height = 2.0
+material = ExtResource("ExtMat_EmissiveCyan")
+
+[node name="Zone3" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, 0)
+
+[node name="Skyscraper1" type="MeshInstance3D" parent="Environment/Zone3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 12, -6)
+mesh = SubResource("Mesh_Skyscraper")
+material = SubResource("Mat_Wall")
+
+[node name="WindowLights1" type="CSGBox3D" parent="Environment/Zone3/Skyscraper1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.05)
+size = Vector3(3.2, 24, 0.1)
+material = ExtResource("ExtMat_EmissiveCyan")
+
+[node name="Skyscraper2" type="MeshInstance3D" parent="Environment/Zone3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 10, -8)
+mesh = SubResource("Mesh_Skyscraper")
+material = SubResource("Mat_Wall")
+
+[node name="WindowLights2" type="CSGBox3D" parent="Environment/Zone3/Skyscraper2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.05)
+size = Vector3(3.2, 24, 0.1)
+material = ExtResource("ExtMat_EmissiveCyan")
+
+[node name="FlyingCar1" type="MeshInstance3D" parent="Environment/Zone3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 8, 3)
+mesh = SubResource("Mesh_Car")
+material = ExtResource("ExtMat_Chrome")
+
+[node name="EngineGlow" type="CSGBox3D" parent="Environment/Zone3/FlyingCar1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.3)
+size = Vector3(0.8, 0.2, 0.1)
+material = ExtResource("ExtMat_EmissiveCyan")
+
+[node name="FlyingCar2" type="MeshInstance3D" parent="Environment/Zone3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 6, -1)
+mesh = SubResource("Mesh_Car")
+material = ExtResource("ExtMat_Chrome")
+
+[node name="EngineGlow" type="CSGBox3D" parent="Environment/Zone3/FlyingCar2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.3)
+size = Vector3(0.8, 0.2, 0.1)
+material = ExtResource("ExtMat_EmissiveCyan")
+
+[node name="NewsDisplay" type="CSGBox3D" parent="Environment/Zone3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, -4)
+size = Vector3(10, 6, 0.2)
+material = SubResource("Mat_Wall")
+
+[node name="EmissiveScreen" type="CSGBox3D" parent="Environment/Zone3/NewsDisplay"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.11)
+size = Vector3(9.6, 5.6, 0.05)
+material = SubResource("Mat_EmissiveScreen")
+
+[node name="NewsLabel" type="Label3D" parent="Environment/Zone3/NewsDisplay/EmissiveScreen"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.05)
+text = "INVENTOR OF THE CENTURY
+DR. HELEN VANCE"
+font_size = 48
+
+[node name="Zone4" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150, 0, 0)
+
+[node name="ControlConsole" type="CSGBox3D" parent="Environment/Zone4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -2)
+size = Vector3(4.0, 1.0, 1.5)
+material = SubResource("Mat_Wall")
+
+[node name="EmissiveScreen" type="CSGBox3D" parent="Environment/Zone4/ControlConsole"]
+transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 1.0, -0.2)
+size = Vector3(2.5, 0.8, 0.05)
+material = SubResource("Mat_EmissiveScreen")
+
+[node name="AuthorityLabel" type="Label3D" parent="Environment/Zone4/ControlConsole/EmissiveScreen"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.05)
+text = "AUTONOMOUS AUTHORITY
+[ CONFIRM ]"
+font_size = 28
+
+[node name="FailureScreenText" type="Label3D" parent="Environment/Zone4/ControlConsole"]
+transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 1.1, -0.1)
+visible = false
+text = "SYSTEM FAILURE
+AUTONOMOUS CONTROL LOST"
+font_size = 28
+font_color = Color(1, 0, 0, 1)
+
+[node name="HeroControl" type="Node3D" parent="Environment/Zone4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.8)
+
+[node name="Torso" type="MeshInstance3D" parent="Environment/Zone4/HeroControl"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("Mesh_Torso")
+material = SubResource("Mat_HeroTorso")
+
+[node name="Head" type="MeshInstance3D" parent="Environment/Zone4/HeroControl"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+mesh = SubResource("Mesh_Head")
+material = ExtResource("ExtMat_Skin")
+
+[node name="Visor" type="MeshInstance3D" parent="Environment/Zone4/HeroControl/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.15)
+mesh = SubResource("Mesh_Visor")
+material = SubResource("Mat_HeroVisor")
+
+[node name="ArmL" type="Node3D" parent="Environment/Zone4/HeroControl"]
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, -0.35, 1.15, 0)
+
+[node name="UpperArm" type="MeshInstance3D" parent="Environment/Zone4/HeroControl/ArmL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+mesh = SubResource("Mesh_Limb")
+material = SubResource("Mat_HeroTorso")
+
+[node name="ArmR" type="Node3D" parent="Environment/Zone4/HeroControl"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 1.15, 0)
+
+[node name="UpperArm" type="MeshInstance3D" parent="Environment/Zone4/HeroControl/ArmR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+mesh = SubResource("Mesh_Limb")
+material = SubResource("Mat_HeroTorso")
+
+[node name="LegL" type="Node3D" parent="Environment/Zone4/HeroControl"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18, 0.6, 0)
+
+[node name="LegMesh" type="MeshInstance3D" parent="Environment/Zone4/HeroControl/LegL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+mesh = SubResource("Mesh_Limb")
+material = SubResource("Mat_Pants")
+
+[node name="LegR" type="Node3D" parent="Environment/Zone4/HeroControl"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, 0.6, 0)
+
+[node name="LegMesh" type="MeshInstance3D" parent="Environment/Zone4/HeroControl/LegR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+mesh = SubResource("Mesh_Limb")
+material = SubResource("Mat_Pants")
+
+[node name="Zone5" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 200, 0, 0)
+
+[node name="CollapsedSkyscraper" type="MeshInstance3D" parent="Environment/Zone5"]
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, 5, 8, -5)
+mesh = SubResource("Mesh_Skyscraper")
+material = SubResource("Mat_Rubble")
+
+[node name="ExplosionSphere" type="MeshInstance3D" parent="Environment/Zone5"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 1.5, 2)
+visible = false
+mesh = SubResource("Mesh_Head")
+material = SubResource("Mat_Explosion")
+
+[node name="CivilianRun" type="Node3D" parent="Environment/Zone5"]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -2, 0, 3)
+
+[node name="Torso" type="MeshInstance3D" parent="Environment/Zone5/CivilianRun"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("Mesh_Torso")
+material = SubResource("Mat_CivilianShirt")
+
+[node name="Head" type="MeshInstance3D" parent="Environment/Zone5/CivilianRun"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+mesh = SubResource("Mesh_Head")
+material = ExtResource("ExtMat_Skin")
+
+[node name="ArmL" type="Node3D" parent="Environment/Zone5/CivilianRun"]
+transform = Transform3D(0.5, -0.866025, 0, 0.866025, 0.5, 0, 0, 0, 1, -0.35, 1.15, 0)
+
+[node name="UpperArm" type="MeshInstance3D" parent="Environment/Zone5/CivilianRun/ArmL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+mesh = SubResource("Mesh_Limb")
+material = SubResource("Mat_CivilianShirt")
+
+[node name="RobotPoliceAttack" type="Node3D" parent="Environment/Zone5"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 3, 0, 1)
+
+[node name="Torso" type="MeshInstance3D" parent="Environment/Zone5/RobotPoliceAttack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("Mesh_Torso")
+material = ExtResource("ExtMat_Chrome")
+
+[node name="Head" type="MeshInstance3D" parent="Environment/Zone5/RobotPoliceAttack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+mesh = SubResource("Mesh_Head")
+material = ExtResource("ExtMat_Chrome")
+
+[node name="Visor" type="MeshInstance3D" parent="Environment/Zone5/RobotPoliceAttack/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.15)
+mesh = SubResource("Mesh_Visor")
+material = ExtResource("ExtMat_EmissiveRed")
+
+[node name="ArmR" type="Node3D" parent="Environment/Zone5/RobotPoliceAttack"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.35, 1.15, 0)
+
+[node name="UpperArm" type="MeshInstance3D" parent="Environment/Zone5/RobotPoliceAttack/ArmR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+mesh = SubResource("Mesh_Limb")
+material = ExtResource("ExtMat_Chrome")
+
+[node name="LaserBeam" type="MeshInstance3D" parent="Environment/Zone5/RobotPoliceAttack/ArmR"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -2.0, 0)
+mesh = SubResource("Mesh_Limb")
+material = SubResource("Mat_Laser")
+
+[node name="Zone6" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 250, 0, 0)
+
+[node name="RuinedStructure" type="CSGBox3D" parent="Environment/Zone6"]
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, -5, 1.5, -2)
+size = Vector3(6, 3, 4)
+material = SubResource("Mat_Rubble")
+
+[node name="AwardCup" type="MeshInstance3D" parent="Environment/Zone6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.1, 0.5)
+mesh = SubResource("Mesh_Head")
+material = ExtResource("ExtMat_GoldAward")
+
+[node name="AwardPlaque" type="CSGBox3D" parent="Environment/Zone6/AwardCup"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+size = Vector3(0.5, 0.05, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="PlaqueLabel" type="Label3D" parent="Environment/Zone6/AwardCup/AwardPlaque"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.03, 0)
+text = "DR. HELEN VANCE"
+font_size = 20
+
+[node name="RobotBroken" type="Node3D" parent="Environment/Zone6"]
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, -2, 0.2, 1)
+
+[node name="Torso" type="MeshInstance3D" parent="Environment/Zone6/RobotBroken"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("Mesh_Torso")
+material = ExtResource("ExtMat_Chrome")
+
+[node name="Head" type="MeshInstance3D" parent="Environment/Zone6/RobotBroken"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+mesh = SubResource("Mesh_Head")
+material = ExtResource("ExtMat_Chrome")
+
+[node name="Visor" type="MeshInstance3D" parent="Environment/Zone6/RobotBroken/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.15)
+mesh = SubResource("Mesh_Visor")
+material = SubResource("Mat_Boots")
+
+[node name="EquipmentCase" type="CSGBox3D" parent="Environment/Zone6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.1, 0.8)
+size = Vector3(1.0, 0.2, 0.8)
+material = SubResource("Mat_Wall")
+
+[node name="ScannerTool" type="MeshInstance3D" parent="Environment/Zone6/EquipmentCase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, 0)
+mesh = SubResource("Mesh_Visor")
+material = SubResource("Mat_HeroVisor")
+
+[node name="HeroRuins" type="Node3D" parent="Environment/Zone6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Torso" type="MeshInstance3D" parent="Environment/Zone6/HeroRuins"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("Mesh_Torso")
+material = SubResource("Mat_HeroTorso")
+
+[node name="Head" type="MeshInstance3D" parent="Environment/Zone6/HeroRuins"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+mesh = SubResource("Mesh_Head")
+material = ExtResource("ExtMat_Skin")
+
+[node name="Visor" type="MeshInstance3D" parent="Environment/Zone6/HeroRuins/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.15)
+mesh = SubResource("Mesh_Visor")
+material = SubResource("Mat_HeroVisor")
+
+[node name="ArmL" type="Node3D" parent="Environment/Zone6/HeroRuins"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 1.15, 0)
+
+[node name="UpperArm" type="MeshInstance3D" parent="Environment/Zone6/HeroRuins/ArmL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+mesh = SubResource("Mesh_Limb")
+material = SubResource("Mat_HeroTorso")
+
+[node name="ArmR" type="Node3D" parent="Environment/Zone6/HeroRuins"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 1.15, 0)
+
+[node name="UpperArm" type="MeshInstance3D" parent="Environment/Zone6/HeroRuins/ArmR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+mesh = SubResource("Mesh_Limb")
+material = SubResource("Mat_HeroTorso")
+
+[node name="LegL" type="Node3D" parent="Environment/Zone6/HeroRuins"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18, 0.6, 0)
+
+[node name="LegMesh" type="MeshInstance3D" parent="Environment/Zone6/HeroRuins/LegL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+mesh = SubResource("Mesh_Limb")
+material = SubResource("Mat_Pants")
+
+[node name="LegR" type="Node3D" parent="Environment/Zone6/HeroRuins"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, 0.6, 0)
+
+[node name="LegMesh" type="MeshInstance3D" parent="Environment/Zone6/HeroRuins/LegR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+mesh = SubResource("Mesh_Limb")
+material = SubResource("Mat_Pants")
+
+[node name="Lights" type="Node3D" parent="Environment"]
+
+[node name="LabDeskLight" type="SpotLight3D" parent="Environment/Lights"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 4.5, 0)
+light_color = Color(1, 0.9, 0.85, 1)
+light_energy = 3.0
+spot_range = 10.0
+spot_angle = 40.0
+
+[node name="WeldLight" type="OmniLight3D" parent="Environment/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, 0)
+light_color = Color(0, 0.9, 1, 1)
+light_energy = 0.0
+omni_range = 6.0
+
+[node name="FillLight" type="DirectionalLight3D" parent="Environment/Lights"]
+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 100, 15, 0)
+light_color = Color(0.2, 0.25, 0.35, 1)
+light_energy = 0.3
+sky_mode = 1
+
+[node name="GlitchLight" type="SpotLight3D" parent="Environment/Lights"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 100, 8, 2)
+light_color = Color(1, 0.1, 0.1, 1)
+light_energy = 0.0
+spot_range = 15.0
+spot_angle = 50.0
+
+[node name="RubbleSpot" type="SpotLight3D" parent="Environment/Lights"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 250, 6, 2)
+light_color = Color(0.6, 0.7, 0.8, 1)
+light_energy = 1.2
+spot_range = 10.0
+spot_angle = 45.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimLib_Prolog")
+}
+
+[node name="GameplayCamera" type="Camera3D" parent="." groups=["gameplay_camera"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 250, 1.5, 4)
+current = true
+
+[node name="CinematicCamera" type="Camera3D" parent="." groups=["cinematic_camera"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 5, -10)
+
+[node name="CinematicCameraController" type="Node" parent="."]
+script = ExtResource("02_controller")
+gameplay_camera_path = NodePath("../GameplayCamera")
+cinematic_camera_path = NodePath("../CinematicCamera")
+
+[node name="CinematicMarkers" type="Node3D" parent="."]
+
+[node name="Lab_HeroFocus" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.965926, 0.0683013, -0.249673, 0, 0.964722, 0.263266, 0.258819, -0.254296, 0.931852, 0.8, 1.4, 1.8)
+
+[node name="Assembly_Close" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.866025, 0.12941, -0.482963, 0, 0.965926, 0.258819, 0.5, -0.224144, 0.836516, 4.5, 1.5, 2.5)
+
+[node name="Lab_WalkTrack" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 1.8, 3.5)
+
+[node name="Year3_Dolly" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.965926, -0.0683013, 0.249673, 0, 0.964722, 0.263266, -0.258819, -0.254296, 0.931852, 48, 2.5, 3.5)
+
+[node name="Year5_City" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 50, 4.0, 6.0)
+
+[node name="Year7_Traffic" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.965926, 0.0965926, -0.241481, 0, 0.928477, 0.371391, 0.258819, -0.358738, 0.89684, 98, 4.0, 7.0)
+
+[node name="Year10_HighPoint" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.866025, 0.12941, -0.482963, 0, 0.965926, 0.258819, 0.5, -0.224144, 0.836516, 96, 6.0, 10.0)
+
+[node name="Control_Authorize" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 150.5, 1.8, 2.5)
+
+[node name="City_NightGlitch" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.965926, 0.0965926, -0.241481, 0, 0.928477, 0.371391, 0.258819, -0.358738, 0.89684, 100, 3.5, 6.0)
+
+[node name="Control_FailureFeeds" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150, 1.5, 2.0)
+
+[node name="Disaster_Pan" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.965926, 0.12941, -0.224144, 0, 0.866025, 0.5, 0.258819, -0.482963, 0.836516, 198, 4.0, 8.5)
+
+[node name="Control_Lockout" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150, 1.4, 1.5)
+
+[node name="Ruins_EntryWalk" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 250, 2.2, 5.0)
+
+[node name="Ruins_AwardPickup" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 250.2, 1.2, 2.2)
+
+[node name="Ruins_EquipScanner" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.965926, -0.0683013, 0.249673, 0, 0.964722, 0.263266, -0.258819, -0.254296, 0.931852, 251.2, 1.0, 2.0)
+
+[node name="Ruins_HeroLook" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 250.5, 1.5, 2.0)
+
+[node name="Ruins_Handoff" type="Marker3D" parent="CinematicMarkers"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 250, 1.5, 3.8)
+
+[node name="CinematicFade" parent="." instance=ExtResource("03_fade")]
+
+[node name="DialogueUI" parent="." instance=ExtResource("04_dialogue_ui")]
+presentation_mode = 1
+speaker_styles = Array[Resource]([ExtResource("07_genesis"), ExtResource("08_vance"), ExtResource("09_radio"), ExtResource("10_warden"), ExtResource("11_narration")])
+
+[node name="ObjectiveHUD" parent="." instance=ExtResource("05_objective_hud")]
+
+[node name="VideoLayer" type="CanvasLayer" parent="."]
+layer = 50
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="VideoLayer" groups=["cinematic_video_player"]]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand = true
+
+[node name="CinematicSubtitle" parent="." instance=ExtResource("p15_subtitle")]
+
+[node name="CinematicLetterbox" parent="." instance=ExtResource("p15_letterbox")]
+
+[node name="CinematicMetaHUD" parent="." instance=ExtResource("p15_metahud")]

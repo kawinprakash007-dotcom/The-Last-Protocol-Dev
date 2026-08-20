@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cbwkxhlkplw18"]
+
+[ext_resource type="Script" uid="uid://bn0e25xgb37nh" path="res://story/ui/story_intro.gd" id="1_oqucb"]
+
+[node name="StoryIntro" type="Control" unique_id=904356775]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oqucb")
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1029384761]
+volume_db = -12.0
+
+[node name="UIPlayer" type="AudioStreamPlayer" parent="." unique_id=1029384762]
+volume_db = -10.0
