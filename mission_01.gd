@@ -160,6 +160,8 @@ func _connect_signals() -> void:
 # ── Narrative Beats ───────────────────────────────────────────────
 
 func _boot_sequence() -> void:
+	if AudioManager.has_method("play_music"):
+		AudioManager.play_music("music_main")
 	await get_tree().create_timer(1.0).timeout
 	_log("FACILITY OS v7.1 — EMERGENCY BOOT")
 	await get_tree().create_timer(0.8).timeout
@@ -207,6 +209,8 @@ func _on_power_online() -> void:
 	_set_objective("ACCESS COMMUNICATION TERMINAL")
 
 func _on_comms_online() -> void:
+	if AudioManager.has_method("play_music"):
+		AudioManager.play_music("music_ruined_city")
 	_log("SCANNING FREQUENCIES...")
 	await get_tree().create_timer(1.5).timeout
 	_log("SIGNAL DETECTED — ENCRYPTED CIVILIAN BAND")
@@ -222,6 +226,8 @@ func _on_comms_online() -> void:
 	_set_objective("REACH SECTOR 04")
 
 func _on_shelter_unlocked() -> void:
+	if AudioManager.has_method("play_music"):
+		AudioManager.play_music("music_shelter")
 	_log("SHELTER 04 — SECURITY NODE DISABLED")
 	await get_tree().create_timer(0.8).timeout
 	_log("SHELTER 04 — ACCESS GRANTED")
@@ -252,6 +258,8 @@ func shelter_console_log(msg: String) -> void:
 	_log(msg)
 
 func _on_last_protocol_accessed() -> void:
+	if AudioManager.has_method("play_music"):
+		AudioManager.play_music("music_final")
 	if not _is_final_objective_set:
 		_set_objective("FIND THE LAST PROTOCOL SWITCH")
 		_is_final_objective_set = true
@@ -279,12 +287,17 @@ func _on_last_protocol_activated() -> void:
 				var tw = create_tween()
 				tw.tween_property(light, "light_energy", 0.0, 3.0)
 				
+	if AudioManager.has_method("fade_music"):
+		AudioManager.fade_music(4.0, 0.0)
+				
 	await get_tree().create_timer(4.0).timeout
 	
 	# Show ending UI
 	_show_ending_ui()
 
 func _show_ending_ui() -> void:
+	if AudioManager.has_method("play_music"):
+		AudioManager.play_music("music_ending")
 	var player = get_tree().current_scene.get_node_or_null("Player")
 	if player:
 		player.is_control_disabled = true

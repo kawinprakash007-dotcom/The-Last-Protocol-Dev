@@ -37,6 +37,8 @@ func interact() -> void:
 		return
 	
 	print("[GAMEPLAY] Relay ", sequence_index, " interacted successfully.")
+	if AudioManager.has_method("play_sfx"):
+		AudioManager.play_sfx("terminal_confirm")
 	if AudioManager.has_method("play_relay_interact"):
 		AudioManager.play_relay_interact(global_position)
 		

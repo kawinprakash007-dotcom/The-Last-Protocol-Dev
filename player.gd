@@ -16,10 +16,12 @@ var spawn_protection_timer: float = 0.0
 var _damage_overlay: ColorRect
 var _health_label: Label
 
-# Temporary debug visualization for interaction ray
 var _debug_mesh_instance: MeshInstance3D
 var _immediate_mesh: ImmediateMesh
 var _debug_material: StandardMaterial3D
+
+var _footstep_timer: float = 0.0
+const FOOTSTEP_INTERVAL: float = 0.4
 
 func _ready() -> void:
 	add_to_group("player")
@@ -151,8 +153,25 @@ func _physics_process(delta: float) -> void:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 	else:
-		velocity.x = move_toward(velocity.x, 0.0, SPEED)
-		velocity.z = move_toward(velocity.z, 0.0, SPEED)
+		velocity.x = 0.0
+		velocity.z = 0.0
+
+	# ── PLAYER FOOTSTEP SYSTEM ──
+	var horizontal_speed := Vector3(velocity.x, 0.0, velocity.z).length()
+	
+	if is_on_floor() and not is_dead and not is_control_disabled and horizontal_speed > 0.1:
+		_footstep_timer -= delta
+		if _footstep_timer <= 0.0:
+			var current_speed := Vector3(velocity.x, 0.0, velocity.z).length()
+			if current_speed > 0.1:
+				if AudioManager.has_method("play_sfx"):
+					print("[PLAYER FOOTSTEP] horizontal_speed = ", current_speed, " -> footsteps allowed")
+					AudioManager.play_sfx("player_footstep")
+				_footstep_timer = FOOTSTEP_INTERVAL
+	else:
+		if _footstep_timer != 0.0:
+			print("[PLAYER FOOTSTEP] horizontal_speed = ", horizontal_speed, " -> footsteps blocked")
+		_footstep_timer = 0.0
 
 	move_and_slide()
 
@@ -174,6 +193,9 @@ func take_damage(amount: int) -> void:
 		return
 		
 	health -= amount
+	if AudioManager.has_method("play_sfx"):
+		AudioManager.play_sfx("player_damage")
+		
 	_update_health_ui()
 	print("[COMBAT] Player took damage: ", amount, " | HP: ", health)
 	if _damage_overlay:
@@ -199,6 +221,8 @@ func _fire_weapon() -> void:
 		return
 	weapon_cooldown = 0.5
 	print("[COMBAT] Player fired")
+	if AudioManager.has_method("play_sfx"):
+		AudioManager.play_sfx("player_shot")
 	
 	if not camera: return
 	var space_state := get_world_3d().direct_space_state

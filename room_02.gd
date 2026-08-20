@@ -47,6 +47,9 @@ func _on_power_online() -> void:
 		tween.tween_property(mat, "emission_energy_multiplier", 5.0, 1.0)
 	
 	# Open security door by sliding it down
+	if AudioManager.has_method("play_sfx"):
+		AudioManager.play_sfx("door_unlock")
+		AudioManager.play_sfx("door_open")
 	tween.tween_property(security_door, "position:y", -2.5, 2.0)
 	# Disable collision so player can walk through
 	var collision = security_door.get_node("CollisionShape3D")

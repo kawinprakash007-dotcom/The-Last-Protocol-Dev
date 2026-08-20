@@ -29,6 +29,8 @@ func interact() -> void:
 		return
 		
 	print("LAST PROTOCOL TERMINAL ACCESSED")
+	if AudioManager.has_method("play_sfx"):
+		AudioManager.play_sfx("terminal_open")
 	GameState.access_last_protocol()
 	
 	_show_ui()
@@ -99,6 +101,13 @@ func _build_question_ui() -> void:
 		btn.text = options[i]
 		btn.add_theme_font_size_override("font_size", 20)
 		btn.custom_minimum_size = Vector2(0, 55)
+		
+		# Add hover sound for mouse enter
+		btn.mouse_entered.connect(func():
+			if AudioManager.has_method("play_ui"):
+				AudioManager.play_ui("ui_hover")
+		)
+		
 		btn.pressed.connect(func(): _on_answer_selected(i))
 		vbox.add_child(btn)
 		
@@ -106,17 +115,27 @@ func _build_question_ui() -> void:
 	cancel_btn.text = "CANCEL"
 	cancel_btn.add_theme_font_size_override("font_size", 20)
 	cancel_btn.custom_minimum_size = Vector2(0, 55)
+	
+	cancel_btn.mouse_entered.connect(func():
+		if AudioManager.has_method("play_ui"):
+			AudioManager.play_ui("ui_hover")
+	)
+	
 	cancel_btn.pressed.connect(func(): _close_ui(false))
 	vbox.add_child(cancel_btn)
 
 func _on_answer_selected(index: int) -> void:
 	if index == questions[question_index]["correct"]:
+		if AudioManager.has_method("play_ui"):
+			AudioManager.play_ui("ui_confirm")
 		question_index += 1
 		if question_index >= questions.size():
 			_close_ui(true)
 		else:
 			_build_question_ui()
 	else:
+		if AudioManager.has_method("play_ui"):
+			AudioManager.play_ui("ui_error")
 		_log_player("SECURITY CHECK FAILED. ACCESS DENIED.")
 		_close_ui(false)
 
@@ -138,6 +157,8 @@ func _close_ui(success: bool) -> void:
 	
 	if success:
 		is_activated = true
+		if AudioManager.has_method("play_sfx"):
+			AudioManager.play_sfx("terminal_confirm")
 		GameState.pass_security_questions()
 		GameState.activate_last_protocol()
 	else:

@@ -20,6 +20,8 @@ func open() -> void:
 	position.x += 1.2
 	collision.disabled = true
 	print("DOOR OPENED")
+	if AudioManager.has_method("play_sfx"):
+		AudioManager.play_sfx("door_open")
 
 func close() -> void:
 	if not is_open:
@@ -28,6 +30,8 @@ func close() -> void:
 	position.x -= 1.2
 	collision.disabled = false
 	print("DOOR CLOSED")
+	if AudioManager.has_method("play_sfx"):
+		AudioManager.play_sfx("door_close")
 
 func interact() -> void:
 	if is_open:
